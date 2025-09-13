@@ -1,0 +1,242 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\PRMProject\\pes-microservices\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{E4905F44-DC71-4D18-AF58-D3EB00A3DCFF}|Auth.Domain\\Auth.Domain.csproj|d:\\prmproject\\pes-microservices\\auth.domain\\entities\\account.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E4905F44-DC71-4D18-AF58-D3EB00A3DCFF}|Auth.Domain\\Auth.Domain.csproj|solutionrelative:auth.domain\\entities\\account.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AD583BD7-13C1-4B5A-A798-D19C2864B89E}|Auth.Services\\Auth.Application.csproj|d:\\prmproject\\pes-microservices\\auth.services\\services\\authsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AD583BD7-13C1-4B5A-A798-D19C2864B89E}|Auth.Services\\Auth.Application.csproj|solutionrelative:auth.services\\services\\authsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3A13472E-ABFB-47F2-9191-E19A48EF1A02}|Auth.Repositories\\Auth.Infrastructure.csproj|d:\\prmproject\\pes-microservices\\auth.repositories\\security\\jwttokengenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3A13472E-ABFB-47F2-9191-E19A48EF1A02}|Auth.Repositories\\Auth.Infrastructure.csproj|solutionrelative:auth.repositories\\security\\jwttokengenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AD583BD7-13C1-4B5A-A798-D19C2864B89E}|Auth.Services\\Auth.Application.csproj|d:\\prmproject\\pes-microservices\\auth.services\\security\\ijwttokengenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AD583BD7-13C1-4B5A-A798-D19C2864B89E}|Auth.Services\\Auth.Application.csproj|solutionrelative:auth.services\\security\\ijwttokengenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3A13472E-ABFB-47F2-9191-E19A48EF1A02}|Auth.Repositories\\Auth.Infrastructure.csproj|d:\\prmproject\\pes-microservices\\auth.repositories\\security\\ipasswordhasher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3A13472E-ABFB-47F2-9191-E19A48EF1A02}|Auth.Repositories\\Auth.Infrastructure.csproj|solutionrelative:auth.repositories\\security\\ipasswordhasher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{87481BE5-6ECB-4219-B59A-9FE97D021B6E}|AuthService.API\\AuthService.API.csproj|d:\\prmproject\\pes-microservices\\authservice.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{87481BE5-6ECB-4219-B59A-9FE97D021B6E}|AuthService.API\\AuthService.API.csproj|solutionrelative:authservice.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AD583BD7-13C1-4B5A-A798-D19C2864B89E}|Auth.Services\\Auth.Application.csproj|d:\\prmproject\\pes-microservices\\auth.services\\services\\iservices\\iauthservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AD583BD7-13C1-4B5A-A798-D19C2864B89E}|Auth.Services\\Auth.Application.csproj|solutionrelative:auth.services\\services\\iservices\\iauthservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E4905F44-DC71-4D18-AF58-D3EB00A3DCFF}|Auth.Domain\\Auth.Domain.csproj|d:\\prmproject\\pes-microservices\\auth.domain\\repositories\\iaccountrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E4905F44-DC71-4D18-AF58-D3EB00A3DCFF}|Auth.Domain\\Auth.Domain.csproj|solutionrelative:auth.domain\\repositories\\iaccountrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3A13472E-ABFB-47F2-9191-E19A48EF1A02}|Auth.Repositories\\Auth.Infrastructure.csproj|d:\\prmproject\\pes-microservices\\auth.repositories\\repository\\accountrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3A13472E-ABFB-47F2-9191-E19A48EF1A02}|Auth.Repositories\\Auth.Infrastructure.csproj|solutionrelative:auth.repositories\\repository\\accountrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AD583BD7-13C1-4B5A-A798-D19C2864B89E}|Auth.Services\\Auth.Application.csproj|d:\\prmproject\\pes-microservices\\auth.services\\mappings\\accountprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AD583BD7-13C1-4B5A-A798-D19C2864B89E}|Auth.Services\\Auth.Application.csproj|solutionrelative:auth.services\\mappings\\accountprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3A13472E-ABFB-47F2-9191-E19A48EF1A02}|Auth.Repositories\\Auth.Infrastructure.csproj|d:\\prmproject\\pes-microservices\\auth.repositories\\dbcontexts\\pescontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3A13472E-ABFB-47F2-9191-E19A48EF1A02}|Auth.Repositories\\Auth.Infrastructure.csproj|solutionrelative:auth.repositories\\dbcontexts\\pescontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{87481BE5-6ECB-4219-B59A-9FE97D021B6E}|AuthService.API\\AuthService.API.csproj|d:\\prmproject\\pes-microservices\\authservice.api\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{87481BE5-6ECB-4219-B59A-9FE97D021B6E}|AuthService.API\\AuthService.API.csproj|solutionrelative:authservice.api\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 11,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "IJwtTokenGenerator.cs",
+              "DocumentMoniker": "D:\\PRMProject\\pes-microservices\\Auth.Services\\Security\\IJwtTokenGenerator.cs",
+              "RelativeDocumentMoniker": "Auth.Services\\Security\\IJwtTokenGenerator.cs",
+              "ToolTip": "D:\\PRMProject\\pes-microservices\\Auth.Services\\Security\\IJwtTokenGenerator.cs",
+              "RelativeToolTip": "Auth.Services\\Security\\IJwtTokenGenerator.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-13T16:12:17.403Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "JwtTokenGenerator.cs",
+              "DocumentMoniker": "D:\\PRMProject\\pes-microservices\\Auth.Repositories\\Security\\JwtTokenGenerator.cs",
+              "RelativeDocumentMoniker": "Auth.Repositories\\Security\\JwtTokenGenerator.cs",
+              "ToolTip": "D:\\PRMProject\\pes-microservices\\Auth.Repositories\\Security\\JwtTokenGenerator.cs",
+              "RelativeToolTip": "Auth.Repositories\\Security\\JwtTokenGenerator.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAABQAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-13T16:03:01.159Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "IPasswordHasher.cs",
+              "DocumentMoniker": "D:\\PRMProject\\pes-microservices\\Auth.Repositories\\Security\\IPasswordHasher.cs",
+              "RelativeDocumentMoniker": "Auth.Repositories\\Security\\IPasswordHasher.cs",
+              "ToolTip": "D:\\PRMProject\\pes-microservices\\Auth.Repositories\\Security\\IPasswordHasher.cs",
+              "RelativeToolTip": "Auth.Repositories\\Security\\IPasswordHasher.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-13T13:32:52.44Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "AccountProfile.cs",
+              "DocumentMoniker": "D:\\PRMProject\\pes-microservices\\Auth.Services\\Mappings\\AccountProfile.cs",
+              "RelativeDocumentMoniker": "Auth.Services\\Mappings\\AccountProfile.cs",
+              "ToolTip": "D:\\PRMProject\\pes-microservices\\Auth.Services\\Mappings\\AccountProfile.cs",
+              "RelativeToolTip": "Auth.Services\\Mappings\\AccountProfile.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABYAAABRAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-13T13:29:23.723Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "IAuthService.cs",
+              "DocumentMoniker": "D:\\PRMProject\\pes-microservices\\Auth.Services\\Services\\IServices\\IAuthService.cs",
+              "RelativeDocumentMoniker": "Auth.Services\\Services\\IServices\\IAuthService.cs",
+              "ToolTip": "D:\\PRMProject\\pes-microservices\\Auth.Services\\Services\\IServices\\IAuthService.cs",
+              "RelativeToolTip": "Auth.Services\\Services\\IServices\\IAuthService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-13T13:25:15.347Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AuthsService.cs",
+              "DocumentMoniker": "D:\\PRMProject\\pes-microservices\\Auth.Services\\Services\\AuthsService.cs",
+              "RelativeDocumentMoniker": "Auth.Services\\Services\\AuthsService.cs",
+              "ToolTip": "D:\\PRMProject\\pes-microservices\\Auth.Services\\Services\\AuthsService.cs",
+              "RelativeToolTip": "Auth.Services\\Services\\AuthsService.cs",
+              "ViewState": "AgIAAEEAAAAAAAAAAAAQwEAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-13T13:19:55.269Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "D:\\PRMProject\\pes-microservices\\AuthService.API\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "AuthService.API\\Controllers\\AuthController.cs",
+              "ToolTip": "D:\\PRMProject\\pes-microservices\\AuthService.API\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "AuthService.API\\Controllers\\AuthController.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAQwBcAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-13T13:14:46.037Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\PRMProject\\pes-microservices\\AuthService.API\\Program.cs",
+              "RelativeDocumentMoniker": "AuthService.API\\Program.cs",
+              "ToolTip": "D:\\PRMProject\\pes-microservices\\AuthService.API\\Program.cs",
+              "RelativeToolTip": "AuthService.API\\Program.cs",
+              "ViewState": "AgIAADYAAAAAAAAAAAAAAAEAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-13T13:03:40.842Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "pesContext.cs",
+              "DocumentMoniker": "D:\\PRMProject\\pes-microservices\\Auth.Repositories\\DBContexts\\pesContext.cs",
+              "RelativeDocumentMoniker": "Auth.Repositories\\DBContexts\\pesContext.cs",
+              "ToolTip": "D:\\PRMProject\\pes-microservices\\Auth.Repositories\\DBContexts\\pesContext.cs",
+              "RelativeToolTip": "Auth.Repositories\\DBContexts\\pesContext.cs",
+              "ViewState": "AgIAAC8AAAAAAAAAAAAswAEAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-13T13:00:34.296Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Account.cs",
+              "DocumentMoniker": "D:\\PRMProject\\pes-microservices\\Auth.Domain\\Entities\\Account.cs",
+              "RelativeDocumentMoniker": "Auth.Domain\\Entities\\Account.cs",
+              "ToolTip": "D:\\PRMProject\\pes-microservices\\Auth.Domain\\Entities\\Account.cs",
+              "RelativeToolTip": "Auth.Domain\\Entities\\Account.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAAwBAAAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-13T12:59:08.023Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "AccountRepository.cs",
+              "DocumentMoniker": "D:\\PRMProject\\pes-microservices\\Auth.Repositories\\Repository\\AccountRepository.cs",
+              "RelativeDocumentMoniker": "Auth.Repositories\\Repository\\AccountRepository.cs",
+              "ToolTip": "D:\\PRMProject\\pes-microservices\\Auth.Repositories\\Repository\\AccountRepository.cs",
+              "RelativeToolTip": "Auth.Repositories\\Repository\\AccountRepository.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAcwBYAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-13T12:52:35.405Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "IAccountRepository.cs",
+              "DocumentMoniker": "D:\\PRMProject\\pes-microservices\\Auth.Domain\\Repositories\\IAccountRepository.cs",
+              "RelativeDocumentMoniker": "Auth.Domain\\Repositories\\IAccountRepository.cs",
+              "ToolTip": "D:\\PRMProject\\pes-microservices\\Auth.Domain\\Repositories\\IAccountRepository.cs",
+              "RelativeToolTip": "Auth.Domain\\Repositories\\IAccountRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-13T12:52:18.98Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

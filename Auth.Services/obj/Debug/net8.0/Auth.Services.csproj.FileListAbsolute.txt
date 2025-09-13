@@ -1,0 +1,15 @@
+D:\PRMProject\pes-microservices\Auth.Services\bin\Debug\net8.0\Auth.Services.deps.json
+D:\PRMProject\pes-microservices\Auth.Services\bin\Debug\net8.0\Auth.Services.dll
+D:\PRMProject\pes-microservices\Auth.Services\bin\Debug\net8.0\Auth.Services.pdb
+D:\PRMProject\pes-microservices\Auth.Services\bin\Debug\net8.0\Auth.Repositories.dll
+D:\PRMProject\pes-microservices\Auth.Services\bin\Debug\net8.0\Auth.Repositories.pdb
+D:\PRMProject\pes-microservices\Auth.Services\obj\Debug\net8.0\Auth.Services.csproj.AssemblyReference.cache
+D:\PRMProject\pes-microservices\Auth.Services\obj\Debug\net8.0\Auth.Services.GeneratedMSBuildEditorConfig.editorconfig
+D:\PRMProject\pes-microservices\Auth.Services\obj\Debug\net8.0\Auth.Services.AssemblyInfoInputs.cache
+D:\PRMProject\pes-microservices\Auth.Services\obj\Debug\net8.0\Auth.Services.AssemblyInfo.cs
+D:\PRMProject\pes-microservices\Auth.Services\obj\Debug\net8.0\Auth.Services.csproj.CoreCompileInputs.cache
+D:\PRMProject\pes-microservices\Auth.Services\obj\Debug\net8.0\Auth.Ser.0F47944D.Up2Date
+D:\PRMProject\pes-microservices\Auth.Services\obj\Debug\net8.0\Auth.Services.dll
+D:\PRMProject\pes-microservices\Auth.Services\obj\Debug\net8.0\refint\Auth.Services.dll
+D:\PRMProject\pes-microservices\Auth.Services\obj\Debug\net8.0\Auth.Services.pdb
+D:\PRMProject\pes-microservices\Auth.Services\obj\Debug\net8.0\ref\Auth.Services.dll
