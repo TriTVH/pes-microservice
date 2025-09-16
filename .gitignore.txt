@@ -17,6 +17,18 @@
 # Visual Studio cache/options directory
 .vs/
 
+# Visual Studio profiler
+*.psess
+*.vsp
+*.vspx
+
+# Tạm / cache / database
+*.db
+*.db-shm
+*.db-wal
+*.dbmdl
+*.jfm
+
 # Rider project files
 .idea/
 
@@ -67,9 +79,19 @@ node_modules/
 .env.*
 
 # JetBrains Rider DotCover
-.idea/
 *.dotCover
 
 # Others
 *.DS_Store
 Thumbs.db
+
+# Visual Studio auto generated files (thêm để tránh bị dính như ảnh bạn gửi)
+*.vsidx
+*.v2
+*.v3
+*.v4
+*.bin
+*.cache
+*.db-wal
+*.db-shm
+*.opendb
