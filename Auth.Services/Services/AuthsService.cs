@@ -100,7 +100,14 @@ namespace Auth.Application.Services
             acc.Ban();
             await _repo.UpdateAsync(acc);
         }
+        public async Task UnBanAsync(int id)
+        {
+            var acc = await _repo.GetByIdAsync(id);
+            if (acc == null) throw new KeyNotFoundException("Account not found");
 
+            acc.UnBan();
+            await _repo.UpdateAsync(acc);
+        }
         private string GenerateJwtToken(Account user)
         {
             var jwt = _config.GetSection("Jwt");
