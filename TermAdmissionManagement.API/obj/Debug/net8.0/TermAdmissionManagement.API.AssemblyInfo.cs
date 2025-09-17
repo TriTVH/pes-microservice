@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TermAdmissionManagement.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+45200a4f71197858554173ac729261d2cacbca0d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+58d5f7012c9a29fa3be31f3900ab7a892f7666bf")]
 [assembly: System.Reflection.AssemblyProductAttribute("TermAdmissionManagement.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TermAdmissionManagement.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

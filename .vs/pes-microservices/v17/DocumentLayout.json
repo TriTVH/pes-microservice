@@ -3,22 +3,6 @@
   "WorkspaceRootPath": "D:\\PRM392\\GroupAssignment\\pes-microservice\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{3446A2C5-89F3-4517-B0FF-221EBD6FB647}|TermAdmissionManagement.Application\\TermAdmissionManagement.Application.csproj|d:\\prm392\\groupassignment\\pes-microservice\\termadmissionmanagement.application\\services\\termitemservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3446A2C5-89F3-4517-B0FF-221EBD6FB647}|TermAdmissionManagement.Application\\TermAdmissionManagement.Application.csproj|solutionrelative:termadmissionmanagement.application\\services\\termitemservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3446A2C5-89F3-4517-B0FF-221EBD6FB647}|TermAdmissionManagement.Application\\TermAdmissionManagement.Application.csproj|d:\\prm392\\groupassignment\\pes-microservice\\termadmissionmanagement.application\\services\\iservice\\itermitemservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3446A2C5-89F3-4517-B0FF-221EBD6FB647}|TermAdmissionManagement.Application\\TermAdmissionManagement.Application.csproj|solutionrelative:termadmissionmanagement.application\\services\\iservice\\itermitemservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{66186503-A99B-4F18-9155-5B597637CFE8}|TermAdmissionManagement.Infrastructure\\TermAdmissionManagement.Infrastructure.csproj|d:\\prm392\\groupassignment\\pes-microservice\\termadmissionmanagement.infrastructure\\repositories\\irepository\\itermitemrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{66186503-A99B-4F18-9155-5B597637CFE8}|TermAdmissionManagement.Infrastructure\\TermAdmissionManagement.Infrastructure.csproj|solutionrelative:termadmissionmanagement.infrastructure\\repositories\\irepository\\itermitemrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{66186503-A99B-4F18-9155-5B597637CFE8}|TermAdmissionManagement.Infrastructure\\TermAdmissionManagement.Infrastructure.csproj|d:\\prm392\\groupassignment\\pes-microservice\\termadmissionmanagement.infrastructure\\repositories\\termitemrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{66186503-A99B-4F18-9155-5B597637CFE8}|TermAdmissionManagement.Infrastructure\\TermAdmissionManagement.Infrastructure.csproj|solutionrelative:termadmissionmanagement.infrastructure\\repositories\\termitemrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{3446A2C5-89F3-4517-B0FF-221EBD6FB647}|TermAdmissionManagement.Application\\TermAdmissionManagement.Application.csproj|d:\\prm392\\groupassignment\\pes-microservice\\termadmissionmanagement.application\\services\\admissiontermservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{3446A2C5-89F3-4517-B0FF-221EBD6FB647}|TermAdmissionManagement.Application\\TermAdmissionManagement.Application.csproj|solutionrelative:termadmissionmanagement.application\\services\\admissiontermservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -27,40 +11,72 @@
       "RelativeMoniker": "D:0:0:{3446A2C5-89F3-4517-B0FF-221EBD6FB647}|TermAdmissionManagement.Application\\TermAdmissionManagement.Application.csproj|solutionrelative:termadmissionmanagement.application\\services\\iservice\\iadmissiontermservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{66186503-A99B-4F18-9155-5B597637CFE8}|TermAdmissionManagement.Infrastructure\\TermAdmissionManagement.Infrastructure.csproj|d:\\prm392\\groupassignment\\pes-microservice\\termadmissionmanagement.infrastructure\\repositories\\irepository\\iadmissiontermrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{66186503-A99B-4F18-9155-5B597637CFE8}|TermAdmissionManagement.Infrastructure\\TermAdmissionManagement.Infrastructure.csproj|solutionrelative:termadmissionmanagement.infrastructure\\repositories\\irepository\\iadmissiontermrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{66186503-A99B-4F18-9155-5B597637CFE8}|TermAdmissionManagement.Infrastructure\\TermAdmissionManagement.Infrastructure.csproj|d:\\prm392\\groupassignment\\pes-microservice\\termadmissionmanagement.infrastructure\\repositories\\admissiontermrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{66186503-A99B-4F18-9155-5B597637CFE8}|TermAdmissionManagement.Infrastructure\\TermAdmissionManagement.Infrastructure.csproj|solutionrelative:termadmissionmanagement.infrastructure\\repositories\\admissiontermrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A8F02A80-5B2A-42C4-9DD9-AEE68C64D9B2}|TermAdmissionManagement.API\\TermAdmissionManagement.API.csproj|d:\\prm392\\groupassignment\\pes-microservice\\termadmissionmanagement.api\\background\\termitemstatusservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A8F02A80-5B2A-42C4-9DD9-AEE68C64D9B2}|TermAdmissionManagement.API\\TermAdmissionManagement.API.csproj|solutionrelative:termadmissionmanagement.api\\background\\termitemstatusservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{66186503-A99B-4F18-9155-5B597637CFE8}|TermAdmissionManagement.Infrastructure\\TermAdmissionManagement.Infrastructure.csproj|d:\\prm392\\groupassignment\\pes-microservice\\termadmissionmanagement.infrastructure\\entities\\termitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{66186503-A99B-4F18-9155-5B597637CFE8}|TermAdmissionManagement.Infrastructure\\TermAdmissionManagement.Infrastructure.csproj|solutionrelative:termadmissionmanagement.infrastructure\\entities\\termitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A8F02A80-5B2A-42C4-9DD9-AEE68C64D9B2}|TermAdmissionManagement.API\\TermAdmissionManagement.API.csproj|d:\\prm392\\groupassignment\\pes-microservice\\termadmissionmanagement.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A8F02A80-5B2A-42C4-9DD9-AEE68C64D9B2}|TermAdmissionManagement.API\\TermAdmissionManagement.API.csproj|solutionrelative:termadmissionmanagement.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{66186503-A99B-4F18-9155-5B597637CFE8}|TermAdmissionManagement.Infrastructure\\TermAdmissionManagement.Infrastructure.csproj|d:\\prm392\\groupassignment\\pes-microservice\\termadmissionmanagement.infrastructure\\entities\\admissionterm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{66186503-A99B-4F18-9155-5B597637CFE8}|TermAdmissionManagement.Infrastructure\\TermAdmissionManagement.Infrastructure.csproj|solutionrelative:termadmissionmanagement.infrastructure\\entities\\admissionterm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3446A2C5-89F3-4517-B0FF-221EBD6FB647}|TermAdmissionManagement.Application\\TermAdmissionManagement.Application.csproj|d:\\prm392\\groupassignment\\pes-microservice\\termadmissionmanagement.application\\dtos\\termitemdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3446A2C5-89F3-4517-B0FF-221EBD6FB647}|TermAdmissionManagement.Application\\TermAdmissionManagement.Application.csproj|solutionrelative:termadmissionmanagement.application\\dtos\\termitemdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{66186503-A99B-4F18-9155-5B597637CFE8}|TermAdmissionManagement.Infrastructure\\TermAdmissionManagement.Infrastructure.csproj|d:\\prm392\\groupassignment\\pes-microservice\\termadmissionmanagement.infrastructure\\entities\\termitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{66186503-A99B-4F18-9155-5B597637CFE8}|TermAdmissionManagement.Infrastructure\\TermAdmissionManagement.Infrastructure.csproj|solutionrelative:termadmissionmanagement.infrastructure\\entities\\termitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{66186503-A99B-4F18-9155-5B597637CFE8}|TermAdmissionManagement.Infrastructure\\TermAdmissionManagement.Infrastructure.csproj|d:\\prm392\\groupassignment\\pes-microservice\\termadmissionmanagement.infrastructure\\repositories\\admissiontermrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{66186503-A99B-4F18-9155-5B597637CFE8}|TermAdmissionManagement.Infrastructure\\TermAdmissionManagement.Infrastructure.csproj|solutionrelative:termadmissionmanagement.infrastructure\\repositories\\admissiontermrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{3446A2C5-89F3-4517-B0FF-221EBD6FB647}|TermAdmissionManagement.Application\\TermAdmissionManagement.Application.csproj|d:\\prm392\\groupassignment\\pes-microservice\\termadmissionmanagement.application\\dtos\\admissiontermdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{3446A2C5-89F3-4517-B0FF-221EBD6FB647}|TermAdmissionManagement.Application\\TermAdmissionManagement.Application.csproj|solutionrelative:termadmissionmanagement.application\\dtos\\admissiontermdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{66186503-A99B-4F18-9155-5B597637CFE8}|TermAdmissionManagement.Infrastructure\\TermAdmissionManagement.Infrastructure.csproj|d:\\prm392\\groupassignment\\pes-microservice\\termadmissionmanagement.infrastructure\\termadmissionmanagement.infrastructure.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{66186503-A99B-4F18-9155-5B597637CFE8}|TermAdmissionManagement.Infrastructure\\TermAdmissionManagement.Infrastructure.csproj|solutionrelative:termadmissionmanagement.infrastructure\\termadmissionmanagement.infrastructure.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{3446A2C5-89F3-4517-B0FF-221EBD6FB647}|TermAdmissionManagement.Application\\TermAdmissionManagement.Application.csproj|d:\\prm392\\groupassignment\\pes-microservice\\termadmissionmanagement.application\\dtos\\termitemdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3446A2C5-89F3-4517-B0FF-221EBD6FB647}|TermAdmissionManagement.Application\\TermAdmissionManagement.Application.csproj|solutionrelative:termadmissionmanagement.application\\dtos\\termitemdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3446A2C5-89F3-4517-B0FF-221EBD6FB647}|TermAdmissionManagement.Application\\TermAdmissionManagement.Application.csproj|d:\\prm392\\groupassignment\\pes-microservice\\termadmissionmanagement.application\\services\\iservice\\itermitemservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3446A2C5-89F3-4517-B0FF-221EBD6FB647}|TermAdmissionManagement.Application\\TermAdmissionManagement.Application.csproj|solutionrelative:termadmissionmanagement.application\\services\\iservice\\itermitemservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{66186503-A99B-4F18-9155-5B597637CFE8}|TermAdmissionManagement.Infrastructure\\TermAdmissionManagement.Infrastructure.csproj|d:\\prm392\\groupassignment\\pes-microservice\\termadmissionmanagement.infrastructure\\repositories\\termitemrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{66186503-A99B-4F18-9155-5B597637CFE8}|TermAdmissionManagement.Infrastructure\\TermAdmissionManagement.Infrastructure.csproj|solutionrelative:termadmissionmanagement.infrastructure\\repositories\\termitemrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{66186503-A99B-4F18-9155-5B597637CFE8}|TermAdmissionManagement.Infrastructure\\TermAdmissionManagement.Infrastructure.csproj|d:\\prm392\\groupassignment\\pes-microservice\\termadmissionmanagement.infrastructure\\dbcontext\\pestermmanagementcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{66186503-A99B-4F18-9155-5B597637CFE8}|TermAdmissionManagement.Infrastructure\\TermAdmissionManagement.Infrastructure.csproj|solutionrelative:termadmissionmanagement.infrastructure\\dbcontext\\pestermmanagementcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{979F3A92-C664-4783-AEC2-5C355D7F95E7}|Gateway.API\\Gateway.API.csproj|d:\\prm392\\groupassignment\\pes-microservice\\gateway.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{979F3A92-C664-4783-AEC2-5C355D7F95E7}|Gateway.API\\Gateway.API.csproj|solutionrelative:gateway.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A8F02A80-5B2A-42C4-9DD9-AEE68C64D9B2}|TermAdmissionManagement.API\\TermAdmissionManagement.API.csproj|d:\\prm392\\groupassignment\\pes-microservice\\termadmissionmanagement.api\\controllers\\termadmissioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A8F02A80-5B2A-42C4-9DD9-AEE68C64D9B2}|TermAdmissionManagement.API\\TermAdmissionManagement.API.csproj|solutionrelative:termadmissionmanagement.api\\controllers\\termadmissioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A8F02A80-5B2A-42C4-9DD9-AEE68C64D9B2}|TermAdmissionManagement.API\\TermAdmissionManagement.API.csproj|d:\\prm392\\groupassignment\\pes-microservice\\termadmissionmanagement.api\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{A8F02A80-5B2A-42C4-9DD9-AEE68C64D9B2}|TermAdmissionManagement.API\\TermAdmissionManagement.API.csproj|solutionrelative:termadmissionmanagement.api\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{81DDED9D-158B-E303-5F62-77A2896D2A5A}|docker-compose.dcproj|d:\\prm392\\groupassignment\\pes-microservice\\docker-compose.yml||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{81DDED9D-158B-E303-5F62-77A2896D2A5A}|docker-compose.dcproj|solutionrelative:docker-compose.yml||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3446A2C5-89F3-4517-B0FF-221EBD6FB647}|TermAdmissionManagement.Application\\TermAdmissionManagement.Application.csproj|d:\\prm392\\groupassignment\\pes-microservice\\termadmissionmanagement.application\\services\\termitemservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3446A2C5-89F3-4517-B0FF-221EBD6FB647}|TermAdmissionManagement.Application\\TermAdmissionManagement.Application.csproj|solutionrelative:termadmissionmanagement.application\\services\\termitemservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{66186503-A99B-4F18-9155-5B597637CFE8}|TermAdmissionManagement.Infrastructure\\TermAdmissionManagement.Infrastructure.csproj|d:\\prm392\\groupassignment\\pes-microservice\\termadmissionmanagement.infrastructure\\repositories\\irepository\\itermitemrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{66186503-A99B-4F18-9155-5B597637CFE8}|TermAdmissionManagement.Infrastructure\\TermAdmissionManagement.Infrastructure.csproj|solutionrelative:termadmissionmanagement.infrastructure\\repositories\\irepository\\itermitemrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{66186503-A99B-4F18-9155-5B597637CFE8}|TermAdmissionManagement.Infrastructure\\TermAdmissionManagement.Infrastructure.csproj|d:\\prm392\\groupassignment\\pes-microservice\\termadmissionmanagement.infrastructure\\repositories\\irepository\\iadmissiontermrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{66186503-A99B-4F18-9155-5B597637CFE8}|TermAdmissionManagement.Infrastructure\\TermAdmissionManagement.Infrastructure.csproj|solutionrelative:termadmissionmanagement.infrastructure\\repositories\\irepository\\iadmissiontermrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{66186503-A99B-4F18-9155-5B597637CFE8}|TermAdmissionManagement.Infrastructure\\TermAdmissionManagement.Infrastructure.csproj|d:\\prm392\\groupassignment\\pes-microservice\\termadmissionmanagement.infrastructure\\termadmissionmanagement.infrastructure.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{66186503-A99B-4F18-9155-5B597637CFE8}|TermAdmissionManagement.Infrastructure\\TermAdmissionManagement.Infrastructure.csproj|solutionrelative:termadmissionmanagement.infrastructure\\termadmissionmanagement.infrastructure.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
       "AbsoluteMoniker": "D:0:0:{979F3A92-C664-4783-AEC2-5C355D7F95E7}|Gateway.API\\Gateway.API.csproj|d:\\prm392\\groupassignment\\pes-microservice\\gateway.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
@@ -71,20 +87,8 @@
       "RelativeMoniker": "D:0:0:{3446A2C5-89F3-4517-B0FF-221EBD6FB647}|TermAdmissionManagement.Application\\TermAdmissionManagement.Application.csproj|solutionrelative:termadmissionmanagement.application\\dtos\\responseobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A8F02A80-5B2A-42C4-9DD9-AEE68C64D9B2}|TermAdmissionManagement.API\\TermAdmissionManagement.API.csproj|d:\\prm392\\groupassignment\\pes-microservice\\termadmissionmanagement.api\\controllers\\termadmissioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A8F02A80-5B2A-42C4-9DD9-AEE68C64D9B2}|TermAdmissionManagement.API\\TermAdmissionManagement.API.csproj|solutionrelative:termadmissionmanagement.api\\controllers\\termadmissioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A8F02A80-5B2A-42C4-9DD9-AEE68C64D9B2}|TermAdmissionManagement.API\\TermAdmissionManagement.API.csproj|d:\\prm392\\groupassignment\\pes-microservice\\termadmissionmanagement.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{A8F02A80-5B2A-42C4-9DD9-AEE68C64D9B2}|TermAdmissionManagement.API\\TermAdmissionManagement.API.csproj|solutionrelative:termadmissionmanagement.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A8F02A80-5B2A-42C4-9DD9-AEE68C64D9B2}|TermAdmissionManagement.API\\TermAdmissionManagement.API.csproj|d:\\prm392\\groupassignment\\pes-microservice\\termadmissionmanagement.api\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{A8F02A80-5B2A-42C4-9DD9-AEE68C64D9B2}|TermAdmissionManagement.API\\TermAdmissionManagement.API.csproj|solutionrelative:termadmissionmanagement.api\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A8F02A80-5B2A-42C4-9DD9-AEE68C64D9B2}|TermAdmissionManagement.API\\TermAdmissionManagement.API.csproj|d:\\prm392\\groupassignment\\pes-microservice\\termadmissionmanagement.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A8F02A80-5B2A-42C4-9DD9-AEE68C64D9B2}|TermAdmissionManagement.API\\TermAdmissionManagement.API.csproj|solutionrelative:termadmissionmanagement.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{81DDED9D-158B-E303-5F62-77A2896D2A5A}|docker-compose.dcproj|d:\\prm392\\groupassignment\\pes-microservice\\docker-compose.override.yml||{8B382828-6202-11D1-8870-0000F87579D2}",
@@ -93,10 +97,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{A8F02A80-5B2A-42C4-9DD9-AEE68C64D9B2}|TermAdmissionManagement.API\\TermAdmissionManagement.API.csproj|d:\\prm392\\groupassignment\\pes-microservice\\termadmissionmanagement.api\\termadmissionmanagement.api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
       "RelativeMoniker": "D:0:0:{A8F02A80-5B2A-42C4-9DD9-AEE68C64D9B2}|TermAdmissionManagement.API\\TermAdmissionManagement.API.csproj|solutionrelative:termadmissionmanagement.api\\termadmissionmanagement.api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{81DDED9D-158B-E303-5F62-77A2896D2A5A}|docker-compose.dcproj|d:\\prm392\\groupassignment\\pes-microservice\\docker-compose.yml||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{81DDED9D-158B-E303-5F62-77A2896D2A5A}|docker-compose.dcproj|solutionrelative:docker-compose.yml||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{81DDED9D-158B-E303-5F62-77A2896D2A5A}|docker-compose.dcproj|d:\\prm392\\groupassignment\\pes-microservice\\docker-compose.dcproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
@@ -187,10 +187,6 @@
       "RelativeMoniker": "D:0:0:{A8F02A80-5B2A-42C4-9DD9-AEE68C64D9B2}|TermAdmissionManagement.API\\TermAdmissionManagement.API.csproj|solutionrelative:.dockerignore||{3B902123-F8A7-4915-9F01-361F908088D0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{66186503-A99B-4F18-9155-5B597637CFE8}|TermAdmissionManagement.Infrastructure\\TermAdmissionManagement.Infrastructure.csproj|d:\\prm392\\groupassignment\\pes-microservice\\termadmissionmanagement.infrastructure\\dbcontext\\pestermmanagementcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{66186503-A99B-4F18-9155-5B597637CFE8}|TermAdmissionManagement.Infrastructure\\TermAdmissionManagement.Infrastructure.csproj|solutionrelative:termadmissionmanagement.infrastructure\\dbcontext\\pestermmanagementcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{AD583BD7-13C1-4B5A-A798-D19C2864B89E}|Auth.Services\\Auth.Application.csproj|d:\\prm392\\groupassignment\\pes-microservice\\auth.services\\mappings\\accountprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AD583BD7-13C1-4B5A-A798-D19C2864B89E}|Auth.Services\\Auth.Application.csproj|solutionrelative:auth.services\\mappings\\accountprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -206,128 +202,74 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "TermItemService.cs",
-              "DocumentMoniker": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Application\\Services\\TermItemService.cs",
-              "RelativeDocumentMoniker": "TermAdmissionManagement.Application\\Services\\TermItemService.cs",
-              "ToolTip": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Application\\Services\\TermItemService.cs",
-              "RelativeToolTip": "TermAdmissionManagement.Application\\Services\\TermItemService.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAxwBQAAAA2AAAAAAAAAA==",
+              "DocumentIndex": 6,
+              "Title": "AdmissionTermDto.cs",
+              "DocumentMoniker": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Application\\DTOs\\AdmissionTermDto.cs",
+              "RelativeDocumentMoniker": "TermAdmissionManagement.Application\\DTOs\\AdmissionTermDto.cs",
+              "ToolTip": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Application\\DTOs\\AdmissionTermDto.cs",
+              "RelativeToolTip": "TermAdmissionManagement.Application\\DTOs\\AdmissionTermDto.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAgwA8AAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-17T14:40:36.645Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-16T12:18:04.681Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "ITermItemRepository.cs",
-              "DocumentMoniker": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Infrastructure\\Repositories\\IRepository\\ITermItemRepository.cs",
-              "RelativeDocumentMoniker": "TermAdmissionManagement.Infrastructure\\Repositories\\IRepository\\ITermItemRepository.cs",
-              "ToolTip": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Infrastructure\\Repositories\\IRepository\\ITermItemRepository.cs",
-              "RelativeToolTip": "TermAdmissionManagement.Infrastructure\\Repositories\\IRepository\\ITermItemRepository.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAwwAwAAABcAAAAAAAAAA==",
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.API\\Program.cs",
+              "RelativeDocumentMoniker": "TermAdmissionManagement.API\\Program.cs",
+              "ToolTip": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.API\\Program.cs",
+              "RelativeToolTip": "TermAdmissionManagement.API\\Program.cs",
+              "ViewState": "AgIAADQAAAAAAAAAAAD4vzsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-16T10:27:11.403Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "TermItemRepository.cs",
-              "DocumentMoniker": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Infrastructure\\Repositories\\TermItemRepository.cs",
-              "RelativeDocumentMoniker": "TermAdmissionManagement.Infrastructure\\Repositories\\TermItemRepository.cs",
-              "ToolTip": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Infrastructure\\Repositories\\TermItemRepository.cs",
-              "RelativeToolTip": "TermAdmissionManagement.Infrastructure\\Repositories\\TermItemRepository.cs",
-              "ViewState": "AgIAABMAAAAAAAAAAAAIwBsAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-16T14:06:59.942Z",
+              "WhenOpened": "2025-09-16T11:28:07.618Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "ITermItemService.cs",
-              "DocumentMoniker": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Application\\Services\\IService\\ITermItemService.cs",
-              "RelativeDocumentMoniker": "TermAdmissionManagement.Application\\Services\\IService\\ITermItemService.cs",
-              "ToolTip": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Application\\Services\\IService\\ITermItemService.cs",
-              "RelativeToolTip": "TermAdmissionManagement.Application\\Services\\IService\\ITermItemService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAABcAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-17T14:39:44.333Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "AdmissionTermService.cs",
-              "DocumentMoniker": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Application\\Services\\AdmissionTermService.cs",
-              "RelativeDocumentMoniker": "TermAdmissionManagement.Application\\Services\\AdmissionTermService.cs",
-              "ToolTip": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Application\\Services\\AdmissionTermService.cs",
-              "RelativeToolTip": "TermAdmissionManagement.Application\\Services\\AdmissionTermService.cs",
-              "ViewState": "AgIAABEAAAAAAAAAAAAAwBgAAAALAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-16T10:22:46.543Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
               "Title": "IAdmissionTermService.cs",
               "DocumentMoniker": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Application\\Services\\IService\\IAdmissionTermService.cs",
               "RelativeDocumentMoniker": "TermAdmissionManagement.Application\\Services\\IService\\IAdmissionTermService.cs",
               "ToolTip": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Application\\Services\\IService\\IAdmissionTermService.cs",
               "RelativeToolTip": "TermAdmissionManagement.Application\\Services\\IService\\IAdmissionTermService.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAwA8AAAAIAAAAAAAAAA==",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAEwA4AAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-16T12:08:11.116Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "IAdmissionTermRepository.cs",
-              "DocumentMoniker": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Infrastructure\\Repositories\\IRepository\\IAdmissionTermRepository.cs",
-              "RelativeDocumentMoniker": "TermAdmissionManagement.Infrastructure\\Repositories\\IRepository\\IAdmissionTermRepository.cs",
-              "ToolTip": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Infrastructure\\Repositories\\IRepository\\IAdmissionTermRepository.cs",
-              "RelativeToolTip": "TermAdmissionManagement.Infrastructure\\Repositories\\IRepository\\IAdmissionTermRepository.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAuwA8AAAAmAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "AdmissionTermService.cs",
+              "DocumentMoniker": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Application\\Services\\AdmissionTermService.cs",
+              "RelativeDocumentMoniker": "TermAdmissionManagement.Application\\Services\\AdmissionTermService.cs",
+              "ToolTip": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Application\\Services\\AdmissionTermService.cs",
+              "RelativeToolTip": "TermAdmissionManagement.Application\\Services\\AdmissionTermService.cs",
+              "ViewState": "AgIAAF8AAAAAAAAAAADwv3QAAABbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-16T10:26:37.189Z",
+              "WhenOpened": "2025-09-16T10:22:46.543Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "AdmissionTermRepository.cs",
-              "DocumentMoniker": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Infrastructure\\Repositories\\AdmissionTermRepository.cs",
-              "RelativeDocumentMoniker": "TermAdmissionManagement.Infrastructure\\Repositories\\AdmissionTermRepository.cs",
-              "ToolTip": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Infrastructure\\Repositories\\AdmissionTermRepository.cs",
-              "RelativeToolTip": "TermAdmissionManagement.Infrastructure\\Repositories\\AdmissionTermRepository.cs",
-              "ViewState": "AgIAACQAAAAAAAAAAAAUwCkAAAAaAAAAAAAAAA==",
+              "DocumentIndex": 3,
+              "Title": "AdmissionTerm.cs",
+              "DocumentMoniker": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Infrastructure\\Entities\\AdmissionTerm.cs",
+              "RelativeDocumentMoniker": "TermAdmissionManagement.Infrastructure\\Entities\\AdmissionTerm.cs",
+              "ToolTip": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Infrastructure\\Entities\\AdmissionTerm.cs",
+              "RelativeToolTip": "TermAdmissionManagement.Infrastructure\\Entities\\AdmissionTerm.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAkwBMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-16T09:24:11.7Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-16T12:24:00.987Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "TermItemStatusService.cs",
-              "DocumentMoniker": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.API\\Background\\TermItemStatusService.cs",
-              "RelativeDocumentMoniker": "TermAdmissionManagement.API\\Background\\TermItemStatusService.cs",
-              "ToolTip": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.API\\Background\\TermItemStatusService.cs",
-              "RelativeToolTip": "TermAdmissionManagement.API\\Background\\TermItemStatusService.cs",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAQwBcAAABSAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-17T14:05:18.292Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 4,
               "Title": "TermItem.cs",
               "DocumentMoniker": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Infrastructure\\Entities\\TermItem.cs",
               "RelativeDocumentMoniker": "TermAdmissionManagement.Infrastructure\\Entities\\TermItem.cs",
@@ -335,159 +277,83 @@
               "RelativeToolTip": "TermAdmissionManagement.Infrastructure\\Entities\\TermItem.cs",
               "ViewState": "AgIAAAoAAAAAAAAAAAAkwBcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-16T13:42:30.751Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-16T13:42:30.751Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "AdmissionTerm.cs",
-              "DocumentMoniker": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Infrastructure\\Entities\\AdmissionTerm.cs",
-              "RelativeDocumentMoniker": "TermAdmissionManagement.Infrastructure\\Entities\\AdmissionTerm.cs",
-              "ToolTip": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Infrastructure\\Entities\\AdmissionTerm.cs",
-              "RelativeToolTip": "TermAdmissionManagement.Infrastructure\\Entities\\AdmissionTerm.cs",
-              "ViewState": "AgIAAAcAAAAAAAAAAAAkwBMAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 5,
+              "Title": "AdmissionTermRepository.cs",
+              "DocumentMoniker": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Infrastructure\\Repositories\\AdmissionTermRepository.cs",
+              "RelativeDocumentMoniker": "TermAdmissionManagement.Infrastructure\\Repositories\\AdmissionTermRepository.cs",
+              "ToolTip": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Infrastructure\\Repositories\\AdmissionTermRepository.cs",
+              "RelativeToolTip": "TermAdmissionManagement.Infrastructure\\Repositories\\AdmissionTermRepository.cs",
+              "ViewState": "AgIAACEAAAAAAAAAAAAUwCoAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-16T12:24:00.987Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-16T09:24:11.7Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 7,
               "Title": "TermItemDTO.cs",
               "DocumentMoniker": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Application\\DTOs\\TermItemDTO.cs",
               "RelativeDocumentMoniker": "TermAdmissionManagement.Application\\DTOs\\TermItemDTO.cs",
               "ToolTip": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Application\\DTOs\\TermItemDTO.cs",
               "RelativeToolTip": "TermAdmissionManagement.Application\\DTOs\\TermItemDTO.cs",
-              "ViewState": "AgIAAAQAAAAAAAAAAAAkwA4AAAAcAAAAAAAAAA==",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAkwA0AAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-16T12:17:25.054Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-16T12:17:25.054Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "AdmissionTermDto.cs",
-              "DocumentMoniker": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Application\\DTOs\\AdmissionTermDto.cs",
-              "RelativeDocumentMoniker": "TermAdmissionManagement.Application\\DTOs\\AdmissionTermDto.cs",
-              "ToolTip": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Application\\DTOs\\AdmissionTermDto.cs",
-              "RelativeToolTip": "TermAdmissionManagement.Application\\DTOs\\AdmissionTermDto.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAgwA4AAAAlAAAAAAAAAA==",
+              "DocumentIndex": 9,
+              "Title": "TermItemRepository.cs",
+              "DocumentMoniker": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Infrastructure\\Repositories\\TermItemRepository.cs",
+              "RelativeDocumentMoniker": "TermAdmissionManagement.Infrastructure\\Repositories\\TermItemRepository.cs",
+              "ToolTip": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Infrastructure\\Repositories\\TermItemRepository.cs",
+              "RelativeToolTip": "TermAdmissionManagement.Infrastructure\\Repositories\\TermItemRepository.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAAIwBsAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-16T12:18:04.681Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-16T14:06:59.942Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "TermAdmissionManagement.Infrastructure.csproj",
-              "DocumentMoniker": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Infrastructure\\TermAdmissionManagement.Infrastructure.csproj",
-              "RelativeDocumentMoniker": "TermAdmissionManagement.Infrastructure\\TermAdmissionManagement.Infrastructure.csproj",
-              "ToolTip": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Infrastructure\\TermAdmissionManagement.Infrastructure.csproj",
-              "RelativeToolTip": "TermAdmissionManagement.Infrastructure\\TermAdmissionManagement.Infrastructure.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-09-16T09:15:24.453Z",
-              "EditorCaption": ""
+              "DocumentIndex": 8,
+              "Title": "ITermItemService.cs",
+              "DocumentMoniker": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Application\\Services\\IService\\ITermItemService.cs",
+              "RelativeDocumentMoniker": "TermAdmissionManagement.Application\\Services\\IService\\ITermItemService.cs",
+              "ToolTip": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Application\\Services\\IService\\ITermItemService.cs",
+              "RelativeToolTip": "TermAdmissionManagement.Application\\Services\\IService\\ITermItemService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAABcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-17T14:39:44.333Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 10,
+              "Title": "PesTermManagementContext.cs",
+              "DocumentMoniker": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Infrastructure\\DBContext\\PesTermManagementContext.cs",
+              "RelativeDocumentMoniker": "TermAdmissionManagement.Infrastructure\\DBContext\\PesTermManagementContext.cs",
+              "ToolTip": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Infrastructure\\DBContext\\PesTermManagementContext.cs",
+              "RelativeToolTip": "TermAdmissionManagement.Infrastructure\\DBContext\\PesTermManagementContext.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAowEEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-16T09:15:07.351Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\PRM392\\GroupAssignment\\pes-microservice\\Gateway.API\\Program.cs",
               "RelativeDocumentMoniker": "Gateway.API\\Program.cs",
               "ToolTip": "D:\\PRM392\\GroupAssignment\\pes-microservice\\Gateway.API\\Program.cs",
               "RelativeToolTip": "Gateway.API\\Program.cs",
-              "ViewState": "AgIAADsAAAAAAAAAAAAAADkAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAADIAAAAAAAAAAAAAADkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-17T05:41:51.693Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-17T05:41:51.693Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "D:\\PRM392\\GroupAssignment\\pes-microservice\\Gateway.API\\appsettings.json",
-              "RelativeDocumentMoniker": "Gateway.API\\appsettings.json",
-              "ToolTip": "D:\\PRM392\\GroupAssignment\\pes-microservice\\Gateway.API\\appsettings.json",
-              "RelativeToolTip": "Gateway.API\\appsettings.json",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-09-17T05:52:34.266Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "ResponseObject.cs",
-              "DocumentMoniker": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Application\\DTOs\\ResponseObject.cs",
-              "RelativeDocumentMoniker": "TermAdmissionManagement.Application\\DTOs\\ResponseObject.cs",
-              "ToolTip": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Application\\DTOs\\ResponseObject.cs",
-              "RelativeToolTip": "TermAdmissionManagement.Application\\DTOs\\ResponseObject.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAuwBgAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-16T10:42:27.175Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{269a02dc-6af8-11d3-bdc4-00c04f688e50}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "TermAdmissionController.cs",
-              "DocumentMoniker": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.API\\Controllers\\TermAdmissionController.cs",
-              "RelativeDocumentMoniker": "TermAdmissionManagement.API\\Controllers\\TermAdmissionController.cs",
-              "ToolTip": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.API\\Controllers\\TermAdmissionController.cs",
-              "RelativeToolTip": "TermAdmissionManagement.API\\Controllers\\TermAdmissionController.cs",
-              "ViewState": "AgIAACEAAAAAAAAAAAAYwC4AAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-16T12:06:14.903Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.API\\appsettings.json",
-              "RelativeDocumentMoniker": "TermAdmissionManagement.API\\appsettings.json",
-              "ToolTip": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.API\\appsettings.json",
-              "RelativeToolTip": "TermAdmissionManagement.API\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAVAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-09-16T11:26:15.423Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "appsettings.Development.json",
-              "DocumentMoniker": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.API\\appsettings.Development.json",
-              "RelativeDocumentMoniker": "TermAdmissionManagement.API\\appsettings.Development.json",
-              "ToolTip": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.API\\appsettings.Development.json",
-              "RelativeToolTip": "TermAdmissionManagement.API\\appsettings.Development.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-09-17T04:17:30.777Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "Program.cs",
-              "DocumentMoniker": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.API\\Program.cs",
-              "RelativeDocumentMoniker": "TermAdmissionManagement.API\\Program.cs",
-              "ToolTip": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.API\\Program.cs",
-              "RelativeToolTip": "TermAdmissionManagement.API\\Program.cs",
-              "ViewState": "AgIAACsAAAAAAAAAAAAUwDwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-16T11:28:07.618Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 14,
               "Title": "docker-compose.yml",
               "DocumentMoniker": "D:\\PRM392\\GroupAssignment\\pes-microservice\\docker-compose.yml",
               "RelativeDocumentMoniker": "docker-compose.yml",
@@ -495,12 +361,119 @@
               "RelativeToolTip": "docker-compose.yml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003775|",
-              "WhenOpened": "2025-09-16T11:30:00.068Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-16T11:30:00.068Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 13,
+              "Title": "appsettings.Development.json",
+              "DocumentMoniker": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.API\\appsettings.Development.json",
+              "RelativeDocumentMoniker": "TermAdmissionManagement.API\\appsettings.Development.json",
+              "ToolTip": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.API\\appsettings.Development.json",
+              "RelativeToolTip": "TermAdmissionManagement.API\\appsettings.Development.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-09-17T04:17:30.777Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "TermAdmissionController.cs",
+              "DocumentMoniker": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.API\\Controllers\\TermAdmissionController.cs",
+              "RelativeDocumentMoniker": "TermAdmissionManagement.API\\Controllers\\TermAdmissionController.cs",
+              "ToolTip": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.API\\Controllers\\TermAdmissionController.cs",
+              "RelativeToolTip": "TermAdmissionManagement.API\\Controllers\\TermAdmissionController.cs",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAYwCwAAABGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-16T12:06:14.903Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "TermItemService.cs",
+              "DocumentMoniker": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Application\\Services\\TermItemService.cs",
+              "RelativeDocumentMoniker": "TermAdmissionManagement.Application\\Services\\TermItemService.cs",
+              "ToolTip": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Application\\Services\\TermItemService.cs",
+              "RelativeToolTip": "TermAdmissionManagement.Application\\Services\\TermItemService.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAuwBQAAABAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-17T14:40:36.645Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "ITermItemRepository.cs",
+              "DocumentMoniker": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Infrastructure\\Repositories\\IRepository\\ITermItemRepository.cs",
+              "RelativeDocumentMoniker": "TermAdmissionManagement.Infrastructure\\Repositories\\IRepository\\ITermItemRepository.cs",
+              "ToolTip": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Infrastructure\\Repositories\\IRepository\\ITermItemRepository.cs",
+              "RelativeToolTip": "TermAdmissionManagement.Infrastructure\\Repositories\\IRepository\\ITermItemRepository.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAwwAwAAABcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-16T10:27:11.403Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "IAdmissionTermRepository.cs",
+              "DocumentMoniker": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Infrastructure\\Repositories\\IRepository\\IAdmissionTermRepository.cs",
+              "RelativeDocumentMoniker": "TermAdmissionManagement.Infrastructure\\Repositories\\IRepository\\IAdmissionTermRepository.cs",
+              "ToolTip": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Infrastructure\\Repositories\\IRepository\\IAdmissionTermRepository.cs",
+              "RelativeToolTip": "TermAdmissionManagement.Infrastructure\\Repositories\\IRepository\\IAdmissionTermRepository.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAuwA8AAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-16T10:26:37.189Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "TermAdmissionManagement.Infrastructure.csproj",
+              "DocumentMoniker": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Infrastructure\\TermAdmissionManagement.Infrastructure.csproj",
+              "RelativeDocumentMoniker": "TermAdmissionManagement.Infrastructure\\TermAdmissionManagement.Infrastructure.csproj",
+              "ToolTip": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Infrastructure\\TermAdmissionManagement.Infrastructure.csproj",
+              "RelativeToolTip": "TermAdmissionManagement.Infrastructure\\TermAdmissionManagement.Infrastructure.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-09-16T09:15:24.453Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\PRM392\\GroupAssignment\\pes-microservice\\Gateway.API\\appsettings.json",
+              "RelativeDocumentMoniker": "Gateway.API\\appsettings.json",
+              "ToolTip": "D:\\PRM392\\GroupAssignment\\pes-microservice\\Gateway.API\\appsettings.json",
+              "RelativeToolTip": "Gateway.API\\appsettings.json",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-09-17T05:52:34.266Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "ResponseObject.cs",
+              "DocumentMoniker": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Application\\DTOs\\ResponseObject.cs",
+              "RelativeDocumentMoniker": "TermAdmissionManagement.Application\\DTOs\\ResponseObject.cs",
+              "ToolTip": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Application\\DTOs\\ResponseObject.cs",
+              "RelativeToolTip": "TermAdmissionManagement.Application\\DTOs\\ResponseObject.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAuwBgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-16T10:42:27.175Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.API\\appsettings.json",
+              "RelativeDocumentMoniker": "TermAdmissionManagement.API\\appsettings.json",
+              "ToolTip": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.API\\appsettings.json",
+              "RelativeToolTip": "TermAdmissionManagement.API\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-09-16T11:26:15.423Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
               "Title": "TermAdmissionManagement.API.csproj",
               "DocumentMoniker": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.API\\TermAdmissionManagement.API.csproj",
               "RelativeDocumentMoniker": "TermAdmissionManagement.API\\TermAdmissionManagement.API.csproj",
@@ -508,12 +481,11 @@
               "RelativeToolTip": "TermAdmissionManagement.API\\TermAdmissionManagement.API.csproj",
               "ViewState": "AgIAAA0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-09-16T11:29:53.359Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-16T11:29:53.359Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 22,
               "Title": "docker-compose.override.yml",
               "DocumentMoniker": "D:\\PRM392\\GroupAssignment\\pes-microservice\\docker-compose.override.yml",
               "RelativeDocumentMoniker": "docker-compose.override.yml",
@@ -521,8 +493,7 @@
               "RelativeToolTip": "docker-compose.override.yml",
               "ViewState": "AgIAAAMAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003775|",
-              "WhenOpened": "2025-09-17T04:24:28.374Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-17T04:24:28.374Z"
             },
             {
               "$type": "Document",
@@ -534,8 +505,7 @@
               "RelativeToolTip": "docker-compose.dcproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2025-09-16T13:42:48.333Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-16T13:42:48.333Z"
             },
             {
               "$type": "Document",
@@ -547,8 +517,7 @@
               "RelativeToolTip": "TermAdmissionManagement.Application\\TermAdmissionManagement.Application.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-09-16T10:23:48.392Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-16T10:23:48.392Z"
             },
             {
               "$type": "Document",
@@ -560,8 +529,7 @@
               "RelativeToolTip": "Auth.Domain\\Repositories\\IAccountRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-13T12:52:18.98Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-13T12:52:18.98Z"
             },
             {
               "$type": "Document",
@@ -573,8 +541,7 @@
               "RelativeToolTip": "Auth.Domain\\Entities\\Account.cs",
               "ViewState": "AgIAAAEAAAAAAAAAAAAAwBAAAAAzAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-13T12:59:08.023Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-13T12:59:08.023Z"
             },
             {
               "$type": "Document",
@@ -586,8 +553,7 @@
               "RelativeToolTip": "AuthService.API\\Program.cs",
               "ViewState": "AgIAAAgAAAAAAAAAAAAUwBIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-13T13:03:40.842Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-13T13:03:40.842Z"
             },
             {
               "$type": "Document",
@@ -599,8 +565,7 @@
               "RelativeToolTip": "AuthService.API\\appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-09-16T11:45:26.481Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-16T11:45:26.481Z"
             },
             {
               "$type": "Document",
@@ -612,8 +577,7 @@
               "RelativeToolTip": "TermAdmissionManagement.API\\Dockerfile",
               "ViewState": "AgIAABMAAAAAAAAAAAAcwBMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2025-09-16T11:26:11.084Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-16T11:26:11.084Z"
             },
             {
               "$type": "Document",
@@ -625,8 +589,7 @@
               "RelativeToolTip": "AuthService.API\\Controllers\\AuthController.cs",
               "ViewState": "AgIAAAYAAAAAAAAAAAAAABEAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-13T13:14:46.037Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-13T13:14:46.037Z"
             },
             {
               "$type": "Document",
@@ -638,8 +601,7 @@
               "RelativeToolTip": "AuthService.API\\AuthService.API.csproj.Backup.tmp",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2025-09-17T12:40:11.688Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-17T12:40:11.688Z"
             },
             {
               "$type": "Document",
@@ -663,8 +625,7 @@
               "RelativeToolTip": "AuthService.API\\AuthService.API.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-09-17T06:19:08.521Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-17T06:19:08.521Z"
             },
             {
               "$type": "Document",
@@ -735,8 +696,7 @@
               "ToolTip": "D:\\PRM392\\GroupAssignment\\pes-microservice\\Gateway.API\\Gateway.API.csproj",
               "RelativeToolTip": "Gateway.API\\Gateway.API.csproj",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-09-17T05:52:29.579Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-17T05:52:29.579Z"
             },
             {
               "$type": "Document",
@@ -801,18 +761,6 @@
             {
               "$type": "Document",
               "DocumentIndex": 46,
-              "Title": "PesTermManagementContext.cs",
-              "DocumentMoniker": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Infrastructure\\DBContext\\PesTermManagementContext.cs",
-              "RelativeDocumentMoniker": "TermAdmissionManagement.Infrastructure\\DBContext\\PesTermManagementContext.cs",
-              "ToolTip": "D:\\PRM392\\GroupAssignment\\pes-microservice\\TermAdmissionManagement.Infrastructure\\DBContext\\PesTermManagementContext.cs",
-              "RelativeToolTip": "TermAdmissionManagement.Infrastructure\\DBContext\\PesTermManagementContext.cs",
-              "ViewState": "AgIAABsAAAAAAAAAAAAIwEEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-16T09:15:07.351Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 47,
               "Title": "AccountProfile.cs",
               "DocumentMoniker": "D:\\PRM392\\GroupAssignment\\pes-microservice\\Auth.Services\\Mappings\\AccountProfile.cs",
               "RelativeDocumentMoniker": "Auth.Services\\Mappings\\AccountProfile.cs",
@@ -824,7 +772,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 48,
+              "DocumentIndex": 47,
               "Title": "pesContext.cs",
               "DocumentMoniker": "D:\\PRM392\\GroupAssignment\\pes-microservice\\Auth.Repositories\\DBContexts\\pesContext.cs",
               "RelativeDocumentMoniker": "Auth.Repositories\\DBContexts\\pesContext.cs",
@@ -833,6 +781,10 @@
               "ViewState": "AgIAAC8AAAAAAAAAAAAswAEAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-13T13:00:34.296Z"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{269a02dc-6af8-11d3-bdc4-00c04f688e50}"
             }
           ]
         }

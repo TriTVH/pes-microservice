@@ -114,7 +114,7 @@ namespace TermAdmissionManagement.Application.Services
                     Status = t.Status
                 }).ToList()
             }).ToList();
-            return new ResponseObject("ok", "View all admission terms successfully", items);
+            return new ResponseObject("ok", "View all admission terms successfully", result);
         }
     }
 }

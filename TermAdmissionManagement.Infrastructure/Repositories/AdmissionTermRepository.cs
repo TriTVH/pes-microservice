@@ -39,7 +39,8 @@ namespace TermAdmissionManagement.Infrastructure.Repositories
         {
             return await _context.AdmissionTerms
      .OrderByDescending(x => x.Year)
-     .Include("TermItems")
+     .AsNoTracking()
+        .Include("TermItems")
      .ToListAsync();
         }
 
