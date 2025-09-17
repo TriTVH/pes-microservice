@@ -14,25 +14,44 @@
 [Ll]og/
 [Ll]ogs/
 
+# Ignore generated cache files
+*.assets.cache
+*.nuget.cache
+*.nuget.dgspec.json
+*.editorconfig
+*.AssemblyInfo.cs
+*.InfoInputs.cache
+project.assets.json
+project.nuget.cache
+
 # Visual Studio cache/options directory
 .vs/
+!.vs/ProjectSettings.json  # nếu muốn giữ setting solution
 
 # Visual Studio profiler
 *.psess
 *.vsp
 *.vspx
 
-# Tạm / cache / database
+# SQLite / Copilot / VS cache & database
 *.db
 *.db-shm
 *.db-wal
 *.dbmdl
+*.opendb
 *.jfm
+*.sdf
+*.vscode/
+*.vsidx
+
+# Copilot Index & CodeChunks
+**/CopilotIndices/
+**/CodeChunks.*
 
 # Rider project files
 .idea/
 
-# Visual Studio Code
+# VSCode workspace (nếu bạn code bằng VSCode đôi khi)
 .vscode/
 *.code-workspace
 
@@ -44,9 +63,7 @@
 
 # NuGet packages
 *.nupkg
-# The packages folder can be ignored because of Package Restore
 **/packages/*
-# except build/, which is used as an MSBuild target.
 !**/packages/build/
 
 # Test results
@@ -84,14 +101,3 @@ node_modules/
 # Others
 *.DS_Store
 Thumbs.db
-
-# Visual Studio auto generated files (thêm để tránh bị dính như ảnh bạn gửi)
-*.vsidx
-*.v2
-*.v3
-*.v4
-*.bin
-*.cache
-*.db-wal
-*.db-shm
-*.opendb
