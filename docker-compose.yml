@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+
+  gateway.api:
+    image: ${DOCKER_REGISTRY-}gatewayapi
+    build:
+      context: .
+      dockerfile: Gateway.API/Dockerfile
+    networks:
+        - proxybackend
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    ports:
+      - "1433:1433"
+    environment:
+      SA_PASSWORD: "StrongPa123"  
+      ACCEPT_EULA: "Y"
+    networks:
+      - proxybackend
+    volumes:
+      - sql_data:/var/opt/mssql
+
+  termadmissionmanagement.api:
+    image: ${DOCKER_REGISTRY-}termadmissionmanagementapi
+    build:
+      context: .
+      dockerfile: TermAdmissionManagement.API/Dockerfile
+    depends_on:
+      - sqlserver
+    networks:
+      - proxybackend
+
+networks:
+  proxybackend:
+    name: proxybackend
+    driver: bridge
+
+volumes:
+  sql_data:

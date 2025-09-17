@@ -1,0 +1,16 @@
+D:\PRM392\GroupAssignment\pes-microservice\TermAdmissionManagement.Application\bin\Debug\net8.0\TermAdmissionManagement.Application.deps.json
+D:\PRM392\GroupAssignment\pes-microservice\TermAdmissionManagement.Application\bin\Debug\net8.0\TermAdmissionManagement.Application.dll
+D:\PRM392\GroupAssignment\pes-microservice\TermAdmissionManagement.Application\bin\Debug\net8.0\TermAdmissionManagement.Application.pdb
+D:\PRM392\GroupAssignment\pes-microservice\TermAdmissionManagement.Application\bin\Debug\net8.0\TermAdmissionManagement.Infrastructure.dll
+D:\PRM392\GroupAssignment\pes-microservice\TermAdmissionManagement.Application\bin\Debug\net8.0\TermAdmissionManagement.Infrastructure.pdb
+D:\PRM392\GroupAssignment\pes-microservice\TermAdmissionManagement.Application\obj\Debug\net8.0\TermAdmissionManagement.Application.csproj.AssemblyReference.cache
+D:\PRM392\GroupAssignment\pes-microservice\TermAdmissionManagement.Application\obj\Debug\net8.0\TermAdmissionManagement.Application.GeneratedMSBuildEditorConfig.editorconfig
+D:\PRM392\GroupAssignment\pes-microservice\TermAdmissionManagement.Application\obj\Debug\net8.0\TermAdmissionManagement.Application.AssemblyInfoInputs.cache
+D:\PRM392\GroupAssignment\pes-microservice\TermAdmissionManagement.Application\obj\Debug\net8.0\TermAdmissionManagement.Application.AssemblyInfo.cs
+D:\PRM392\GroupAssignment\pes-microservice\TermAdmissionManagement.Application\obj\Debug\net8.0\TermAdmissionManagement.Application.csproj.CoreCompileInputs.cache
+D:\PRM392\GroupAssignment\pes-microservice\TermAdmissionManagement.Application\obj\Debug\net8.0\TermAdmissionManagement.Application.sourcelink.json
+D:\PRM392\GroupAssignment\pes-microservice\TermAdmissionManagement.Application\obj\Debug\net8.0\TermAdmi.86F5102D.Up2Date
+D:\PRM392\GroupAssignment\pes-microservice\TermAdmissionManagement.Application\obj\Debug\net8.0\TermAdmissionManagement.Application.dll
+D:\PRM392\GroupAssignment\pes-microservice\TermAdmissionManagement.Application\obj\Debug\net8.0\refint\TermAdmissionManagement.Application.dll
+D:\PRM392\GroupAssignment\pes-microservice\TermAdmissionManagement.Application\obj\Debug\net8.0\TermAdmissionManagement.Application.pdb
+D:\PRM392\GroupAssignment\pes-microservice\TermAdmissionManagement.Application\obj\Debug\net8.0\ref\TermAdmissionManagement.Application.dll
