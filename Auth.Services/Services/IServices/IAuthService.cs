@@ -16,6 +16,6 @@ namespace Auth.Services.Services.IServices
         Task<AccountDto?> GetByIdAsync(int id);
         Task UpdateAsync(int id, UpdateAccountDto dto);
         Task DeleteAsync(int id); // sets Status = ACCOUNT_BAN
-
+        Task UnBanAsync(int id);
     }
 }

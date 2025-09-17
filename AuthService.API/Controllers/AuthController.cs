@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AuthService.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/auth")]
     [ApiController]
     public class AuthController : ControllerBase
     {
@@ -53,11 +53,18 @@ namespace AuthService.API.Controllers
             return NoContent();
         }
 
-        [Authorize(Roles = "ADMIN")]
+        [Authorize(Roles = "HR")]
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> BanAccount(int id)
         {
             await _svc.DeleteAsync(id); // will set Status = ACCOUNT_BAN
+            return NoContent();
+        }
+        [Authorize(Roles = "HR")]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> UnBanAccount(int id)
+        {
+            await _svc.UnBanAsync(id); // will set Status = ACCOUNT_BAN
             return NoContent();
         }
     }

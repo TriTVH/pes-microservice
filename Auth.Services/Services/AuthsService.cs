@@ -33,31 +33,17 @@ namespace Auth.Application.Services
             _jwt = jwt;
         }
 
-        //public async Task<LoginResponseDto> LoginAsync(LoginRequestDto request)
-        //{
-        //    var acc = await _repo.GetByEmailAsync(request.Email);
-        //    if (acc == null) throw new UnauthorizedAccessException("Invalid credentials");
-
-        //    var result = _passwordHasher.VerifyHashedPassword(acc, acc.PasswordHash, request.Password);
-        //    if (result == PasswordVerificationResult.Failed)
-        //        throw new UnauthorizedAccessException("Invalid credentials");
-
-        //    var token = GenerateJwtToken(acc);
-        //    return new LoginResponseDto(token, acc.Role);
-        //}
         public async Task<LoginResponseDto> LoginAsync(LoginRequestDto request)
         {
-            // Tìm account theo email
+
             var acc = await _repo.GetByEmailAsync(request.Email);
             if (acc == null)
                 throw new UnauthorizedAccessException("Invalid credentials");
 
-            // Kiểm tra mật khẩu bằng IPasswordHasher<Account>
             var result = _passwordHasher.VerifyHashedPassword(acc, acc.PasswordHash, request.Password);
             if (result == PasswordVerificationResult.Failed)
                 throw new UnauthorizedAccessException("Invalid credentials");
-
-            // Sinh JWT token
+          
             var token = _jwt.GenerateToken(acc);
 
             return new LoginResponseDto(token, acc.Role);
@@ -95,11 +81,9 @@ namespace Auth.Application.Services
 
             acc.UpdateProfile(dto.Name, dto.Phone, dto.Address, dto.AvatarUrl, dto.Gender);
 
-            // Optionally allow changing role/status
-            // using reflection or methods; for simplicity:
             if (!string.IsNullOrWhiteSpace(dto.Role))
             {
-                // no direct setter, use reflection or design method; here assume internal ability:
+               
                 typeof(Account).GetProperty("Role")?.SetValue(acc, dto.Role);
             }
             if (!string.IsNullOrWhiteSpace(dto.Status))
@@ -116,7 +100,14 @@ namespace Auth.Application.Services
             acc.Ban();
             await _repo.UpdateAsync(acc);
         }
+        public async Task UnBanAsync(int id)
+        {
+            var acc = await _repo.GetByIdAsync(id);
+            if (acc == null) throw new KeyNotFoundException("Account not found");
 
+            acc.UnBan();
+            await _repo.UpdateAsync(acc);
+        }
         private string GenerateJwtToken(Account user)
         {
             var jwt = _config.GetSection("Jwt");
