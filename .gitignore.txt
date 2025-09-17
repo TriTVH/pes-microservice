@@ -14,6 +14,16 @@
 [Ll]og/
 [Ll]ogs/
 
+# Ignore generated cache files
+*.assets.cache
+*.nuget.cache
+*.nuget.dgspec.json
+*.editorconfig
+*.AssemblyInfo.cs
+*.InfoInputs.cache
+project.assets.json
+project.nuget.cache
+
 # Visual Studio cache/options directory
 .vs/
 !.vs/ProjectSettings.json  # nếu muốn giữ setting solution
