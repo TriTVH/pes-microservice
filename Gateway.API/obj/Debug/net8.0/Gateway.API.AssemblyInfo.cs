@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Gateway.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5559c4fd4031c99b323baf7734922af597c19326")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e398d245a8dc3fd4f7e737c61226aa63e122aa0d")]
 [assembly: System.Reflection.AssemblyProductAttribute("Gateway.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Gateway.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

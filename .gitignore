@@ -1,3 +1,5 @@
 .vs/
 bin/
 obj/
+Gateway.API/bin/
+
