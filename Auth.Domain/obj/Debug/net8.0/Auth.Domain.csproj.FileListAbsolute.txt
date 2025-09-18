@@ -9,15 +9,3 @@ D:\PRMProject\pes-microservices\Auth.Domain\obj\Debug\net8.0\Auth.Domain.dll
 D:\PRMProject\pes-microservices\Auth.Domain\obj\Debug\net8.0\refint\Auth.Domain.dll
 D:\PRMProject\pes-microservices\Auth.Domain\obj\Debug\net8.0\Auth.Domain.pdb
 D:\PRMProject\pes-microservices\Auth.Domain\obj\Debug\net8.0\ref\Auth.Domain.dll
-D:\PRM392\GroupAssignment\pes-microservice\Auth.Domain\bin\Debug\net8.0\Auth.Domain.deps.json
-D:\PRM392\GroupAssignment\pes-microservice\Auth.Domain\bin\Debug\net8.0\Auth.Domain.dll
-D:\PRM392\GroupAssignment\pes-microservice\Auth.Domain\bin\Debug\net8.0\Auth.Domain.pdb
-D:\PRM392\GroupAssignment\pes-microservice\Auth.Domain\obj\Debug\net8.0\Auth.Domain.GeneratedMSBuildEditorConfig.editorconfig
-D:\PRM392\GroupAssignment\pes-microservice\Auth.Domain\obj\Debug\net8.0\Auth.Domain.AssemblyInfoInputs.cache
-D:\PRM392\GroupAssignment\pes-microservice\Auth.Domain\obj\Debug\net8.0\Auth.Domain.AssemblyInfo.cs
-D:\PRM392\GroupAssignment\pes-microservice\Auth.Domain\obj\Debug\net8.0\Auth.Domain.csproj.CoreCompileInputs.cache
-D:\PRM392\GroupAssignment\pes-microservice\Auth.Domain\obj\Debug\net8.0\Auth.Domain.sourcelink.json
-D:\PRM392\GroupAssignment\pes-microservice\Auth.Domain\obj\Debug\net8.0\Auth.Domain.dll
-D:\PRM392\GroupAssignment\pes-microservice\Auth.Domain\obj\Debug\net8.0\refint\Auth.Domain.dll
-D:\PRM392\GroupAssignment\pes-microservice\Auth.Domain\obj\Debug\net8.0\Auth.Domain.pdb
-D:\PRM392\GroupAssignment\pes-microservice\Auth.Domain\obj\Debug\net8.0\ref\Auth.Domain.dll
