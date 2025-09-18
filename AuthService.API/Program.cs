@@ -35,6 +35,7 @@ builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
 builder.Services.AddScoped<IPasswordHasher<Account>, PasswordHasher<Account>>();
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+
 // JWT
 var jwt = builder.Configuration.GetSection("Jwt");
 var keyBytes = Encoding.UTF8.GetBytes(jwt["Key"]!);
