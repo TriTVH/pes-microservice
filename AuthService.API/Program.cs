@@ -23,7 +23,10 @@ builder.Services.AddDbContext<pesContext>(options =>
            .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
 );
 
-
+builder.Configuration
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
+    .AddEnvironmentVariables();
 // AutoMapper
 builder.Services.AddAutoMapper(typeof(AccountProfile).Assembly);
 
