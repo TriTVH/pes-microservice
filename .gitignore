@@ -2,4 +2,5 @@
 bin/
 obj/
 Gateway.API/bin/
+Gateway.API/obj/
 
