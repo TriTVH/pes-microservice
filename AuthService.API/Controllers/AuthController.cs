@@ -28,8 +28,8 @@ namespace AuthService.API.Controllers
             return Ok(token);
         }
 
-        [Authorize(Roles = "EDUCATION")]
-        [HttpGet]
+        [Authorize(Roles = "HR")]
+        [HttpGet("getAllAccount")]
         public async Task<IActionResult> GetAll()
         {
             var list = await _svc.GetAllAsync();
@@ -64,7 +64,7 @@ namespace AuthService.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> UnBanAccount(int id)
         {
-            await _svc.UnBanAsync(id); // will set Status = ACCOUNT_BAN
+            await _svc.UnBanAsync(id); // will set Status = ACCOUNT_UNBAN
             return NoContent();
         }
     }
