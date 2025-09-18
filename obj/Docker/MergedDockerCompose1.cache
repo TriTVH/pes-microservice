@@ -101,24 +101,6 @@ services:
         read_only: true
         bind:
           create_host_path: true
-  sqlserver:
-    container_name: sqlserver
-    environment:
-      ACCEPT_EULA: "Y"
-      SA_PASSWORD: StrongPa123
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    networks:
-      proxybackend: null
-    ports:
-      - mode: ingress
-        target: 1433
-        published: "1433"
-        protocol: tcp
-    volumes:
-      - type: volume
-        source: sql_data
-        target: /var/opt/mssql
-        volume: {}
   termadmissionmanagement.api:
     build:
       context: D:\PRM392\GroupAssignment\pes-microservice
@@ -130,10 +112,6 @@ services:
         com.microsoft.created-by: visual-studio
         com.microsoft.visual-studio.project-name: TermAdmissionManagement.API
       target: base
-    depends_on:
-      sqlserver:
-        condition: service_started
-        required: true
     entrypoint:
       - dotnet
       - --roll-forward
@@ -228,6 +206,3 @@ networks:
   proxybackend:
     name: proxybackend
     driver: bridge
-volumes:
-  sql_data:
-    name: dockercompose7495471939798430214_sql_data
