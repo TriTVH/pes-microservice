@@ -39,11 +39,6 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
-{
-    var context = scope.ServiceProvider.GetRequiredService<PesTermManagementContext>();
-    context.Database.EnsureCreated(); // hoặc context.Database.Migrate() nếu có migrations
-}
 
 app.UseCors("AllowAll");
 
