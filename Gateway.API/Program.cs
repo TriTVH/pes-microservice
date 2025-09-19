@@ -66,7 +66,7 @@ app.MapGet("/swagger/index.html", () => Results.Content(@" <!doctype html>
 <ul>
 <li><a href='http://localhost:8080/swagger/index.html' target='_blank'>📘 TermAdmission Service</a></li>
 <br/>
-<li><a href='http://localhost:7001/swagger/index.html' target='_blank'>👤 User Service</a></li> 
+<li><a href='http://localhost:5022/swagger/index.html' target='_blank'>👤 User Service</a></li> 
 <br/>
 </ul> 
 </body> 
