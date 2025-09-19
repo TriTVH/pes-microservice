@@ -15,7 +15,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TermAdmissionManagement.Application\TermAdmissionManagement.Application.csproj" />
+    <ProjectReference Include="..\TermAdmissionManagement.Application\TermAdmissionManagement.Application.csproj">
+      <Private>True</Private>
+    </ProjectReference>
   </ItemGroup>
 
   <ItemGroup>

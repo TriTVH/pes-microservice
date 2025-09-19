@@ -9,6 +9,5 @@ namespace TermAdmissionManagement.Application.Services.IService
 {
     public interface ITermItemService
     {
-        Task<List<TermItem>> GetTermItemsToProcessAsync(DateTime now, CancellationToken ct);
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TermAdmissionManagement.Application.DTOs;
+using TermAdmissionManagement.Application.DTOs.Request;
 using TermAdmissionManagement.Application.Services;
 using TermAdmissionManagement.Application.Services.IService;
 
@@ -38,13 +39,25 @@ namespace TermAdmissionManagement.API.Controllers
                 return StatusCode(500, new ResponseObject(ex.Message, "Đã xảy ra lỗi khi xử lý yêu cầu.", null));
             }
         }
-        [HttpGet]
-        [Route("list")]
-        public async Task<IActionResult> GetAllAdmissionTerms ()
+        [HttpPut]
+        [Route("status")]
+        public async Task<IActionResult> ChangeStatus([FromBody] UpdateAdmissionTermStatus request)
         {
-            var result = await _admissionTermService.GetAdmissionTerms();
-            return Ok(result);
+            return Ok();
         }
 
+        [HttpGet]
+        [Route("list")]
+        public async Task<IActionResult> GetAdmissionTerms()
+        {
+            try
+            {
+                return Ok(await _admissionTermService.GetAdmissionTerms());
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new ResponseObject(ex.Message, "Đã xảy ra lỗi khi xử lý yêu cầu.", null));
+            }
+        }
     }
 }

@@ -7,10 +7,11 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using TermAdmissionManagement.Application.DTOs;
+using TermAdmissionManagement.Application.DTOs.Request;
+using TermAdmissionManagement.Application.DTOs.Response;
 using TermAdmissionManagement.Application.Services.IService;
 using TermAdmissionManagement.Infrastructure.Entities;
 using TermAdmissionManagement.Infrastructure.Repositories.IRepository;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace TermAdmissionManagement.Application.Services
 {
@@ -115,6 +116,11 @@ namespace TermAdmissionManagement.Application.Services
                 }).ToList()
             }).ToList();
             return new ResponseObject("ok", "View all admission terms successfully", result);
+        }
+
+        public Task<ResponseObject?> UpdateAdmissionTermStatus(UpdateAdmissionTermStatus request)
+        {
+            throw new NotImplementedException();
         }
     }
 }

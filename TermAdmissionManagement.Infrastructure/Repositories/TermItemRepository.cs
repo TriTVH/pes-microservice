@@ -19,13 +19,5 @@ namespace TermAdmissionManagement.Infrastructure.Repositories
             _context = context;
         }
         
-        public async Task<List<TermItem>> GetTermItemsToProcessAsync(DateTime now, CancellationToken ct)
-        {
-            return await _context.TermItems
-                .Include(t => t.AdmissionTerm)
-                .Where(t => t.Status == "awaiting" && t.AdmissionTerm.StartDate <= now)
-                .ToListAsync(ct);
-        }
-
     }
 }

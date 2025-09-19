@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TermAdmissionManagement.Application.DTOs;
+using TermAdmissionManagement.Application.DTOs.Request;
 using TermAdmissionManagement.Infrastructure.Entities;
 
 namespace TermAdmissionManagement.Application.Services.IService
@@ -13,6 +14,7 @@ namespace TermAdmissionManagement.Application.Services.IService
         Task<ResponseObject> CreateAdmissionTerm(CreateAdmissionTermRequest request);
 
         Task<ResponseObject?> GetAdmissionTerms();
-        
+        Task<ResponseObject?> UpdateAdmissionTermStatus(UpdateAdmissionTermStatus request);
+
     }
 }

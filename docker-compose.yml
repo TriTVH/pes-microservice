@@ -7,11 +7,6 @@ services:
     build:
       context: .
       dockerfile: Gateway.API/Dockerfile
-    ports:
-      - "5050:8080"   # Truy cập Gateway tại http://localhost:5000
-    depends_on:
-      - termadmissionmanagement.api
-      - authservice.api
     networks:
       - proxybackend
 
@@ -20,8 +15,6 @@ services:
     build:
       context: .
       dockerfile: TermAdmissionManagement.API/Dockerfile
-    ports:
-      - "5001:8080"   # Truy cập trực tiếp service này tại http://localhost:5001
     networks:
       - proxybackend
 
@@ -30,8 +23,6 @@ services:
     build:
       context: .
       dockerfile: AuthService.API/Dockerfile
-    ports:
-      - "5002:8080"   # Truy cập trực tiếp service này tại http://localhost:5022
     networks:
       - proxybackend
 

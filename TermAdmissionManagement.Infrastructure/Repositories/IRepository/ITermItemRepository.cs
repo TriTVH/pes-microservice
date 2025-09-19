@@ -9,7 +9,6 @@ namespace TermAdmissionManagement.Infrastructure.Repositories.IRepository
 {
     public interface ITermItemRepository
     {
-        
-        Task<List<TermItem>> GetTermItemsToProcessAsync(DateTime now, CancellationToken ct);
+           
     }
 }
