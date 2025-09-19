@@ -39,7 +39,7 @@ namespace Auth.Infrastructure.DBContexts
         {
             modelBuilder.Entity<Account>(entity =>
             {
-                entity.ToTable("account");
+                entity.ToTable("Account");
 
                 entity.HasKey(e => e.Id);
 

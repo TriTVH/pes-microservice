@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,12 +9,14 @@ builder.Configuration
     .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
     .AddEnvironmentVariables();
 
+// Reverse Proxy
 builder.Services.AddReverseProxy()
     .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
 
-//JWT
+// JWT
 var jwt = builder.Configuration.GetSection("Jwt");
 var keyBytes = Encoding.UTF8.GetBytes(jwt["Key"]!);
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -36,12 +37,15 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(keyBytes)
     };
 });
-//builder.Services.AddAuthorization(options =>
-//{
-//    options.AddPolicy("DefaultPolicy", policy =>
-//        policy.RequireAuthenticatedUser());
-//});
 
+// Authorization
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("DefaultPolicy", policy =>
+        policy.RequireAuthenticatedUser());
+});
+
+// CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
@@ -52,13 +56,13 @@ builder.Services.AddCors(options =>
     });
 });
 
-
 var app = builder.Build();
-
 
 app.UseHttpsRedirection();
 
-app.MapGet("/swagger/index.html", () => Results.Content(@" <!doctype html>
+// Simple Swagger Index
+app.MapGet("/swagger/index.html", () => Results.Content(@" 
+<!doctype html>
 <html> 
 <head><meta charset='utf-8'><title>API Docs Gateway</title></head>
 <body style='font-family:Arial;padding:20px'> 
@@ -72,12 +76,11 @@ app.MapGet("/swagger/index.html", () => Results.Content(@" <!doctype html>
 </body> 
 </html>", "text/html"));
 
+app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseCors("AllowAll");
 
-
-var proxy = app.MapReverseProxy();
-//proxy.RequireAuthorization("DefaultPolicy"); 
+// Reverse Proxy
+app.MapReverseProxy();
 
 app.Run();
