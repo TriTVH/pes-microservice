@@ -1,4 +1,9 @@
 services:
+  authservice.api:
+     environment:
+      - ASPNETCORE_HTTP_PORTS=5022
+     ports:
+      - "5022:5022"
   termadmissionmanagement.api:
     environment:
       - ASPNETCORE_HTTP_PORTS=8080
