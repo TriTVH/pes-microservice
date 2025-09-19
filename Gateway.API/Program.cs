@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -51,14 +52,25 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddEndpointsApiExplorer();
 
 var app = builder.Build();
 
 
-
 app.UseHttpsRedirection();
 
+app.MapGet("/swagger/index.html", () => Results.Content(@" <!doctype html>
+<html> 
+<head><meta charset='utf-8'><title>API Docs Gateway</title></head>
+<body style='font-family:Arial;padding:20px'> 
+<h2>API Services (Swagger UI)</h2> 
+<ul>
+<li><a href='http://localhost:8080/swagger/index.html' target='_blank'>📘 TermAdmission Service</a></li>
+<br/>
+<li><a href='http://localhost:7001/swagger/index.html' target='_blank'>👤 User Service</a></li> 
+<br/>
+</ul> 
+</body> 
+</html>", "text/html"));
 
 app.UseAuthentication();
 app.UseAuthorization();

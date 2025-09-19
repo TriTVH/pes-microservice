@@ -16,9 +16,6 @@ namespace TermAdmissionManagement.Application.Services
         {
             _termItemRepo = termItemRepository;
         }
-        public async Task<List<TermItem>> GetTermItemsToProcessAsync(DateTime now, CancellationToken ct)
-        {
-           return await _termItemRepo.GetTermItemsToProcessAsync(now, ct);
-        }
+   
     }
 }
