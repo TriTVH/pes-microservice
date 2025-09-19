@@ -80,5 +80,9 @@ namespace Auth.Domain.Entities
         {
             Status = "ACCOUNT_UNBAN";
         }
+        public void ResetPassword(string hash)
+        {
+            PasswordHash = hash;
+        }
     }
 }
