@@ -7,6 +7,8 @@ services:
     build:
       context: .
       dockerfile: Gateway.API/Dockerfile
+    depends_on:
+      - authservice.api
     networks:
       - proxybackend
 

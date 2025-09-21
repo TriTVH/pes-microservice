@@ -11,29 +11,34 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
 var builder = WebApplication.CreateBuilder(args);
-
-
-// Add services to the container.
-builder.Services.AddDbContext<pesContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
-           .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
-);
 
 builder.Configuration
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
     .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
     .AddEnvironmentVariables();
+
+
+
+// Add services to the container.
+builder.Services.AddDbContext<pesContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+);
+
 // AutoMapper
 builder.Services.AddAutoMapper(typeof(AccountProfile).Assembly);
 
 // DI: Application service
 builder.Services.AddScoped<IAuthService, Auth.Application.Services.AuthService>();
-
 // DI: Infrastructure
+builder.Services.AddScoped<IEmailSender, SmtpEmailSender>();
+builder.Services.AddScoped<IMemoryCache, MemoryCache>();
+
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
 builder.Services.AddScoped<IPasswordHasher<Account>, PasswordHasher<Account>>();
@@ -67,6 +72,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
+    options.AddServer(new OpenApiServer
+    {
+        Url = "http://localhost:5000/auth-api"  // Gateway URL
+    });
     // Thêm security definition cho JWT
     options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
     {
@@ -104,7 +113,11 @@ builder.Services.AddCors(options =>
     });
 });
 var app = builder.Build();
-
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<pesContext>();
+   dbContext.Database.EnsureCreated();
+}
 app.UseSwagger();
 app.UseSwaggerUI();
 

@@ -1,4 +1,5 @@
 ﻿using Azure.Core;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TermAdmissionManagement.Application.DTOs;
@@ -8,7 +9,7 @@ using TermAdmissionManagement.Application.Services.IService;
 
 namespace TermAdmissionManagement.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/term")]
     [ApiController]
     public class TermAdmissionController : ControllerBase
     {
@@ -39,14 +40,9 @@ namespace TermAdmissionManagement.API.Controllers
                 return StatusCode(500, new ResponseObject(ex.Message, "Đã xảy ra lỗi khi xử lý yêu cầu.", null));
             }
         }
-        [HttpPut]
-        [Route("status")]
-        public async Task<IActionResult> ChangeStatus([FromBody] UpdateAdmissionTermStatus request)
-        {
-            return Ok();
-        }
-
+      
         [HttpGet]
+        [Authorize(Roles = "EDUCATION")]
         [Route("list")]
         public async Task<IActionResult> GetAdmissionTerms()
         {

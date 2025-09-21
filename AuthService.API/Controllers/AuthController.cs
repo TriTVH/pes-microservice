@@ -20,7 +20,7 @@ namespace AuthService.API.Controllers
         private readonly IAuthService _svc;
         private readonly IPasswordHasher _passwordHasher;
         private readonly IMemoryCache _cache;
-        public AuthController(
+    public AuthController(
        IAuthService svc,
        IPasswordHasher passwordHasher,
        IMemoryCache cache)
@@ -30,7 +30,6 @@ namespace AuthService.API.Controllers
             _cache = cache;
         }
 
-        [Authorize(Roles = "PARENT")]
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterRequestDto req)
         {
