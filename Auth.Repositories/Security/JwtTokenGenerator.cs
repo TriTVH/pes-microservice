@@ -18,14 +18,24 @@ namespace Auth.Infrastructure.Security
 
         public string GenerateToken(Account account)
         {
-            var claims = new[]
-            {
-            new Claim(JwtRegisteredClaimNames.Sub, account.Id.ToString()),
-            new Claim(JwtRegisteredClaimNames.Email, account.Email),
-            new Claim(ClaimTypes.Role, account.Role)
-        };
+            var claims = new List<Claim>
+    {
+        // Id của user (custom claim để lấy profile)
+        new Claim("id", account.Id.ToString()),
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+        
+        new Claim(JwtRegisteredClaimNames.Sub, account.Id.ToString()),
+        new Claim(JwtRegisteredClaimNames.Email, account.Email),
+        new Claim(JwtRegisteredClaimNames.UniqueName, account.Name),
+
+        
+        new Claim(ClaimTypes.Role, account.Role)
+    };
+
+            var key = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(_config["Jwt:Key"]!)
+            );
+
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
@@ -35,11 +45,14 @@ namespace Auth.Infrastructure.Security
                 expires: DateTime.UtcNow.AddHours(2),
                 signingCredentials: creds
             );
+
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
+
         public string GenerateTokenForLogin(Account account)
         {
-            // existing token generation (longer expiry)
+            
             var claims = new[] { new Claim(JwtRegisteredClaimNames.Sub, account.Id.ToString()),
                              new Claim(JwtRegisteredClaimNames.Email, account.Email),
                              new Claim(ClaimTypes.Role, account.Role) };

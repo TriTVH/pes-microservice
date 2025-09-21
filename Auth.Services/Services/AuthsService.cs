@@ -61,7 +61,7 @@ namespace Auth.Application.Services
             var exists = await _repo.GetByEmailAsync(request.Email);
             if (exists != null) throw new InvalidOperationException("Email already registered");
 
-            var domain = new Account(request.Email, request.Name, "Parent");
+            var domain = new Account(request.Email, request.Name, "PARENT");
             domain.SetPasswordHash(_passwordHasher.HashPassword(domain, request.Password));
 
             await _repo.AddAsync(domain);

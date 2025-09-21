@@ -102,16 +102,20 @@ namespace AuthService.API.Controllers
         [Authorize]
         public async Task<IActionResult> ViewProfile()
         {
-            var userId = int.Parse(User.FindFirst("id")?.Value ?? throw new Exception("Missing id claim"));
+            var userId = int.Parse(User.FindFirst("id")?.Value
+                ?? throw new Exception("Missing id claim"));
+
             var profile = await _svc.GetProfileAsync(userId);
             return Ok(profile);
         }
 
         [HttpPut("profile")]
         [Authorize]
-        public async Task<IActionResult> UpdateProfile(UpdateProfileDto dto)
+        public async Task<IActionResult> UpdateProfile([FromBody] UpdateProfileDto dto)
         {
-            var userId = int.Parse(User.FindFirst("id")?.Value ?? throw new Exception("Missing id claim"));
+            var userId = int.Parse(User.FindFirst("id")?.Value
+                ?? throw new Exception("Missing id claim"));
+
             await _svc.UpdateProfileAsync(userId, dto);
             return NoContent();
         }
