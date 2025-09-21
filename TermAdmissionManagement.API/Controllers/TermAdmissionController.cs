@@ -42,7 +42,6 @@ namespace TermAdmissionManagement.API.Controllers
         }
       
         [HttpGet]
-        [Authorize(Roles = "EDUCATION")]
         [Route("list")]
         public async Task<IActionResult> GetAdmissionTerms()
         {
