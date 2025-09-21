@@ -47,5 +47,7 @@ namespace TermAdmissionManagement.Infrastructure.Repositories
         {
             return await _context.AdmissionTerms.FirstOrDefaultAsync(x => x.Year == year);
         }
+
+
     }
 }

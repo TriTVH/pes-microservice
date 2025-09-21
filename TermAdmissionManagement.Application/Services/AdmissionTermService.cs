@@ -118,9 +118,43 @@ namespace TermAdmissionManagement.Application.Services
             return new ResponseObject("ok", "View all admission terms successfully", result);
         }
 
-        public Task<ResponseObject?> UpdateAdmissionTermStatus(UpdateAdmissionTermStatus request)
+        public Task<ResponseObject?> StartAdmissionTerm(UpdateAdmissionTermStatus request)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<ResponseObject?> UpdateAdmissionTermStatus(UpdateAdmissionTermStatus request)
+        {
+            var admissionTermInSystem = await _admissionTermRepo.GetByIdWithItemsAsync(request.id);
+           if(admissionTermInSystem == null)
+            {
+                return new ResponseObject("notFound", "Admission term not found or be deleted", null);
+            }
+            foreach (TermItem item in admissionTermInSystem.TermItems)
+            {
+                if (item.Status.ToLower().Equals("awaiting"))
+                {
+                    if (request.status.ToLower().Equals("awaiting"))
+                    {
+                        continue;
+                    }
+                    if(request.status.ToLower().Equals("processing"))
+                    {
+                        item.Status = "processing";
+                        continue;
+                    }
+                    if (request.status.ToLower().Equals("cancel"))
+                    {
+                        item.Status = "cancel";
+                        continue;
+                    }
+                }
+                if (item.Status.ToLower().Equals("processing"))
+                {
+
+                }
+            }
+            return new ResponseObject("ok", "Update admission term status successfully", null);
         }
     }
 }
