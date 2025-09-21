@@ -61,13 +61,12 @@ namespace Auth.Application.Services
             var exists = await _repo.GetByEmailAsync(request.Email);
             if (exists != null) throw new InvalidOperationException("Email already registered");
 
-            var domain = new Account(request.Email, request.Name, request.Role);
+            var domain = new Account(request.Email, request.Name, "Parent");
             domain.SetPasswordHash(_passwordHasher.HashPassword(domain, request.Password));
 
-            await _repo.AddAsync(domain); 
+            await _repo.AddAsync(domain);
 
-            var dto = _mapper.Map<AccountDto>(domain);
-            return dto;
+            return _mapper.Map<AccountDto>(domain);
         }
         public async Task<IEnumerable<AccountDto>> GetAllAsync()
         {
