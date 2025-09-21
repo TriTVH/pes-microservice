@@ -16,32 +16,15 @@ builder.Services.AddAuthentication(options => { options.DefaultAuthenticateSchem
   { ValidateIssuer = true, ValidateAudience = true, ValidateLifetime = true, ValidateIssuerSigningKey = true, ValidIssuer = jwt["Issuer"], ValidAudience = jwt["Audience"], IssuerSigningKey = new SymmetricSecurityKey(keyBytes) };
 });
 
-builder.Services.AddReverseProxy().LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"))
-    .AddTransforms(builderContext =>
-    {
-        builderContext.AddRequestTransform(async transformContext =>
-        {
-            var user = transformContext.HttpContext.User;
-            if (user?.Identity?.IsAuthenticated == true)
-            {
-                // Forward claims qua header
-                var userId = user.FindFirst("sub")?.Value ?? "";
-                var roles = string.Join(",", user.FindAll("role").Select(r => r.Value));
-
-                transformContext.ProxyRequest.Headers.Remove("X-User-Id");
-                transformContext.ProxyRequest.Headers.TryAddWithoutValidation("X-User-Id", userId);
-
-                transformContext.ProxyRequest.Headers.Remove("X-User-Roles");
-                transformContext.ProxyRequest.Headers.TryAddWithoutValidation("X-User-Roles", roles);
-            }
-        });
-    });
-
+builder.Services.AddReverseProxy().LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
 
 builder.Services.AddSwaggerGen();
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(opt => 
+opt.AddPolicy("EducationAuth", policy =>
+policy.RequireRole("EDUCATION"))
+);
 
 builder.Services.AddCors(options => { options.AddPolicy("AllowAll",    
     policy => { policy.AllowAnyOrigin() .AllowAnyMethod() .AllowAnyHeader(); }); });
@@ -49,13 +32,15 @@ var app = builder.Build();
 app.UseHttpsRedirection();
 app.MapReverseProxy();
 app.UseSwagger();
-app.UseRouting();
 app.UseSwaggerUI(c =>
 {
     // NOTE: these URLs are the gateway proxy endpoints we defined above
     c.SwaggerEndpoint("/swagger/proxy/spec/terms", "Term API");
     c.SwaggerEndpoint("/swagger/proxy/spec/auth", "Auth API");
 });
+
+
+
 app.UseCors("AllowAll");
 
 app.UseAuthentication();

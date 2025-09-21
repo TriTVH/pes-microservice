@@ -21,10 +21,10 @@ builder.Configuration
 builder.Services.AddDbContext<PesTermManagementContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-
 builder.Services.AddScoped<IAdmissionTermRepository, AdmissionTermRepository>();
 builder.Services.AddScoped<ITermItemRepository, TermItemRepository>();
 builder.Services.AddScoped<IAdmissionTermService, AdmissionTermService>();
+
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddServer(new OpenApiServer
@@ -82,6 +82,7 @@ using (var scope = app.Services.CreateScope())
 
 app.UseSwagger();
 app.UseSwaggerUI();
+
 app.UseCors("AllowAll");
 
 app.UseHttpsRedirection();
