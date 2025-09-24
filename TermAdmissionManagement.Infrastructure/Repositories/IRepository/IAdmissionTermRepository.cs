@@ -14,5 +14,6 @@ namespace TermAdmissionManagement.Infrastructure.Repositories.IRepository
         Task<AdmissionTerm?> GetByIdWithItemsAsync(int id);
         Task<AdmissionTerm?> GetByYear(int year);
         Task<IEnumerable<AdmissionTerm>?> GetAdmissionTermsAsync();
+        Task DeleteAdmissionTermAsync(int id);
     }
 }

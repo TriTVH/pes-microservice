@@ -19,5 +19,10 @@ public partial class TermItem
 
     public string? Status { get; set; }
 
+    public int DefaultFee { get; set; }
+
     public virtual AdmissionTerm AdmissionTerm { get; set; } = null!;
+
+    public virtual ICollection<AdmissionForm> AdmissionForms { get; set; } = new List<AdmissionForm>();
+
 }

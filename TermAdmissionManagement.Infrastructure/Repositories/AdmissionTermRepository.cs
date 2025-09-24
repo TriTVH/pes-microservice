@@ -34,7 +34,19 @@ namespace TermAdmissionManagement.Infrastructure.Repositories
                 .Include(t => t.TermItems)
                 .FirstOrDefaultAsync(t => t.Id == id);
         }
+        public async Task DeleteAdmissionTermAsync(int id)
+        {
+            var term = await _context.AdmissionTerms
+                .Include("TermItems")
+                .FirstOrDefaultAsync(t => t.Id == id);
 
+            if (term != null)
+            {
+                _context.TermItems.RemoveRange(term.TermItems);
+                _context.AdmissionTerms.Remove(term);
+                await _context.SaveChangesAsync();
+            }
+        }
         public async Task<IEnumerable<AdmissionTerm>?> GetAdmissionTermsAsync()
         {
             return await _context.AdmissionTerms
