@@ -14,7 +14,10 @@ namespace TermAdmissionManagement.Application.Services.IService
         Task<ResponseObject> CreateAdmissionTerm(CreateAdmissionTermRequest request);
 
         Task<ResponseObject?> GetAdmissionTerms();
-        Task<ResponseObject?> StartAdmissionTerm(UpdateAdmissionTermStatus request);
+
+        Task<ResponseObject> UpdateAdmissionTermStatus(UpdateAdmissionTermStatusRequest request);
+
+        Task<ResponseObject> UpdateAdmissionTermInfoAsync(UpdateAdmissionTermRequest request);
 
     }
 }

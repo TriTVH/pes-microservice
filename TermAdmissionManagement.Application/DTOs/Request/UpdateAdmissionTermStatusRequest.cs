@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace TermAdmissionManagement.Application.DTOs.Request
 {
-    public record UpdateAdmissionTermStatus(int id, string status);
+    public record UpdateAdmissionTermStatusRequest(int id, string action);
 }

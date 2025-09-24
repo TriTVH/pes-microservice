@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Identity;
+﻿
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
-using System.Security.Claims;
-using System.Text;
+using Polly;
+using Polly.Extensions.Http;
 using TermAdmissionManagement.Application.Services;
 using TermAdmissionManagement.Application.Services.IService;
+using TermAdmissionManagement.Domain;
+using TermAdmissionManagement.Domain.IClients;
 using TermAdmissionManagement.Infrastructure.DBContext;
 using TermAdmissionManagement.Infrastructure.Repositories;
 using TermAdmissionManagement.Infrastructure.Repositories.IRepository;
@@ -22,7 +22,23 @@ builder.Services.AddDbContext<PesTermManagementContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<IAdmissionTermRepository, AdmissionTermRepository>();
-builder.Services.AddScoped<ITermItemRepository, TermItemRepository>();
+builder.Services.AddScoped<IAdmissionFormRepository, AdmissionFormRepository>();
+
+builder.Services.AddHttpClient<IAuthClient, AuthClient>(client =>
+{
+  // Đặt BaseAddress mặc định cho HttpClient này
+    client.BaseAddress = new Uri("http://authservice.api:8080/");
+ // Khi gọi, bạn chỉ cần viết client.GetAsync("api/term/123") thay vì full URL
+ // Đặt timeout cho mỗi request là 10 giây
+    client.Timeout = TimeSpan.FromSeconds(10);
+}).AddPolicyHandler(HttpPolicyExtensions.HandleTransientHttpError()
+// Retry 3 lần, mỗi lần chờ lâu dần theo lũy thừa 2 (2^retryAttempt giây)
+//    // Lần 1: 2s, Lần 2: 4s, Lần 3: 8s
+.WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))));
+
+
+
+builder.Services.AddScoped<IAdmissionFormService, AdmissionFormService>();
 builder.Services.AddScoped<IAdmissionTermService, AdmissionTermService>();
 
 builder.Services.AddSwaggerGen(options =>
