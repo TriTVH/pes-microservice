@@ -176,10 +176,10 @@ namespace Auth.Application.Services
 
 
         // --- Profile of current user ---
-        public async Task<ProfileDto> GetProfileAsync(int userId)
+        public async Task<ViewProfileDto> GetProfileAsync(int userId)
         {
             var acc = await _repo.GetByIdAsync(userId) ?? throw new KeyNotFoundException("Account not found");
-            return new ProfileDto(acc.Id, acc.Email, acc.Name, acc.Phone, acc.Address, acc.AvatarUrl, acc.Gender, acc.Role);
+            return new ViewProfileDto(acc.Id, acc.Email, acc.Name, acc.Phone, acc.Address, acc.AvatarUrl, acc.Gender, acc.CreatedAt);
         }
 
         public async Task UpdateProfileAsync(int userId, UpdateProfileDto dto)

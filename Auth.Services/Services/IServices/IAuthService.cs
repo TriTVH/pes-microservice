@@ -25,7 +25,7 @@ namespace Auth.Services.Services.IServices
         Task ResetPasswordAsync(string email, string token, string newPassword);
 
         // --- Profile ---
-        Task<ProfileDto> GetProfileAsync(int userId);
+        Task<ViewProfileDto> GetProfileAsync(int userId);
         Task UpdateProfileAsync(int userId, UpdateProfileDto dto);
 
         // --- Teacher management ---
