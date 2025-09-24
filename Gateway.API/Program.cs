@@ -12,26 +12,67 @@ var jwt = builder.Configuration.GetSection("Jwt");
 var keyBytes = Encoding.UTF8.GetBytes(jwt["Key"]!); 
 
 builder.Services.AddAuthentication(options => { options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme; 
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme; }) .AddJwtBearer(options => { options.RequireHttpsMetadata = false; options.SaveToken = true; options.TokenValidationParameters = new TokenValidationParameters 
-  { ValidateIssuer = true, ValidateAudience = true, ValidateLifetime = true, ValidateIssuerSigningKey = true, ValidIssuer = jwt["Issuer"], ValidAudience = jwt["Audience"], IssuerSigningKey = new SymmetricSecurityKey(keyBytes) };
-});
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme; }) 
+    .AddJwtBearer(options => { options.RequireHttpsMetadata = false;
+    options.SaveToken = true;
+        options.TokenValidationParameters = new TokenValidationParameters
+        { ValidateIssuer = true, ValidateAudience = true, ValidateLifetime = true, ValidateIssuerSigningKey = true, ValidIssuer = jwt["Issuer"], ValidAudience = jwt["Audience"], IssuerSigningKey = new SymmetricSecurityKey(keyBytes) };
+        options.Events = new JwtBearerEvents
+        {
+            OnTokenValidated = context =>
+            {
+                var userId = context.Principal?.FindFirst("id")?.Value;
+                if (!string.IsNullOrEmpty(userId))
+                {
+                    context.HttpContext.Items["UserId"] = userId;
+                }
+
+                return Task.CompletedTask;
+            }
+        };
+    });
+
+
 
 builder.Services.AddReverseProxy().LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
 
 builder.Services.AddSwaggerGen();
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddAuthorization(opt => 
-opt.AddPolicy("EducationAuth", policy =>
-policy.RequireRole("EDUCATION"))
-);
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("EducationAuth", policy =>
+    {
+        policy.RequireAuthenticatedUser();
+        policy.RequireRole("EDUCATION"); // Yêu cầu role ED C U A T I O N
+    });
+    options.AddPolicy("ParentAuth", policy =>
+    {
+        policy.RequireAuthenticatedUser();
+        policy.RequireRole("PARENT");
+    });
+});
 
 builder.Services.AddCors(options => { options.AddPolicy("AllowAll",    
     policy => { policy.AllowAnyOrigin() .AllowAnyMethod() .AllowAnyHeader(); }); });
 var app = builder.Build(); 
 app.UseHttpsRedirection();
-app.MapReverseProxy();
-app.UseSwagger();
+app.MapReverseProxy(proxyPipeline =>
+{
+    proxyPipeline.Use(async (context, next) =>
+    {
+        if (context.User?.Identity?.IsAuthenticated == true)
+        {
+            if (context.Items.TryGetValue("UserId", out var userIdObj) && userIdObj is string userId)
+            {
+                // Forward Id sang downstream service
+                context.Request.Headers["X-User-Id"] = userId;
+            }
+        }
+
+        await next();
+    });
+}); app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     // NOTE: these URLs are the gateway proxy endpoints we defined above

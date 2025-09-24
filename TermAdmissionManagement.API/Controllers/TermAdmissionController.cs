@@ -54,5 +54,55 @@ namespace TermAdmissionManagement.API.Controllers
                 return StatusCode(500, new ResponseObject(ex.Message, "Đã xảy ra lỗi khi xử lý yêu cầu.", null));
             }
         }
+
+        [HttpPut]
+        [Route("status")]
+        public async Task<IActionResult> UpdateAdmissionTermStatus([FromBody] UpdateAdmissionTermStatusRequest request)
+        {
+            try
+            {
+               var item = await _admissionTermService.UpdateAdmissionTermStatus(request);
+                if (item.StatusResponseCode.ToLower().Equals("notFound"))
+                {
+                    return NotFound(item);
+                }
+                if (item.StatusResponseCode.ToLower().Equals("badRequest"))
+                {
+                    return BadRequest(item);
+                }
+                return Ok(item);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new ResponseObject(e.Message, "Đã xảy ra lỗi khi xử lý yêu cầu.", null));
+            }
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateAdmissionTermInfo([FromBody] UpdateAdmissionTermRequest request)
+        {
+            try
+            {
+                var item = await _admissionTermService.UpdateAdmissionTermInfoAsync(request);
+                if (item.StatusResponseCode.ToLower().Equals("notFound"))
+                {
+                    return NotFound(item);
+                }
+                if (item.StatusResponseCode.ToLower().Equals("badRequest"))
+                {
+                    return BadRequest(item);
+                }
+                if (item.StatusResponseCode.ToLower().Equals("conflict"))
+                {
+                    return Conflict(item);
+                }
+                return Ok(item);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new ResponseObject(e.Message, "Đã xảy ra lỗi khi xử lý yêu cầu.", null));
+            }
+        }
+
     }
 }
