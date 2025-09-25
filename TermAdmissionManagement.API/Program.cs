@@ -50,7 +50,7 @@ builder.Services.AddSwaggerGen(options =>
 {
     options.AddServer(new OpenApiServer
     {
-        Url = "http://localhost:5000/terms-api"  // Gateway URL
+        Url = "https://pesapp.orangeglacier-1e02abb7.southeastasia.azurecontainerapps.io/terms-api"  // Gateway URL
     });
     // Thêm security definition cho JWT
     options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
