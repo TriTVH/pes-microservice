@@ -17,7 +17,7 @@ jobs:
       contents: read
 
     steps:
-      - name: Checkout to the branch
+      - name: Checkout source code
         uses: actions/checkout@v2
 
       - name: Azure Login
@@ -30,19 +30,30 @@ jobs:
       - name: Docker Login
         run: echo ${{ secrets.PESAPP_REGISTRY_PASSWORD }} | docker login docker.io -u ${{ secrets.PESAPP_REGISTRY_USERNAME }} --password-stdin
 
-      - name: Build and push container image
+      - name: Build and push gatewayapi image
         run: |
           docker build -t huatri/gatewayapi:${{ github.sha }} -f ./Gateway.API/Dockerfile .
           docker push huatri/gatewayapi:${{ github.sha }}
 
-      - name: Deploy to Azure Container App
+      - name: Build and push authapi image
+        run: |
+          docker build -t huatri/authserviceapi:latest -f ./AuthService.API/Dockerfile .
+          docker push huatri/authserviceapi:latest
+
+      - name: Build and push admissionapi image
+        run: |
+          docker build -t huatri/termadmissionmanagementapi:latest -f ./TermAdmissionManagement.API/Dockerfile .
+          docker push huatri/termadmissionmanagementapi:latest
+
+      - name: Deploy gatewayapi container
         run: |
           az containerapp update \
             --name pesapp \
             --resource-group backend_server_management \
-            --image docker.io/huatri/gatewayapi:latest \
+            --image docker.io/huatri/gatewayapi:${{ github.sha }} \
             --container-name gatewayapi \
             --output none
+
       - name: Deploy authapi container
         run: |
           az containerapp update \
@@ -51,13 +62,12 @@ jobs:
             --image docker.io/huatri/authserviceapi:latest \
             --container-name authapi \
             --output none
+
       - name: Deploy admissionapi container
         run: |
-         az containerapp update \
-          --name pesapp \
-          --resource-group backend_server_management \
-          --image docker.io/huatri/termadmissionmanagementapi:latest \
-          --container-name admissionapi \
-          --output none
-
-
+          az containerapp update \
+            --name pesapp \
+            --resource-group backend_server_management \
+            --image docker.io/huatri/termadmissionmanagementapi:latest \
+            --container-name admissionapi \
+            --output none
