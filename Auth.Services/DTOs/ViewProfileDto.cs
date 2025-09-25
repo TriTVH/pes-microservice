@@ -14,6 +14,9 @@ namespace Auth.Application.DTOs
    string Address,
    string AvatarUrl,
    string Gender,
+   string IdentityNumber,
+   string Role,
+   string Status,
    DateTime CreateAt
    );
 }

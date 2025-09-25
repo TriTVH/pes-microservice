@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,8 @@ namespace Auth.Domain.Entities
         public string? AvatarUrl { get; private set; }
         public string? Gender { get; private set; }
         public string Role { get; private set; }
+        [Column("identity_number")]
+        public string? IdentityNumber { get; set; }
         public string Status { get; private set; }
         public string? PasswordHash { get; private set; }
         public DateTime CreatedAt { get; private set; }
