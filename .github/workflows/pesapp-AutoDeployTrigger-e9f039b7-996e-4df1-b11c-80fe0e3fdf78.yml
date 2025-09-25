@@ -43,4 +43,21 @@ jobs:
             --image docker.io/huatri/gatewayapi:latest \
             --container-name gatewayapi \
             --output none
+      - name: Deploy authapi container
+        run: |
+          az containerapp update \
+            --name pesapp \
+            --resource-group backend_server_management \
+            --image docker.io/huatri/authserviceapi:latest \
+            --container-name authapi \
+            --output none
+      - name: Deploy admissionapi container
+        run: |
+         az containerapp update \
+          --name pesapp \
+          --resource-group backend_server_management \
+          --image docker.io/huatri/termadmissionmanagementapi:latest \
+          --container-name admissionapi \
+          --output none
+
 
