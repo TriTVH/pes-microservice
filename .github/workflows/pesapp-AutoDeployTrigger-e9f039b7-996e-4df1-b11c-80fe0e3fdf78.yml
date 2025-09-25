@@ -39,6 +39,11 @@ jobs:
         run: |
           docker build -t huatri/termadmissionmanagementapi:latest -f ./TermAdmissionManagement.API/Dockerfile .
           docker push huatri/termadmissionmanagementapi:latest
+
+      - name: Build and push gateway image
+        run: |
+          docker build -t huatri/gatewayapi:latest -f ./Gateway.API/Dockerfile .
+          docker push huatri/gatewayapi:latest
           
       - name: Deploy authapi container
         run: |
@@ -63,7 +68,8 @@ jobs:
           az containerapp update \
             --name pesapp \
             --resource-group backend_server_management \
-            --image docker.io/huatri/gatewayapi:${{ github.sha }} \
+            --image docker.io/huatri/gatewayapi:latest \
             --container-name gatewayapi \
             --output none
+
 
