@@ -7,7 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\TermAdmissionManagement.Domain\TermAdmissionManagement.Domain.csproj" />
+    <ProjectReference Include="..\TermAdmissionManagement.Domain\TermAdmissionManagement.Domain.csproj">
+      <Private>True</Private>
+    </ProjectReference>
     <ProjectReference Include="..\TermAdmissionManagement.Infrastructure\TermAdmissionManagement.Infrastructure.csproj">
       <Private>True</Private>
     </ProjectReference>

@@ -61,6 +61,17 @@ app.MapReverseProxy(proxyPipeline =>
 {
     proxyPipeline.Use(async (context, next) =>
     {
+        // Nếu request từ client có Authorization header thì forward xuống
+        if (context.Request.Headers.ContainsKey("Authorization"))
+        {
+            var token = context.Request.Headers["Authorization"].ToString();
+            if (!string.IsNullOrEmpty(token))
+            {
+                context.Request.Headers["Authorization"] = token;
+            }
+        }
+
+
         if (context.User?.Identity?.IsAuthenticated == true)
         {
             if (context.Items.TryGetValue("UserId", out var userIdObj) && userIdObj is string userId)

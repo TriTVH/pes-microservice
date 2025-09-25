@@ -11,7 +11,7 @@ namespace TermAdmissionManagement.Application.Services.IService
 {
     public interface IAdmissionFormService
     {
-        Task<ResponseObject> GetAdmissionFormsAsync();
+        //Task<ResponseObject> GetAdmissionFormsAsync();
         Task<ResponseObject> CreateAdmissionForm(CreateAdmissionFormRequest admissionForm, int id);
     }
 }

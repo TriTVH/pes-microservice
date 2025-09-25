@@ -52,7 +52,7 @@ namespace AuthService.API.Controllers
         //    return Ok(list);
         //}
 
-        [Authorize(Roles = "HR,EDUCATION")]
+        [Authorize(Roles = "HR, EDUCATION")]
         [HttpGet("getAllAccount/{id}")]
         public async Task<IActionResult> GetById(int id)
         {

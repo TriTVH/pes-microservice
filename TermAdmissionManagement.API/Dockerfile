@@ -25,4 +25,6 @@ RUN dotnet publish "./TermAdmissionManagement.API.csproj" -c $BUILD_CONFIGURATIO
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+
+ENV ASPNETCORE_URLS=http://+:8080
 ENTRYPOINT ["dotnet", "TermAdmissionManagement.API.dll"]

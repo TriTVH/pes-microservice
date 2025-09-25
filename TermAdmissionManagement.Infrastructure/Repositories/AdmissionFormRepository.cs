@@ -22,6 +22,7 @@ namespace TermAdmissionManagement.Infrastructure.Repositories
         public async Task<IEnumerable<AdmissionForm>> GetAllAsync()
         {
             return await _context.AdmissionForms
+                .AsNoTracking()
                 .Include(x => x.TermItem)
                 .ToListAsync();
         }
