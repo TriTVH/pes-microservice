@@ -17,19 +17,19 @@ namespace TermAdmissionManagement.API.Controllers
              _admissionFormService = admissionFormService;
         }
 
-        [HttpGet]
-        [Route("list")]
-        public async Task<IActionResult> GetAdmissionForms()
-        {
-            try
-            {
-                return Ok(await _admissionFormService.GetAdmissionFormsAsync());
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new ResponseObject(ex.Message, "Đã xảy ra lỗi khi xử lý yêu cầu.", null));
-            }
-        }
+        //[HttpGet]
+        //[Route("list")]
+        //public async Task<IActionResult> GetAdmissionForms()
+        //{
+        //    try
+        //    {
+        //        return Ok(await _admissionFormService.GetAdmissionFormsAsync());
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(500, new ResponseObject(ex.Message, "Đã xảy ra lỗi khi xử lý yêu cầu.", null));
+        //    }
+        //}
 
         [HttpPost]
         [Route("parent")]

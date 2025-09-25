@@ -30,5 +30,10 @@ namespace TermAdmissionManagement.Application.DTOs.Response
 
         public string termItemGrade { get; set; }
 
+        public string ParentName { get; set; }
+        public string ParentEmail { get; set; }
+        public string ParentPhoneNumber { get; set; }
+
+
     }
 }

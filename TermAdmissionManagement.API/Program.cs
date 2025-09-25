@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Polly;
 using Polly.Extensions.Http;
+using TermAdmissionManagement.API.Handler;
 using TermAdmissionManagement.Application.Services;
 using TermAdmissionManagement.Application.Services.IService;
 using TermAdmissionManagement.Domain;
@@ -23,18 +24,22 @@ builder.Services.AddDbContext<PesTermManagementContext>(options =>
 
 builder.Services.AddScoped<IAdmissionTermRepository, AdmissionTermRepository>();
 builder.Services.AddScoped<IAdmissionFormRepository, AdmissionFormRepository>();
+builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddHttpClient<IAuthClient, AuthClient>(client =>
-{
-  // Đặt BaseAddress mặc định cho HttpClient này
-    client.BaseAddress = new Uri("http://authservice.api:8080/");
- // Khi gọi, bạn chỉ cần viết client.GetAsync("api/term/123") thay vì full URL
- // Đặt timeout cho mỗi request là 10 giây
-    client.Timeout = TimeSpan.FromSeconds(10);
-}).AddPolicyHandler(HttpPolicyExtensions.HandleTransientHttpError()
-// Retry 3 lần, mỗi lần chờ lâu dần theo lũy thừa 2 (2^retryAttempt giây)
-//    // Lần 1: 2s, Lần 2: 4s, Lần 3: 8s
-.WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))));
+builder.Services.AddTransient<TokenForwardingHandler>();
+
+//builder.Services.AddHttpClient<IAuthClient, AuthClient>(client =>
+//{
+//  // Đặt BaseAddress mặc định cho HttpClient này
+//    client.BaseAddress = new Uri("http://gateway.api:5000/auth-api/");
+// // Khi gọi, bạn chỉ cần viết client.GetAsync("api/term/123") thay vì full URL
+// // Đặt timeout cho mỗi request là 30 giây
+//    client.Timeout = TimeSpan.FromSeconds(30);
+//}).AddHttpMessageHandler<TokenForwardingHandler>()
+//    .AddPolicyHandler(HttpPolicyExtensions.HandleTransientHttpError()
+//// Retry 3 lần, mỗi lần chờ lâu dần theo lũy thừa 2 (2^retryAttempt giây)
+////    // Lần 1: 2s, Lần 2: 4s, Lần 3: 8s
+//.WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))));
 
 
 
@@ -45,7 +50,7 @@ builder.Services.AddSwaggerGen(options =>
 {
     options.AddServer(new OpenApiServer
     {
-        Url = "http://localhost:5000/terms-api"  // Gateway URL
+        Url = "https://pesapp.orangeglacier-1e02abb7.southeastasia.azurecontainerapps.io/terms-api"  // Gateway URL
     });
     // Thêm security definition cho JWT
     options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
