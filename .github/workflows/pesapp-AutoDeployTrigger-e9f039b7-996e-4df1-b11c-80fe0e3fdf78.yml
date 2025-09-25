@@ -30,11 +30,6 @@ jobs:
       - name: Docker Login
         run: echo ${{ secrets.PESAPP_REGISTRY_PASSWORD }} | docker login docker.io -u ${{ secrets.PESAPP_REGISTRY_USERNAME }} --password-stdin
 
-      - name: Build and push gatewayapi image
-        run: |
-          docker build -t huatri/gatewayapi:${{ github.sha }} -f ./Gateway.API/Dockerfile .
-          docker push huatri/gatewayapi:${{ github.sha }}
-
       - name: Build and push authapi image
         run: |
           docker build -t huatri/authserviceapi:latest -f ./AuthService.API/Dockerfile .
@@ -44,16 +39,7 @@ jobs:
         run: |
           docker build -t huatri/termadmissionmanagementapi:latest -f ./TermAdmissionManagement.API/Dockerfile .
           docker push huatri/termadmissionmanagementapi:latest
-
-      - name: Deploy gatewayapi container
-        run: |
-          az containerapp update \
-            --name pesapp \
-            --resource-group backend_server_management \
-            --image docker.io/huatri/gatewayapi:${{ github.sha }} \
-            --container-name gatewayapi \
-            --output none
-
+          
       - name: Deploy authapi container
         run: |
           az containerapp update \
@@ -71,3 +57,13 @@ jobs:
             --image docker.io/huatri/termadmissionmanagementapi:latest \
             --container-name admissionapi \
             --output none
+            
+      - name: Deploy gatewayapi container
+        run: |
+          az containerapp update \
+            --name pesapp \
+            --resource-group backend_server_management \
+            --image docker.io/huatri/gatewayapi:${{ github.sha }} \
+            --container-name gatewayapi \
+            --output none
+
