@@ -40,12 +40,13 @@ jobs:
           registryUrl: docker.io
           registryUsername: ${{ secrets.PESAPP_REGISTRY_USERNAME }}
           registryPassword: ${{ secrets.PESAPP_REGISTRY_PASSWORD }}
-          containerAppName: gatewayapi
+          containerAppName: pesapp
           containerAppContainerName: gatewayapi
           resourceGroup: backend_server_management
           imageToBuild: huatri/gatewayapi:${{ github.sha }}
           _buildArgumentsKey_: |
             _buildArgumentsValues_
+
 
 
 
