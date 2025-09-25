@@ -43,7 +43,7 @@ jobs:
           containerAppName: pesapp
           containerAppContainerName: gatewayapi
           resourceGroup: backend_server_management
-          imageToBuild: huatri/gatewayapi:${{ github.sha }}
+          containerAppImage: huatri/gatewayapi:${{ github.sha }}
           _buildArgumentsKey_: |
             _buildArgumentsValues_
 
