@@ -8,6 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true).AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true).AddEnvironmentVariables();
 
+
+
 var jwt = builder.Configuration.GetSection("Jwt"); 
 var keyBytes = Encoding.UTF8.GetBytes(jwt["Key"]!); 
 
@@ -83,7 +85,8 @@ app.MapReverseProxy(proxyPipeline =>
 
         await next();
     });
-}); app.UseSwagger();
+}); 
+app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     // NOTE: these URLs are the gateway proxy endpoints we defined above
@@ -91,10 +94,7 @@ app.UseSwaggerUI(c =>
     c.SwaggerEndpoint("/swagger/proxy/spec/auth", "Auth API");
 });
 
-
-
 app.UseCors("AllowAll");
-
 app.UseAuthentication();
 app.UseAuthorization(); 
 app.Run();

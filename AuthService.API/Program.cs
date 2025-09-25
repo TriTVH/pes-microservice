@@ -72,9 +72,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
+    var serverUrl = builder.Environment.IsDevelopment()
+          ? "http://localhost:5000/auth-api" // URL dùng khi chạy ở môi trường Development
+          : "https://pesapp.orangeglacier-1e02abb7.southeastasia.azurecontainerapps.io/auth-api"; // URL dùng cho Production hoặc môi trường khác
+
     options.AddServer(new OpenApiServer
     {
-        Url = "https://pesapp.orangeglacier-1e02abb7.southeastasia.azurecontainerapps.io/auth-api"  // Gateway URL
+        Url = serverUrl
     });
     // Thêm security definition cho JWT
     options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
