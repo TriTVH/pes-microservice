@@ -40,6 +40,7 @@ jobs:
           az containerapp update \
             --name pesapp \
             --resource-group backend_server_management \
-            --image docker.io/huatri/gatewayapi:${{ github.sha }} \
+            --image docker.io/huatri/gatewayapi:latest \
             --container-name gatewayapi \
             --output none
+
