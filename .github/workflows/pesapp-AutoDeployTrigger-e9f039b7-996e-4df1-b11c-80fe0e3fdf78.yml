@@ -41,11 +41,12 @@ jobs:
           registryUsername: ${{ secrets.PESAPP_REGISTRY_USERNAME }}
           registryPassword: ${{ secrets.PESAPP_REGISTRY_PASSWORD }}
           containerAppName: pesapp
+          containerAppContainerName: pesapp
           resourceGroup: backend_server_management
           imageToBuild: huatri/pesapp:${{ github.sha }}
-          containerAppContainerName: pesapp
           _buildArgumentsKey_: |
             _buildArgumentsValues_
+
 
 
 
