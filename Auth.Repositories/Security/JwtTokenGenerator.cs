@@ -18,14 +18,24 @@ namespace Auth.Infrastructure.Security
 
         public string GenerateToken(Account account)
         {
-            var claims = new[]
-            {
-            new Claim(JwtRegisteredClaimNames.Sub, account.Id.ToString()),
-            new Claim(JwtRegisteredClaimNames.Email, account.Email),
-            new Claim(ClaimTypes.Role, account.Role)
-        };
+            var claims = new List<Claim>
+    {
+        // Id của user (custom claim để lấy profile)
+        new Claim("id", account.Id.ToString()),
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+        
+        new Claim(JwtRegisteredClaimNames.Sub, account.Id.ToString()),
+        new Claim(JwtRegisteredClaimNames.Email, account.Email),
+        new Claim(JwtRegisteredClaimNames.UniqueName, account.Name),
+
+        
+        new Claim(ClaimTypes.Role, account.Role)
+    };
+
+            var key = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(_config["Jwt:Key"]!)
+            );
+
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
@@ -35,7 +45,66 @@ namespace Auth.Infrastructure.Security
                 expires: DateTime.UtcNow.AddHours(2),
                 signingCredentials: creds
             );
+
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+
+        public string GenerateTokenForLogin(Account account)
+        {
+            
+            var claims = new[] { new Claim(JwtRegisteredClaimNames.Sub, account.Id.ToString()),
+                             new Claim(JwtRegisteredClaimNames.Email, account.Email),
+                             new Claim(ClaimTypes.Role, account.Role) };
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]!));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var token = new JwtSecurityToken(_config["Jwt:Issuer"], _config["Jwt:Audience"], claims, expires: DateTime.UtcNow.AddHours(4), signingCredentials: creds);
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        public string GeneratePasswordResetToken(Account account)
+        {
+            var claims = new[]
+            {
+            new Claim(JwtRegisteredClaimNames.Email, account.Email),
+            new Claim("purpose", "pwdreset")
+        };
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]!));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            // short expiry, e.g. 30 minutes
+            var token = new JwtSecurityToken(_config["Jwt:Issuer"], _config["Jwt:Audience"], claims, expires: DateTime.UtcNow.AddMinutes(30), signingCredentials: creds);
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        public ClaimsPrincipal ValidatePasswordResetToken(string token)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.UTF8.GetBytes(_config["Jwt:Key"]!);
+
+            var parameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidIssuer = _config["Jwt:Issuer"],
+                ValidateAudience = true,
+                ValidAudience = _config["Jwt:Audience"],
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(key),
+                ValidateLifetime = true,
+                ClockSkew = TimeSpan.FromMinutes(2)
+            };
+
+            try
+            {
+                var principal = tokenHandler.ValidateToken(token, parameters, out var validatedToken);
+                // verify purpose
+                var purpose = principal.FindFirst("purpose")?.Value;
+                if (purpose != "pwdreset") return null;
+                return principal;
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }

@@ -1,0 +1,34 @@
+﻿version: '3.8'
+
+services:
+
+  gateway.api:
+    image: ${DOCKER_REGISTRY-}gatewayapi
+    build:
+      context: .
+      dockerfile: Gateway.API/Dockerfile
+    depends_on:
+      - authservice.api
+    networks:
+      - proxybackend
+
+  termadmissionmanagement.api:
+    image: ${DOCKER_REGISTRY-}termadmissionmanagementapi
+    build:
+      context: .
+      dockerfile: TermAdmissionManagement.API/Dockerfile
+    networks:
+      - proxybackend
+
+  authservice.api:
+    image: ${DOCKER_REGISTRY-}authserviceapi
+    build:
+      context: .
+      dockerfile: AuthService.API/Dockerfile
+    networks:
+      - proxybackend
+
+networks:
+  proxybackend:
+    name: proxybackend
+    driver: bridge

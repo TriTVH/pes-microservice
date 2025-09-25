@@ -20,7 +20,7 @@ namespace Auth.Domain.Entities
         public string? PasswordHash { get; private set; }
         public DateTime CreatedAt { get; private set; }
 
-        private Account() { } // EF Core
+        private Account() { } 
 
         public Account(string email, string name, string role)
         {
@@ -75,6 +75,14 @@ namespace Auth.Domain.Entities
         public void Ban()
         {
             Status = "ACCOUNT_BAN";
+        }
+        public void UnBan()
+        {
+            Status = "ACCOUNT_UNBAN";
+        }
+        public void ResetPassword(string hash)
+        {
+            PasswordHash = hash;
         }
     }
 }

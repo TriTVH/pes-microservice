@@ -20,7 +20,8 @@ namespace Auth.Application.Mappings
                 .ForCtorParam("Role", opt => opt.MapFrom(src => src.Role))
                 .ForCtorParam("Status", opt => opt.MapFrom(src => src.Status))
                 .ForCtorParam("Phone", opt => opt.MapFrom(src => src.Phone))
-                .ForCtorParam("Address", opt => opt.MapFrom(src => src.Address));        
+                .ForCtorParam("Address", opt => opt.MapFrom(src => src.Address))    
+                .ForCtorParam("CreatedAt", opt => opt.MapFrom(src => src.CreatedAt));
         }
     }
 }
