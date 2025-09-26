@@ -45,7 +45,7 @@ namespace Auth.Domain.Entities
 
             return verifyFunc(plainPassword, PasswordHash);
         }
-        public void UpdateProfile(string name, string phone, string address, string avatarUrl, string gender)
+        public void UpdateProfile(string name, string phone, string address, string avatarUrl, string gender, string identityNumber)
         {
             if (!string.IsNullOrWhiteSpace(name))
                 Name = name;
@@ -61,6 +61,8 @@ namespace Auth.Domain.Entities
 
             if (!string.IsNullOrWhiteSpace(gender))
                 Gender = gender;
+            if (!string.IsNullOrWhiteSpace(identityNumber))
+                IdentityNumber = identityNumber;
         }
 
         public void ChangeRole(string role)

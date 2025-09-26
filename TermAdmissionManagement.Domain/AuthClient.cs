@@ -22,7 +22,6 @@ public class AuthClient : IAuthClient
 
         var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
-        // 1) Try wrapper {statusResponseCode,message,data}
         try
         {
             var wrapper = JsonSerializer.Deserialize<ResponseObjectFromAnotherClient<JsonElement>>(body, options);
@@ -45,7 +44,6 @@ public class AuthClient : IAuthClient
             Console.WriteLine("[AuthClient] wrapper deserialize failed: " + ex.Message);
         }
 
-        // 2) Fallback: plain Account object
         try
         {
             var plain = JsonSerializer.Deserialize<ParentAccountDto>(body, options);

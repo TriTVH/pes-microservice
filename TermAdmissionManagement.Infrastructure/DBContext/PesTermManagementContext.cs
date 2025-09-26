@@ -26,44 +26,50 @@ public partial class PesTermManagementContext : DbContext
     {
         modelBuilder.Entity<AdmissionTerm>(entity =>
         {
+            entity.HasKey(e => e.Id).HasName("PK__admissio__3213E83FF3185A88");
+
             entity.ToTable("AdmissionTerm");
 
-            entity.Property(e => e.Id)
-                .HasColumnName("id").UseIdentityColumn();
-            entity.Property(e => e.EndDate)
-                .HasColumnType("datetime")
-                .HasColumnName("endDate");
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Grade)
+                .IsRequired()
+                .HasMaxLength(50)
+                .HasColumnName("grade");
             entity.Property(e => e.Name)
+                .IsRequired()
                 .HasMaxLength(254)
                 .HasColumnName("name");
-            entity.Property(e => e.StartDate)
-                .HasColumnType("datetime")
-                .HasColumnName("startDate");
         });
 
         modelBuilder.Entity<TermItem>(entity =>
         {
+            entity.HasKey(e => e.Id).HasName("PK__term_ite__3213E83F8D70FB89");
+
             entity.ToTable("TermItem");
 
-            entity.Property(e => e.Id).UseIdentityColumn()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.AdmissionTermId).HasColumnName("admissionTermId");
+            entity.Property(e => e.IsCurrent).HasColumnName("IsCurrent");
             entity.Property(e => e.CurrentRegisteredStudents).HasColumnName("currentRegisteredStudents");
+            entity.Property(e => e.EndDate)
+                .HasColumnType("datetime")
+                .HasColumnName("endDate");
             entity.Property(e => e.ExpectedClasses).HasColumnName("expectedClasses");
-            entity.Property(e => e.Grade)
-                .HasMaxLength(50)
-                .HasColumnName("grade");
-            entity.Property(e => e.DefaultFee).HasColumnName("defaultFee");
             entity.Property(e => e.MaxNumberRegistration).HasColumnName("maxNumberRegistration");
+            entity.Property(e => e.StartDate)
+                .HasColumnType("datetime")
+                .HasColumnName("startDate");
             entity.Property(e => e.Status)
+                .IsRequired()
                 .HasMaxLength(50)
                 .HasColumnName("status");
+            entity.Property(e => e.Version).HasColumnName("version");
 
             entity.HasOne(d => d.AdmissionTerm).WithMany(p => p.TermItems)
                 .HasForeignKey(d => d.AdmissionTermId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_TermItem_AdmissionTerm");
         });
+
 
         modelBuilder.Entity<AdmissionForm>(entity =>
         { 
@@ -101,7 +107,6 @@ public partial class PesTermManagementContext : DbContext
                 .HasPrecision(6)
                 .HasColumnName("submitted_date");
             entity.Property(e => e.TermItemId).HasColumnName("term_item_id");
-
             entity.HasOne(d => d.TermItem)
             .WithMany(p => p.AdmissionForms)
             .HasForeignKey(d => d.TermItemId)   // <- đúng: FK property

@@ -12,7 +12,7 @@ namespace TermAdmissionManagement.Infrastructure.Repositories.IRepository
         Task<int> CreateAdmissionTermAsync(AdmissionTerm admissionTerm);
         Task<int> UpdateAdmissionTerm(AdmissionTerm admissionTerm);
         Task<AdmissionTerm?> GetByIdWithItemsAsync(int id);
-        Task<AdmissionTerm?> GetByYear(int year);
+        Task<AdmissionTerm?> GetByYearAndGrade(int year, string grade);
         Task<IEnumerable<AdmissionTerm>?> GetAdmissionTermsAsync();
         Task DeleteAdmissionTermAsync(int id);
     }
