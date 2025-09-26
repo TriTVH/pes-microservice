@@ -24,27 +24,35 @@ builder.Services.AddDbContext<PesTermManagementContext>(options =>
 
 builder.Services.AddScoped<IAdmissionTermRepository, AdmissionTermRepository>();
 builder.Services.AddScoped<IAdmissionFormRepository, AdmissionFormRepository>();
+builder.Services.AddScoped<ITermItemRepository, TermItemRepository>();
+
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddTransient<TokenForwardingHandler>();
 
-//builder.Services.AddHttpClient<IAuthClient, AuthClient>(client =>
-//{
-//  // Đặt BaseAddress mặc định cho HttpClient này
-//    client.BaseAddress = new Uri("http://gateway.api:5000/auth-api/");
-// // Khi gọi, bạn chỉ cần viết client.GetAsync("api/term/123") thay vì full URL
-// // Đặt timeout cho mỗi request là 30 giây
-//    client.Timeout = TimeSpan.FromSeconds(30);
-//}).AddHttpMessageHandler<TokenForwardingHandler>()
-//    .AddPolicyHandler(HttpPolicyExtensions.HandleTransientHttpError()
-//// Retry 3 lần, mỗi lần chờ lâu dần theo lũy thừa 2 (2^retryAttempt giây)
-////    // Lần 1: 2s, Lần 2: 4s, Lần 3: 8s
-//.WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))));
+builder.Services.AddHttpClient<IAuthClient, AuthClient>(client =>
+{
+    if (builder.Environment.IsDevelopment()) {
+        client.BaseAddress = new Uri("http://localhost:5000/auth-api/");
+    } else
+    {
+        client.BaseAddress = new Uri("https://pesapp.orangeglacier-1e02abb7.southeastasia.azurecontainerapps.io/auth-api/");
+    }
+
+    // Khi gọi, bạn chỉ cần viết client.GetAsync("api/term/123") thay vì full URL
+    // Đặt timeout cho mỗi request là 30 giây
+    client.Timeout = TimeSpan.FromSeconds(30);
+}).AddHttpMessageHandler<TokenForwardingHandler>()
+    .AddPolicyHandler(HttpPolicyExtensions.HandleTransientHttpError()
+// Retry 3 lần, mỗi lần chờ lâu dần theo lũy thừa 2 (2^retryAttempt giây)
+//    // Lần 1: 2s, Lần 2: 4s, Lần 3: 8s
+.WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))));
 
 
 
 builder.Services.AddScoped<IAdmissionFormService, AdmissionFormService>();
 builder.Services.AddScoped<IAdmissionTermService, AdmissionTermService>();
+
 
 builder.Services.AddSwaggerGen(options =>
 {
@@ -101,11 +109,6 @@ builder.Services.AddEndpointsApiExplorer();
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
-{
-    var dbContext = scope.ServiceProvider.GetRequiredService<PesTermManagementContext>();
-    dbContext.Database.EnsureCreated();
-}
 
 app.UseSwagger();
 app.UseSwaggerUI();
