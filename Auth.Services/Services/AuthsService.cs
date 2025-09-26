@@ -85,7 +85,7 @@ namespace Auth.Application.Services
             var acc = await _repo.GetByIdAsync(id);
             if (acc == null) throw new KeyNotFoundException("Account not found");
 
-            acc.UpdateProfile(dto.Name, dto.Phone, dto.Address, dto.AvatarUrl, dto.Gender);
+            acc.UpdateProfile(dto.Name, dto.Phone, dto.Address, dto.AvatarUrl, dto.Gender, dto.IdentityNumber);
 
             if (!string.IsNullOrWhiteSpace(dto.Role))
             {
@@ -185,7 +185,7 @@ namespace Auth.Application.Services
         public async Task UpdateProfileAsync(int userId, UpdateProfileDto dto)
         {
             var acc = await _repo.GetByIdAsync(userId) ?? throw new KeyNotFoundException("Account not found");
-            acc.UpdateProfile(dto.Name ?? acc.Name, dto.Phone ?? acc.Phone, dto.Address ?? acc.Address, dto.AvatarUrl ?? acc.AvatarUrl, dto.Gender ?? acc.Gender);
+            acc.UpdateProfile(dto.Name ?? acc.Name, dto.Phone ?? acc.Phone, dto.Address ?? acc.Address, dto.AvatarUrl ?? acc.AvatarUrl, dto.Gender ?? acc.Gender, dto.IdentityNumber ?? acc.IdentityNumber);
             await _repo.UpdateAsync(acc);
         }
 
@@ -205,7 +205,7 @@ namespace Auth.Application.Services
         {
             var acc = await _repo.GetByIdAsync(id) ?? throw new KeyNotFoundException("Teacher not found");
             if (acc.Role != "TEACHER") throw new InvalidOperationException("Not a teacher");
-            acc.UpdateProfile(dto.Name ?? acc.Name, dto.Phone ?? acc.Phone, dto.Address ?? acc.Address, dto.AvatarUrl ?? acc.AvatarUrl, dto.Gender ?? acc.Gender);
+            acc.UpdateProfile(dto.Name ?? acc.Name, dto.Phone ?? acc.Phone, dto.Address ?? acc.Address, dto.AvatarUrl ?? acc.AvatarUrl, dto.Gender ?? acc.Gender, dto.IdentityNumber ?? acc.IdentityNumber);
             await _repo.UpdateAsync(acc);
         }
 

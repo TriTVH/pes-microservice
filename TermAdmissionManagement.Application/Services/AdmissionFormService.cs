@@ -8,7 +8,8 @@ using TermAdmissionManagement.Application.DTOs;
 using TermAdmissionManagement.Application.DTOs.Request;
 using TermAdmissionManagement.Application.DTOs.Response;
 using TermAdmissionManagement.Application.Services.IService;
-
+using TermAdmissionManagement.Domain.DTOs;
+using TermAdmissionManagement.Domain.IClients;
 using TermAdmissionManagement.Infrastructure.Entities;
 using TermAdmissionManagement.Infrastructure.Repositories.IRepository;
 
@@ -17,11 +18,11 @@ namespace TermAdmissionManagement.Application.Services
     public class AdmissionFormService : IAdmissionFormService
     {
         private IAdmissionFormRepository _repo;
-        //private IAuthClient _authClient;
-        public AdmissionFormService(IAdmissionFormRepository repo) 
+        private IAuthClient _authClient;
+        public AdmissionFormService(IAdmissionFormRepository repo, IAuthClient authClient) 
         { 
             _repo = repo;
-            //_authClient = authClient;
+            _authClient = authClient;
         }
 
         public async Task<ResponseObject> CreateAdmissionForm(CreateAdmissionFormRequest request, int parent_account_id)
@@ -59,30 +60,19 @@ namespace TermAdmissionManagement.Application.Services
             return new ResponseObject("ok", "Create admission form successfully", null);
         }
 
+        Task<ResponseObject> IAdmissionFormService.CreateAdmissionForm(CreateAdmissionFormRequest admissionForm, int id)
+        {
+            throw new NotImplementedException();
+        }
+
+      
+
         //public async Task<ResponseObject> GetAdmissionFormsAsync()
         //{
 
+        //    var items = await _repo.GetAllAsync(); 
 
 
-        //    //var items = await _repo.GetAllAsync();
-
-        //    //var result = items.Select(x => new AdmissionFormDto()
-        //    //{
-        //    //    Id = x.Id,
-        //    //    ApprovedDate = x.ApprovedDate,
-        //    //    CancelReason = x.CancelReason,
-        //    //    ChildCharacteristicsFormImg = x.ChildCharacteristicsFormImg,
-        //    //    CommitmentImg = x.CommitmentImg,
-        //    //    HouseholdRegistrationAddress = x.HouseholdRegistrationAddress,
-        //    //    Note = x.Note,
-        //    //    SubmittedDate = x.SubmittedDate,
-        //    //    termItemGrade = x.TermItem.Grade,
-
-        //    //});
-
-        //    var items = await _repo.GetAllAsync(); // List<AdmissionForm>
-
-        //    // 2. Tập unique parent ids
         //    var parentIds = items
         //        .Where(x => x.ParentAccountId > 0)
         //        .Select(x => x.ParentAccountId)
@@ -92,7 +82,7 @@ namespace TermAdmissionManagement.Application.Services
         //    // 3. Khởi tạo các task gọi auth service song song
         //    var parentTasks = parentIds.ToDictionary(
         //        id => id,
-        //        id =>_authClient.GetParentAccountInfoAsync(id) // Task<ResponseObjectFromAnotherClient<AccountDto>?>
+        //        id => _authClient.GetParentAccountInfoAsync(id) 
         //    );
 
         //    await Task.WhenAll(parentTasks.Values);

@@ -51,13 +51,13 @@ namespace TermAdmissionManagement.Infrastructure.Repositories
         {
             return await _context.AdmissionTerms
      .OrderByDescending(x => x.Year)
-     .Include("TermItems")
+     .Include(x => x.TermItems)
      .ToListAsync();
         }
 
-        public async Task<AdmissionTerm?> GetByYear(int year)
+        public async Task<AdmissionTerm?> GetByYearAndGrade(int year, string grade)
         {
-            return await _context.AdmissionTerms.FirstOrDefaultAsync(x => x.Year == year);
+            return await _context.AdmissionTerms.FirstOrDefaultAsync(x => x.Year == year && x.Grade == grade);
         }
 
 

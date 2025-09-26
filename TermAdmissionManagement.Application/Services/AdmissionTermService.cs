@@ -18,12 +18,12 @@ namespace TermAdmissionManagement.Application.Services
     public class AdmissionTermService : IAdmissionTermService
     {
         private IAdmissionTermRepository _admissionTermRepo;
-       
-        public AdmissionTermService(IAdmissionTermRepository admissionTermRepository
+        private ITermItemRepository _termItemRepository;
+        public AdmissionTermService(IAdmissionTermRepository admissionTermRepository, ITermItemRepository termItemRepository
           ) 
         {
             _admissionTermRepo = admissionTermRepository;
-           
+            _termItemRepository = termItemRepository;
         }
     
         public async Task<ResponseObject> CreateAdmissionTerm(CreateAdmissionTermRequest request)
@@ -34,6 +34,11 @@ namespace TermAdmissionManagement.Application.Services
 
             var vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById(timeZoneId);
 
+            if (request.year < DateTime.UtcNow.Year)
+            {
+                return new ResponseObject("badRequest", "Year cannot be in the past.", null);
+            }
+
             if (request.startDateTime < DateTime.UtcNow.Date)
             {
                 return new ResponseObject("badRequest","Start date cannot be in the past.", null);
@@ -43,16 +48,24 @@ namespace TermAdmissionManagement.Application.Services
             {
                 return new ResponseObject("badRequest", "Please ensure end date is after start date.", null);
             }
+            if (request.endDateTime.Year != request.year)
+            {
+                return new ResponseObject("badRequest", "End date must be within the same year as the admission term.", null);
+            }
 
-            var startDateVietNam = TimeZoneInfo.ConvertTimeFromUtc(request.startDateTime, vietnamTimeZone);
+            if (request.startDateTime.Year != request.year)
+            {
+                return new ResponseObject("badRequest", "Start date must be within the same year as the admission term.", null);
+            }
 
-            var endDateVietnam = TimeZoneInfo.ConvertTimeFromUtc(request.endDateTime, vietnamTimeZone);
-
-            if(request.termItems.Count <= 0)
+            if (request.termItems.Count <= 0)
             {
                 return new ResponseObject("badRequest", "Please add at least one grade to create admission term", null);
             }
-
+            if (request.termItems.Count > 3)
+            {
+                return new ResponseObject("badRequest", "Exceed three allowed grades for creating admission term", null);
+            }
             // Validate TermItems
             var allowedGrades = new[] { "BUD", "LEAF", "SEED" };
 
@@ -63,37 +76,43 @@ namespace TermAdmissionManagement.Application.Services
 
                 if (item.expectedClasses <= 0)
                     return new ResponseObject("badRequest", "Expected Classes must be greater than 0.", null);
-                if (item.defaultFee < 100000)
-                    return new ResponseObject("badRequest", "Default Fee must be at least 100,000 VND.", null);
 
+      
+
+                if (await _admissionTermRepo.GetByYearAndGrade(request.year, item.grade) != null)
+                {
+                    return new ResponseObject("conflict", $"An admission term of {item.grade} for the year {request.year} already exists.", null);
+                }
             }
-            
-            if(await _admissionTermRepo.GetByYear(endDateVietnam.Year) != null)
-            {
-                return new ResponseObject("conflict", $"An admission term for the year {endDateVietnam.Year} already exists.", null);
-            }
+            var startDateVietNam = TimeZoneInfo.ConvertTimeFromUtc(request.startDateTime, vietnamTimeZone);
+
+            var endDateVietnam = TimeZoneInfo.ConvertTimeFromUtc(request.endDateTime, vietnamTimeZone);
 
             // Passed validation → proceed to mapping
-            var admissionTerm = new AdmissionTerm
+            foreach (var item in request.termItems)
             {
-                Name = "Admission term for the year " + endDateVietnam.Year,
-                StartDate = startDateVietNam,
-                EndDate = endDateVietnam,
-                Year = endDateVietnam.Year,
-                TermItems = request.termItems.Select(item => new TermItem
+                AdmissionTerm admissionTerm = new AdmissionTerm()
+                {
+                    Name = $"Admission term for {item.grade} of the year {request.year}",
+                    Year = request.year,
+                    Grade = item.grade
+                };
+                TermItem termItem = new TermItem()
                 {
                     ExpectedClasses = item.expectedClasses,
-                    CurrentRegisteredStudents = 0,
-                    MaxNumberRegistration = item.expectedClasses * 30,
-                    Grade = item.grade,
-                    DefaultFee = item.defaultFee,
-                    Status = "awaiting",
-                }).ToList()
-            };
+                    Status = "inactive",
+                    MaxNumberRegistration = item.expectedClasses * 25,
+                    StartDate = startDateVietNam,
+                    EndDate = endDateVietnam,
+                    Version = 1,
+                    AdmissionTerm = admissionTerm
+                };
+                _termItemRepository.CreateTermItemAsync(termItem);
+            }
 
-            await _admissionTermRepo.CreateAdmissionTermAsync(admissionTerm);
 
-            return new ResponseObject("ok", "Admission term created successfully.", null);
+
+                return new ResponseObject("ok", "Admission terms created successfully.", null);
 
         }
 
@@ -106,23 +125,24 @@ namespace TermAdmissionManagement.Application.Services
             {
                 Id = term.Id,
                 Name = term.Name,
-                StartDate = term.StartDate,
-                EndDate = term.EndDate,
+                Grade = term.Grade,
                 Year = term.Year,
                 TermItems = term.TermItems.Select(t => new TermItemDTO
                 {
                     Id = t.Id,
-                    Grade = t.Grade,       // tuỳ entity TermItem của bạn
+                    StartDate = t.StartDate,
+                    EndDate = t.EndDate,
+                    Version = t.Version,
                     ExpectedClasses = t.ExpectedClasses,
                     MaxNumberRegistration = t.MaxNumberRegistration,
                     Status = t.Status,
-                    DefaultFee = t.DefaultFee
+                    CurrentRegisteredStudents = t.CurrentRegisteredStudents,
                 }).ToList()
             }).ToList();
             return new ResponseObject("ok", "View all admission terms successfully", result);
         }
 
-        public async Task<ResponseObject> UpdateAdmissionTermInfoAsync(UpdateAdmissionTermRequest request)
+        public async Task<ResponseObject> UpdateTermInfoRequest(UpdateTermInfoRequest request)
         {
             var timeZoneId = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
                ? "SE Asia Standard Time"
@@ -131,24 +151,7 @@ namespace TermAdmissionManagement.Application.Services
             var vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById(timeZoneId);
 
 
-            var existingInSystem = await _admissionTermRepo.GetByIdWithItemsAsync(request.id);
-
-            if (existingInSystem == null)
-            {
-                return new ResponseObject("notFound", "Admission term not found or be deleted", null);
-            }
-
-            if (existingInSystem.TermItems != null
-      && existingInSystem.TermItems.Any(t =>
-          !string.Equals(t.Status ?? "", "awaiting", StringComparison.OrdinalIgnoreCase)))
-            {
-                return new ResponseObject(
-                    "badRequest",
-                    "Cannot update admission term info because at least one Term Item is not in 'awaiting' status.",
-                    null
-                );
-            }
-
+          
             if (request.startDateTime < DateTime.UtcNow.Date)
             {
                 return new ResponseObject("badRequest", "Start date cannot be in the past.", null);
@@ -163,102 +166,81 @@ namespace TermAdmissionManagement.Application.Services
 
             var endDateVietnam = TimeZoneInfo.ConvertTimeFromUtc(request.endDateTime, vietnamTimeZone);
 
-            if (request.termItems.Count <= 0)
+            if (request.expectedClasses <= 0)
+                return new ResponseObject("badRequest", "Expected Classes must be greater than 0.", null);
+
+
+            var existingInSystem = await _termItemRepository.GetByIdsAsync(request.id);
+
+            if (existingInSystem == null)
             {
-                return new ResponseObject("badRequest", "Please add at least one grade to create admission term", null);
+                return new ResponseObject("notFound", "Admission term item not found or be deleted", null);
             }
 
-            // Validate TermItems
-            var allowedGrades = new[] { "BUD", "LEAF", "SEED" };
-
-            foreach (var item in request.termItems)
+            if (existingInSystem.Status.ToLower().Equals("active") || existingInSystem.Status.ToLower().Equals("block"))
             {
-
-                if (!allowedGrades.Contains(item.grade))
-                    return new ResponseObject("badRequest", $"Invalid grade '{item.grade}'. Must be one of: BUD, LEAF, SEED.", null);
-
-                if (item.expectedClasses <= 0)
-                    return new ResponseObject("badRequest", "Expected Classes must be greater than 0.", null);
-                if (item.DefaultFee < 100000)
-                    return new ResponseObject("badRequest", "Default Fee must be at least 100,000 VND.", null);
+                return new ResponseObject("badRequest", "Cannot update this admission term item because it is already active or blocked.", null);
             }
 
-            if (endDateVietnam.Year != existingInSystem.Year)
+            if (request.endDateTime.Year != existingInSystem.AdmissionTerm.Year || request.startDateTime.Year != existingInSystem.AdmissionTerm.Year)
             {
-                var existingTermForYear = await _admissionTermRepo.GetByYear(endDateVietnam.Year);
-                if (existingTermForYear != null && existingTermForYear.Id != existingInSystem.Id)
-                {
-                    return new ResponseObject("conflict", $"An admission term for the year {endDateVietnam.Year} already exists.", null);
-                }
+                return new ResponseObject("badRequest", "End date or start date must be within the same year of the admission term.", null);
             }
-            existingInSystem.Name = "Admission term for the year " + endDateVietnam.Year;
+
+            if (!existingInSystem.IsCurrent)
+            {
+                return new ResponseObject("conflict", "Only the current admission term item can be updated.", null);
+            }
+
+           
+
             existingInSystem.StartDate = startDateVietNam;
             existingInSystem.EndDate = endDateVietnam;
-            existingInSystem.Year = endDateVietnam.Year;
+            existingInSystem.ExpectedClasses = request.expectedClasses;
 
-            var existingItemsByGrade = existingInSystem.TermItems.ToDictionary(t => t.Grade) ?? new Dictionary<string, TermItem>();
+            await _termItemRepository.UpdateTermItem(existingInSystem);
 
-            foreach (var incoming in request.termItems)
-            {
-                if(incoming.grade != null && existingItemsByGrade.TryGetValue(incoming.grade, out var existingItem))
-                {
-                    existingItem.ExpectedClasses = incoming.expectedClasses;
-                    existingItem.MaxNumberRegistration = incoming.expectedClasses * 30;
-                } else
-                {
-                    var newItem = new TermItem
-                    {
-                        ExpectedClasses = incoming.expectedClasses,
-                        CurrentRegisteredStudents = 0,
-                        MaxNumberRegistration = incoming.expectedClasses * 30,
-                        Grade = incoming.grade,
-                        DefaultFee = incoming.DefaultFee,
-                        Status = "awaiting"
-                    };
-                    existingInSystem.TermItems.Add(newItem);
-                }
-            }
-
-            _admissionTermRepo.UpdateAdmissionTerm(existingInSystem);
-           
             return new ResponseObject("ok", "Update admission term successfully", null);
         }
 
-        public async Task<ResponseObject?> UpdateAdmissionTermStatus(UpdateAdmissionTermStatusRequest request)
-        {
-            var timeZoneId = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
-                    ? "SE Asia Standard Time"
-                    : "Asia/Ho_Chi_Minh";
+        
 
-            var vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById(timeZoneId);
 
-            var vietNamNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone);
+        //public async Task<ResponseObject?> UpdateAdmissionTermStatus(UpdateAdmissionTermStatusRequest request)
+        //{
+        //    var timeZoneId = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+        //            ? "SE Asia Standard Time"
+        //            : "Asia/Ho_Chi_Minh";
 
-            var admissionTermInSystem = await _admissionTermRepo.GetByIdWithItemsAsync(request.id);
-           if(admissionTermInSystem == null)
-            {
-                return new ResponseObject("notFound", "Admission term not found or be deleted", null);
-            }
-            if (request.action.ToLower().Equals("start"))
-            {
-              
-                admissionTermInSystem.StartDate = vietNamNow;
-                foreach (TermItem termItem in admissionTermInSystem.TermItems)
-                {
-                    termItem.Status = "processing";
-                }
-                return new ResponseObject("ok", "Update Admission Term status 'processing' successfully", null);
-            }
-            if (request.action.ToLower().Equals("complete"))
-            {
-                admissionTermInSystem.EndDate = vietNamNow;
-                foreach (TermItem termItem in admissionTermInSystem.TermItems)
-                {
-                    termItem.Status = "done";
-                }
-                return new ResponseObject("ok", "Update Admission Term status 'done' successfully", null);
-            }
-            return new ResponseObject("badRequest", "Invalid action! Must be one of actions: start, complete", null);
-        }
+        //    var vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById(timeZoneId);
+
+        //    var vietNamNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone);
+
+        //    var admissionTermInSystem = await _admissionTermRepo.GetByIdWithItemsAsync(request.id);
+        //   if(admissionTermInSystem == null)
+        //    {
+        //        return new ResponseObject("notFound", "Admission term not found or be deleted", null);
+        //    }
+        //    if (request.action.ToLower().Equals("start"))
+        //    {
+
+        //        admissionTermInSystem.StartDate = vietNamNow;
+        //        foreach (TermItem termItem in admissionTermInSystem.TermItems)
+        //        {
+        //            termItem.Status = "processing";
+        //        }
+        //        return new ResponseObject("ok", "Update Admission Term status 'processing' successfully", null);
+        //    }
+        //    if (request.action.ToLower().Equals("complete"))
+        //    {
+        //        admissionTermInSystem.EndDate = vietNamNow;
+        //        foreach (TermItem termItem in admissionTermInSystem.TermItems)
+        //        {
+        //            termItem.Status = "done";
+        //        }
+        //        return new ResponseObject("ok", "Update Admission Term status 'done' successfully", null);
+        //    }
+        //    return new ResponseObject("badRequest", "Invalid action! Must be one of actions: start, complete", null);
+        //}
     }
 }
