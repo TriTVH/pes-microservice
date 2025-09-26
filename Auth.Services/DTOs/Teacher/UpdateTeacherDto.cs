@@ -11,6 +11,7 @@ namespace Auth.Application.DTOs.Teacher
     string? Phone,
     string? Address,
     string? AvatarUrl,
-    string? Gender
+    string? Gender,
+    string? IdentityNumber
 );
 }
