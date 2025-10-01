@@ -7,16 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TermAdmissionManagement.Domain\TermAdmissionManagement.Domain.csproj">
+    <ProjectReference Include="..\SyllabusService.Domain\SyllabusService.Domain.csproj">
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\TermAdmissionManagement.Infrastructure\TermAdmissionManagement.Infrastructure.csproj">
+    <ProjectReference Include="..\SyllabusService.Infrastructure\SyllabusService.Infrastructure.csproj">
       <Private>True</Private>
     </ProjectReference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Services\IService\" />
   </ItemGroup>
 
 </Project>

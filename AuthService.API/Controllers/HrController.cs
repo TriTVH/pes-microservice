@@ -102,7 +102,7 @@ namespace AuthService.API.Controllers
             var file = await _svc.ExportParentsAsync();
             return File(file.FileContents, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", file.FileName);
         }
-        [Authorize(Roles = "HR")]
+        [Authorize(Roles = "HR, EDUCATION")]
         [HttpGet("teacher/{id}")]
         public async Task<IActionResult> GetTeacherById(int id)
         {

@@ -4,7 +4,6 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>3f85bd30-01f9-4324-a32c-284779416f38</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
@@ -16,20 +15,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TermAdmissionManagement.Application\TermAdmissionManagement.Application.csproj">
+    <ProjectReference Include="..\SyllabusService.Application\SyllabusService.Application.csproj">
       <Private>True</Private>
     </ProjectReference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Update="appsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Background\" />
-    <Folder Include="Controllers\" />
   </ItemGroup>
 
 </Project>

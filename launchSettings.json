@@ -5,7 +5,8 @@
       "commandVersion": "1.0",
       "serviceActions": {
         "termadmissionmanagement.api": "StartDebugging",
-        "gateway.api": "StartDebugging"
+        "gateway.api": "StartDebugging",
+        "syllabusservice.api": "StartDebugging"
       }
     }
   }
