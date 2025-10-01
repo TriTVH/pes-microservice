@@ -60,6 +60,7 @@ namespace SyllabusService.Application.Services
             var items = await _syllabusRepo.GetAllSyllabusAsync();
             var result = items.Select(s => new SyllabusDTO()
             {
+                Id = s.Id,
                 Name = s.Name,
                 Description = s.Description,
                 Cost = s.Cost,
