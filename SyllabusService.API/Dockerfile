@@ -28,4 +28,6 @@ RUN dotnet publish "./SyllabusService.API.csproj" -c $BUILD_CONFIGURATION -o /ap
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+
+ENV ASPNETCORE_URLS=http://+:8082
 ENTRYPOINT ["dotnet", "SyllabusService.API.dll"]
