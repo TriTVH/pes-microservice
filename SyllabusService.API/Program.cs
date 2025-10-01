@@ -65,7 +65,7 @@ builder.Services.AddSwaggerGen(options =>
 
     var serverUrl = builder.Environment.IsDevelopment()
         ? "http://localhost:5000/syllabus-api" 
-        : "https://pesapp.orangeglacier-1e02abb7.southeastasia.azurecontainerapps.io/terms-api"; 
+        : "https://pesapp.orangeglacier-1e02abb7.southeastasia.azurecontainerapps.io/syllabus-api"; 
 
     options.AddServer(new OpenApiServer
     {
