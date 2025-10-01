@@ -1,6 +1,0 @@
-@Syllabus.API_HostAddress = http://localhost:5079
-
-GET {{Syllabus.API_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

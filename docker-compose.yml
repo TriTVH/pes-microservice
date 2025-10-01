@@ -1,4 +1,4 @@
-﻿version: '3.8'
+version: '3.8'
 
 services:
 
@@ -28,7 +28,16 @@ services:
     networks:
       - proxybackend
 
+  syllabusservice.api:
+    image: ${DOCKER_REGISTRY-}syllabusserviceapi
+    build:
+      context: .
+      dockerfile: SyllabusService.API/Dockerfile
+    networks:
+      - proxybackend
+
 networks:
   proxybackend:
     name: proxybackend
     driver: bridge
+
