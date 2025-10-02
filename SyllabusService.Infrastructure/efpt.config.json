@@ -24,6 +24,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[AdmissionTerm_Class]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[classes]",
          "ObjectType": 0
       },

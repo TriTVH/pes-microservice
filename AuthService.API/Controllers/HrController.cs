@@ -70,7 +70,7 @@ namespace AuthService.API.Controllers
             return NoContent();
         }
 
-        [Authorize(Roles = "HR")]
+        [Authorize(Roles = "HR, EDUCATION")]
         [HttpGet("teacher")]
         public async Task<IActionResult> GetAllTeachers()
         {

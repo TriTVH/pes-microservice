@@ -216,6 +216,23 @@ namespace SyllabusService.Application.Services
             return new ResponseObject("ok", "Create class successfully", null);
         }
 
+
+        public async Task<ResponseObject> GetAllClassesAsync()
+        {
+            var items = await _classRepo.GetClassesAsync();
+            var result = items.Select(c => new ClassDto()
+            {
+                Id = c.Id,
+                Name = c.Name,
+                NumberOfWeeks = c.NumberOfWeeks,
+                NumberStudent = c.NumberStudent,
+                AcademicYear = c.AcademicYear,
+                Status = c.Status
+            });
+
+            return new ResponseObject("ok", "Get All classes successfully", result);
+        }
+
         public string? ValidateCreateClass(CreateClassRequest request)
         {
            

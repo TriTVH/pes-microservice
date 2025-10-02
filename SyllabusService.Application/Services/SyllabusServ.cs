@@ -51,6 +51,22 @@ namespace SyllabusService.Application.Services
             return new ResponseObject("ok", "Create Syllabus Successfully", null);
         }
 
+        public async Task<ResponseObject> GetAllActiveSyllabusAsync()
+        {
+            var items = await _syllabusRepo.GetAllActiveSyllabusAsync();
+            var result = items.Select(s => new SyllabusDTO()
+            {
+                Id = s.Id,
+                Name = s.Name,
+                Description = s.Description,
+                Cost = s.Cost,
+                HoursOfSyllabus = s.HoursOfSyllabus,
+                IsActive = s.IsActive ? "true" : "false"
+            });
+
+            return new ResponseObject("ok", "Get All Active syllabuses successfully", result);
+        }
+
         public async Task<ResponseObject> GetAllSyllabusAsync()
         {
             var items = await _syllabusRepo.GetAllSyllabusAsync();

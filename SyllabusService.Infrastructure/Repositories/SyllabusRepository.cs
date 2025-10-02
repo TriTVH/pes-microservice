@@ -29,7 +29,10 @@ namespace SyllabusService.Infrastructure.Repositories
         {
             return await _context.Syllabi.ToListAsync();
         }
-
+        public async Task<IEnumerable<Syllabus>> GetAllActiveSyllabusAsync()
+        {
+            return await _context.Syllabi.Where(x=>x.IsActive == true).ToListAsync();
+        }
         public async Task<Syllabus?> GetSyllabusByIdAsync(int id)
         {
             return await _context.Syllabi.FirstOrDefaultAsync(x => x.Id == id);
