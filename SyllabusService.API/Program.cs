@@ -54,18 +54,24 @@ builder.Services.AddHttpClient<IAuthClient, AuthClient>(client =>
 
 builder.Services.AddScoped<ISyllabusRepository, SyllabusRepository>();
 builder.Services.AddScoped<IClassRepository, ClassesRepository>();
+builder.Services.AddScoped<IAdmissionTermRepo, AdmissionTermRepository>();
 
 builder.Services.AddScoped<IClassesServices, ClassesService>(); 
 builder.Services.AddScoped<ISyllabusService, SyllabusServ>();
+builder.Services.AddScoped<IAdmissionTermService, AdmissionTermService>();
 
 builder.Services.AddControllers();
 
 builder.Services.AddSwaggerGen(options =>
 {
-
+    options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+    {
+        Title = "ClassService API", 
+        Version = "v1"
+    });
     var serverUrl = builder.Environment.IsDevelopment()
-        ? "http://localhost:5000/syllabus-api" 
-        : "https://pesapp.orangeglacier-1e02abb7.southeastasia.azurecontainerapps.io/syllabus-api"; 
+        ? "http://localhost:5000/class-api" 
+        : "https://pesapp.orangeglacier-1e02abb7.southeastasia.azurecontainerapps.io/class-api"; 
 
     options.AddServer(new OpenApiServer
     {

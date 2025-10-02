@@ -39,5 +39,22 @@ namespace SyllabusService.Infrastructure.Repositories
                          .Where(x => x.TeacherId == teacherId).ToListAsync();
         }
 
+        public async Task<List<Class>> GetExistingClassIdsAsync(List<int> classIds)
+        {
+            return await _context.Classes
+                .Where(c => classIds.Contains(c.Id))
+                .ToListAsync();
+        }
+        public async Task<List<Class>> GetClassesAfterDateInYearAsync(DateOnly endDate, int academicYear)
+        {
+            return await _context.Classes
+                .Where(c =>
+                    c.StartDate > endDate &&
+                    c.AcademicYear == academicYear &&
+                    c.NumberStudent < 30)
+                .OrderByDescending (x => x.StartDate)
+                .ToListAsync();
+        }
+
     }
 }

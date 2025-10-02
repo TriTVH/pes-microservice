@@ -90,9 +90,8 @@ app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     // NOTE: these URLs are the gateway proxy endpoints we defined above
-    c.SwaggerEndpoint("/swagger/proxy/spec/terms", "Term API");
     c.SwaggerEndpoint("/swagger/proxy/spec/auth", "Auth API");
-    c.SwaggerEndpoint("/swagger/proxy/spec/syllabus", "Syllabus API");
+    c.SwaggerEndpoint("/swagger/proxy/spec/class", "Class API");
 });
 
 app.UseCors("AllowAll");
