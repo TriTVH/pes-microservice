@@ -14,5 +14,6 @@ namespace SyllabusService.Application.Services.IServices
         Task<ResponseObject> CreateSyllabusAsync(CreateSyllabusRequest request);
         Task<ResponseObject> UpdateSyllabusAsync(UpdateSyllabusRequest request);
         Task<ResponseObject> GetAllSyllabusAsync();
+        Task<ResponseObject> GetAllActiveSyllabusAsync();
     }
 }

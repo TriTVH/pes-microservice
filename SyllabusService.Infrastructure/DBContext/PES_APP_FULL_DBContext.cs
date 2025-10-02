@@ -14,15 +14,17 @@ public partial class PES_APP_FULL_DBContext : DbContext
     {
     }
 
-    public virtual DbSet<Class> Classes { get; set; }
-
-    public virtual DbSet<Schedule> Schedules { get; set; }
     public virtual DbSet<Activity> Activities { get; set; }
-    public virtual DbSet<Syllabus> Syllabi { get; set; }
 
     public virtual DbSet<AdmissionTerm> AdmissionTerms { get; set; }
 
+    public virtual DbSet<Class> Classes { get; set; }
+
     public virtual DbSet<PatternActivity> PatternActivities { get; set; }
+
+    public virtual DbSet<Schedule> Schedules { get; set; }
+
+    public virtual DbSet<Syllabus> Syllabi { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -33,11 +35,12 @@ public partial class PES_APP_FULL_DBContext : DbContext
 
             entity.ToTable("classes");
 
-            entity.Property(e => e.Id).HasColumnName("id").UseIdentityColumn();
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.AcademicYear).HasColumnName("academic_year");
-            entity.Property(e => e.AdmissionTermId).HasColumnName("admission_term_id");
+            entity.Property(e => e.CreatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("createdAt");
             entity.Property(e => e.EndDate).HasColumnName("end_date");
-            entity.Property(e => e.CreatedAt).HasColumnName("createdAt");
             entity.Property(e => e.Name)
                 .HasMaxLength(50)
                 .HasColumnName("name");
@@ -48,12 +51,8 @@ public partial class PES_APP_FULL_DBContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("status");
             entity.Property(e => e.SyllabusId).HasColumnName("syllabus_id");
-            entity.Property(e => e.Version).HasColumnName("version");
             entity.Property(e => e.TeacherId).HasColumnName("teacher_id");
-
-            entity.HasOne(d => d.AdmissionTerm).WithMany(p => p.Classes)
-                .HasForeignKey(d => d.AdmissionTermId)
-                .HasConstraintName("FK_classes_AdmissionTerm");
+            entity.Property(e => e.Version).HasColumnName("version");
 
             entity.HasOne(d => d.Syllabus).WithMany(p => p.Classes)
                 .HasForeignKey(d => d.SyllabusId)
@@ -66,8 +65,7 @@ public partial class PES_APP_FULL_DBContext : DbContext
 
             entity.ToTable("AdmissionTerm");
 
-            entity.Property(e => e.Id).HasColumnName("id")
-            .UseIdentityColumn();
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.AcdemicYear).HasColumnName("acdemicYear");
             entity.Property(e => e.CurrentRegisteredStudents).HasColumnName("currentRegisteredStudents");
             entity.Property(e => e.EndDate)
@@ -80,6 +78,25 @@ public partial class PES_APP_FULL_DBContext : DbContext
                 .IsRequired()
                 .HasMaxLength(50)
                 .HasColumnName("status");
+
+            entity.HasMany(d => d.Classes).WithMany(p => p.AdmissionTerms)
+                .UsingEntity<Dictionary<string, object>>(
+                    "AdmissionTermClass",
+                    r => r.HasOne<Class>().WithMany()
+                        .HasForeignKey("ClassId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("FK_AdmissionTerm_Class_classes"),
+                    l => l.HasOne<AdmissionTerm>().WithMany()
+                        .HasForeignKey("AdmissionTermId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("FK_AdmissionTerm_Class_AdmissionTerm"),
+                    j =>
+                    {
+                        j.HasKey("AdmissionTermId", "ClassId");
+                        j.ToTable("AdmissionTerm_Class");
+                        j.IndexerProperty<int>("AdmissionTermId").HasColumnName("admissionTermId");
+                        j.IndexerProperty<int>("ClassId").HasColumnName("classId");
+                    });
         });
 
         modelBuilder.Entity<PatternActivity>(entity =>

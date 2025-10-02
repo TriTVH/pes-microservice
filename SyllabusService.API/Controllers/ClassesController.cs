@@ -52,5 +52,11 @@ namespace SyllabusService.API.Controllers
 
             return  Ok(result);
         }
+        [HttpGet("list")]
+        public async Task<IActionResult> GetClasses()
+        {
+            var result = await _classesServices.GetAllClassesAsync();
+            return Ok(result);
+        }
     }
 }

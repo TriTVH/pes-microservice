@@ -15,5 +15,6 @@ namespace SyllabusService.Infrastructure.Repositories.IRepositories
         Task<Syllabus?> GetSyllabusByNameAsync(string name);
         Task<IEnumerable<Syllabus>> GetAllSyllabusAsync();
         Task<bool> IsDuplicateNameAsync(string name, int id);
-    }
+        Task<IEnumerable<Syllabus>> GetAllActiveSyllabusAsync();
+        }
 }
