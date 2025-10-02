@@ -20,6 +20,8 @@ public partial class PES_APP_FULL_DBContext : DbContext
     public virtual DbSet<Activity> Activities { get; set; }
     public virtual DbSet<Syllabus> Syllabi { get; set; }
 
+    public virtual DbSet<AdmissionTerm> AdmissionTerms { get; set; }
+
     public virtual DbSet<PatternActivity> PatternActivities { get; set; }
 
 
@@ -49,10 +51,37 @@ public partial class PES_APP_FULL_DBContext : DbContext
             entity.Property(e => e.Version).HasColumnName("version");
             entity.Property(e => e.TeacherId).HasColumnName("teacher_id");
 
+            entity.HasOne(d => d.AdmissionTerm).WithMany(p => p.Classes)
+                .HasForeignKey(d => d.AdmissionTermId)
+                .HasConstraintName("FK_classes_AdmissionTerm");
+
             entity.HasOne(d => d.Syllabus).WithMany(p => p.Classes)
                 .HasForeignKey(d => d.SyllabusId)
                 .HasConstraintName("FK_classes_syllabus");
         });
+
+        modelBuilder.Entity<AdmissionTerm>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__term_ite__3213E83F8D70FB89");
+
+            entity.ToTable("AdmissionTerm");
+
+            entity.Property(e => e.Id).HasColumnName("id")
+            .UseIdentityColumn();
+            entity.Property(e => e.AcdemicYear).HasColumnName("acdemicYear");
+            entity.Property(e => e.CurrentRegisteredStudents).HasColumnName("currentRegisteredStudents");
+            entity.Property(e => e.EndDate)
+                .HasColumnType("datetime")
+                .HasColumnName("endDate");
+            entity.Property(e => e.MaxNumberRegistration).HasColumnName("maxNumberRegistration");
+            entity.Property(e => e.NumberOfClasses).HasColumnName("numberOfClasses");
+            entity.Property(e => e.StartDate).HasColumnName("startDate");
+            entity.Property(e => e.Status)
+                .IsRequired()
+                .HasMaxLength(50)
+                .HasColumnName("status");
+        });
+
         modelBuilder.Entity<PatternActivity>(entity =>
         {
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using SyllabusService.Application.DTOs.Request;
+using SyllabusService.Application.DTOs.Response;
 using SyllabusService.Application.Services.IServices;
 using SyllabusService.Domain.DTOs;
 using SyllabusService.Domain.IClient;
@@ -116,6 +117,7 @@ namespace SyllabusService.Application.Services
                 classes.TeacherId = teacherId;
                 classes.Version = 1;
                 classes.SyllabusId = request.syllabusId;
+                classes.NumberStudent = 0;
             } else {
                 classes.CreatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone);
                 classes.Version = existingInSystem.Version + 1;
@@ -125,7 +127,7 @@ namespace SyllabusService.Application.Services
                 classes.StartDate = request.startDate;
                 classes.TeacherId = teacherId;
                 classes.Status = "inactive";
-               
+                classes.NumberStudent = 0;
             }
             List<PatternActivity> patternActivities = new List<PatternActivity>();
 
@@ -338,6 +340,22 @@ namespace SyllabusService.Application.Services
             DateTime endOfWeek = startOfWeek.AddDays(6);
 
             return (startOfWeek, endOfWeek);
+        }
+
+        public async Task<ResponseObject> GetClassesAfterDateInYearAsync(DateOnly endDate)
+        {
+  
+            var items = await _classRepo.GetClassesAfterDateInYearAsync(endDate, endDate.Year);
+            var result = items.Select(cla => new ClassDto()
+            {
+                Id = cla.Id,
+                Name = cla.Name,
+                NumberOfWeeks = cla.NumberOfWeeks,
+                NumberStudent = cla.NumberStudent,
+                AcademicYear = cla.AcademicYear,
+                Status = cla.Status
+            });
+            return new ResponseObject("ok", $"View list of inactive classes in {endDate.Year} successfully", result);
         }
     }
 }

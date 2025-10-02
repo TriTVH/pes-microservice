@@ -33,6 +33,8 @@ public partial class Class
 
     public int? TeacherId { get; set; }
 
+    public virtual AdmissionTerm AdmissionTerm { get; set; }
+
     public virtual ICollection<PatternActivity> PatternActivities { get; set; } = new List<PatternActivity>();
 
     public virtual ICollection<Schedule> Schedules { get; set; } = new List<Schedule>();

@@ -1,5 +1,4 @@
 ﻿using SyllabusService.Application.DTOs.Request;
-using SyllabusService.Infrastructure.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +8,9 @@ using TermAdmissionManagement.Application.DTOs;
 
 namespace SyllabusService.Application.Services.IServices
 {
-    public interface IClassesServices
+    public interface IAdmissionTermService
     {
-        Task<ResponseObject> CreateClass(CreateClassRequest request);
-        Task<ResponseObject> GetClassesAfterDateInYearAsync(DateOnly endDate);
+        Task<ResponseObject> CreateAdmissionTermAsync(CreateAdmissionTermRequest request);
+        Task<ResponseObject> GetAllAdmissionTermsAsync();
     }
 }
