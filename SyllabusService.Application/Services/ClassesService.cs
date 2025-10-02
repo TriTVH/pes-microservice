@@ -233,7 +233,9 @@ namespace SyllabusService.Application.Services
             }
 
             var comboSet = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
             var parsedDays = new List<DayOfWeek>();
+
             var hoursPerDay = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
 
 
