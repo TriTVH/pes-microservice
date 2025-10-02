@@ -5,12 +5,6 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
      ports:
       - "5022:5022"
-  termadmissionmanagement.api:
-    environment:
-      - ASPNETCORE_HTTP_PORTS=8080
-      - ASPNETCORE_ENVIRONMENT=Development
-    ports:
-      - "8080:8080"   # HTTP
   gateway.api:
     environment:
       - ASPNETCORE_HTTP_PORTS=5000

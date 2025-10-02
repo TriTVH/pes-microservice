@@ -20,10 +20,10 @@ namespace SyllabusService.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateSyllabusRequest request)
         {
-
-            var item = await _syllabusService.CreateSyllabusAsync(request);
             try
             {
+                var item = await _syllabusService.CreateSyllabusAsync(request);
+          
                 if (item.StatusResponseCode.ToLower().Equals("badRequest"))
                 {
                     return BadRequest(item);
@@ -49,20 +49,28 @@ namespace SyllabusService.API.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateSyllabusAsync([FromBody] UpdateSyllabusRequest request)
         {
-            var result = await _syllabusService.UpdateSyllabusAsync(request);
+            try
+            {
+                var result = await _syllabusService.UpdateSyllabusAsync(request);
 
-            if (result.StatusResponseCode.Equals("notFound"))
-            {
-                return NotFound(result); 
+                if (result.StatusResponseCode.Equals("notFound"))
+                {
+                    return NotFound(result);
+                }
+                else if (result.StatusResponseCode.Equals("conflict"))
+                {
+                    return Conflict(result);
+                }
+                else if (result.StatusResponseCode.Equals("badRequest"))
+                {
+                    return BadRequest(result);
+                }
+                return Ok(result);
             }
-            else if (result.StatusResponseCode.Equals("conflict"))
+            catch (Exception ex)
             {
-                return Conflict(result);
-            } else if (result.StatusResponseCode.Equals("badRequest"))
-            {
-                return BadRequest(result);
+                return StatusCode(500, new ResponseObject(ex.Message, "Đã xảy ra lỗi khi xử lý yêu cầu.", null));
             }
-            return Ok(result);
         }
     }
 }

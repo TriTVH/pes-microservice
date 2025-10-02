@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SyllabusService.Application.DTOs.Request;
 using SyllabusService.Application.Services.IServices;
+using TermAdmissionManagement.Application.DTOs;
 
 namespace SyllabusService.API.Controllers
 {
@@ -20,7 +21,9 @@ namespace SyllabusService.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateClass([FromBody] CreateClassRequest request)
         {
-          var result = await _classesServices.CreateClass(request);
+            try
+            {
+                var result = await _classesServices.CreateClass(request);
             if (result.StatusResponseCode.Equals("notFound"))
             {
                 return NotFound(result);
@@ -34,6 +37,20 @@ namespace SyllabusService.API.Controllers
                 return Conflict(result);
             }
                 return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new ResponseObject(ex.Message, "Đã xảy ra lỗi khi xử lý yêu cầu.", null));
+            }
+        }
+
+        [HttpGet("list/after")]
+        public async Task<IActionResult> GetClassesAfterDateInAcademicYear([FromQuery] DateOnly endDate)
+        {
+         
+            var result = await _classesServices.GetClassesAfterDateInYearAsync(endDate);
+
+            return  Ok(result);
         }
     }
 }

@@ -12,14 +12,6 @@ services:
     networks:
       - proxybackend
 
-  termadmissionmanagement.api:
-    image: ${DOCKER_REGISTRY-}termadmissionmanagementapi
-    build:
-      context: .
-      dockerfile: TermAdmissionManagement.API/Dockerfile
-    networks:
-      - proxybackend
-
   authservice.api:
     image: ${DOCKER_REGISTRY-}authserviceapi
     build:
