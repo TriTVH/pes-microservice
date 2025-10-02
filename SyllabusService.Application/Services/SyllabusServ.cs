@@ -45,11 +45,7 @@ namespace SyllabusService.Application.Services
                 Cost = request.cost,
                 HoursOfSyllabus = request.hoursOfSyllabus
             };
-            if (request.isActive.ToLower().Equals("true"))
-            {
-                syllabus.IsActive = true;
-            }
-            else syllabus.IsActive = false;
+           syllabus.IsActive = true;
 
             await _syllabusRepo.CreateSyllabusAsync(syllabus);
             return new ResponseObject("ok", "Create Syllabus Successfully", null);
@@ -118,12 +114,8 @@ namespace SyllabusService.Application.Services
             }
             if (request.hoursOfSyllabus <= 10 || request.hoursOfSyllabus > 40)
                 return "Hours of syllabus must be greater than 10 and not greater than 40.";
-            if (string.IsNullOrEmpty(request.isActive))
-            {
-                return "Is Active must not be empty.";
-            }
-            if (!new[] { "true", "false" }.Contains(request.isActive.ToLower()))
-                return "Is Active must be either 'true' or 'false'.";
+           
+          
             return "";
         }
 
