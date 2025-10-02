@@ -33,13 +33,7 @@ jobs:
       - name: Build and push authapi image
         run: |
           docker build -t huatri/authserviceapi:latest -f ./AuthService.API/Dockerfile .
-          docker push huatri/authserviceapi:latest
-
-      - name: Build and push admissionapi image
-        run: |
-          docker build -t huatri/termadmissionmanagementapi:latest -f ./TermAdmissionManagement.API/Dockerfile .
-          docker push huatri/termadmissionmanagementapi:latest
-       
+          docker push huatri/authserviceapi:latest  
       - name: Build and push syllabusapi image
         run: |
           docker build -t huatri/syllabusserviceapi -f ./SyllabusService.API/Dockerfile .
@@ -58,16 +52,6 @@ jobs:
             --image docker.io/huatri/authserviceapi:latest \
             --container-name authapi \
             --output none
-
-      - name: Deploy admissionapi container
-        run: |
-          az containerapp update \
-            --name pesapp \
-            --resource-group backend_server_management \
-            --image docker.io/huatri/termadmissionmanagementapi:latest \
-            --container-name admissionapi \
-            --output none
-            
       - name: Deploy syllabusapi container
         run: |
           az containerapp update \
@@ -75,8 +59,7 @@ jobs:
             --resource-group backend_server_management \
             --image docker.io/huatri/syllabusserviceapi:latest \
             --container-name syllabusapi \
-            --output none
-            
+            --output none         
       - name: Deploy gatewayapi container
         run: |
           az containerapp update \
@@ -85,6 +68,7 @@ jobs:
             --image docker.io/huatri/gatewayapi:latest \
             --container-name gatewayapi \
             --output none
+
 
 
 
