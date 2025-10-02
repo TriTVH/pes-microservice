@@ -23,7 +23,11 @@ namespace SyllabusService.Infrastructure.Repositories
             _context.Classes.Add(classes);
             return await _context.SaveChangesAsync();
         }
-
+        public async Task<int> UpdateClassAsync(Class classes)
+        {
+            _context.Classes.Update(classes);
+            return await _context.SaveChangesAsync();
+        }
         public async Task<Class?> GetClassByYearAndSyllabusId(int year, int syllabusId)
         {
             return await _context.Classes
@@ -31,12 +35,20 @@ namespace SyllabusService.Infrastructure.Repositories
                 .FirstOrDefaultAsync(x => x.AcademicYear == year && x.SyllabusId == syllabusId);
         }
 
+
+
         public async Task<IEnumerable<Class>> GetClassesByTeacherIdAsync(int teacherId)
         {
             return await _context.Classes
                  .Include(x => x.Schedules)
                    .ThenInclude(s => s.Activities)
                          .Where(x => x.TeacherId == teacherId).ToListAsync();
+        }
+
+
+        public async Task<IEnumerable<Class>> GetClassesAsync()
+        {
+            return await _context.Classes.ToListAsync();
         }
 
         public async Task<List<Class>> GetExistingClassIdsAsync(List<int> classIds)

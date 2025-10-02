@@ -46,6 +46,13 @@ namespace SyllabusService.API.Controllers
             return Ok(await _syllabusService.GetAllSyllabusAsync());
         }
 
+        [HttpGet("list/active")]
+        public async Task<IActionResult> GetAllActiveSyllabusAsync()
+        {
+            return Ok(await _syllabusService.GetAllActiveSyllabusAsync());
+        }
+
+
         [HttpPut]
         public async Task<IActionResult> UpdateSyllabusAsync([FromBody] UpdateSyllabusRequest request)
         {
