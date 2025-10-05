@@ -17,6 +17,18 @@
       {
          "Name": "[dbo].[account]",
          "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[activity]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[classes]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[schedule]",
+         "ObjectType": 0
       }
    ],
    "UiHint": null,

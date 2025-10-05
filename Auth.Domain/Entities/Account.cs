@@ -23,6 +23,7 @@ namespace Auth.Domain.Entities
         public string? PasswordHash { get; private set; }
         public DateTime CreatedAt { get; private set; }
 
+        public virtual ICollection<Class> Classes { get; set; } = new List<Class>();
         private Account() { } 
 
         public Account(string email, string name, string role)

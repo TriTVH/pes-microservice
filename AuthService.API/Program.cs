@@ -1,8 +1,11 @@
 ﻿using Auth.Application.Mappings;
 using Auth.Application.Security;
+using Auth.Application.Services;
+using Auth.Application.Services.IServices;
 using Auth.Domain.Entities;
 using Auth.Domain.Repositories;
 using Auth.Infrastructure.DBContexts;
+using Auth.Infrastructure.Repository;
 using Auth.Infrastructure.Security;
 using Auth.Repositories.Repository;
 using Auth.Services.Services;
@@ -35,6 +38,7 @@ builder.Services.AddAutoMapper(typeof(AccountProfile).Assembly);
 
 // DI: Application service
 builder.Services.AddScoped<IAuthService, Auth.Application.Services.AuthService>();
+builder.Services.AddScoped<ITeacherActionRepository, TeacherActionRepository>();
 // DI: Infrastructure
 builder.Services.AddScoped<IEmailSender, SmtpEmailSender>();
 builder.Services.AddScoped<IMemoryCache, MemoryCache>();
@@ -43,7 +47,7 @@ builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
 builder.Services.AddScoped<IPasswordHasher<Account>, PasswordHasher<Account>>();
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
-
+builder.Services.AddScoped<ITeacherActionService, TeacherActionService>();
 // JWT
 var jwt = builder.Configuration.GetSection("Jwt");
 var keyBytes = Encoding.UTF8.GetBytes(jwt["Key"]!);
@@ -68,7 +72,14 @@ builder.Services.AddAuthentication(options =>
     };
 });
 builder.Services.AddAuthorization();
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(x =>
+    {
+        x.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+        // hoặc Preserve nếu bạn muốn giữ mối quan hệ (sẽ có $id/$ref trong JSON)
+        // x.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+    });
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
