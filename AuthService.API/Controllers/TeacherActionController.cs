@@ -31,7 +31,14 @@ public class TeacherActionController : ControllerBase
         var schedules = await _teacherActionService.GetSchedulesAsync(teacherId);
         return Ok(schedules);
     }
+    [HttpGet("weekly-schedule")]
+    public async Task<IActionResult> GetWeeklySchedule([FromQuery] string weekName = "Week - 1")
+    {
+        var teacherId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
+        var result = await _teacherActionService.GetWeeklyScheduleAsync(teacherId, weekName);
+        return Ok(result);
+    }
     //[HttpGet("classes/{classId}")]
     //public async Task<IActionResult> GetClassDetail(int classId)
     //{

@@ -12,5 +12,6 @@ namespace Auth.Domain.Repositories
         Task<Class?> GetClassDetailAsync(int classId, int teacherId);
         Task<IEnumerable<Schedule>> GetSchedulesByTeacherIdAsync(int teacherId);
         Task<IEnumerable<Activity>> GetActivitiesByScheduleIdAsync(int scheduleId);
+        Task<IEnumerable<Schedule>> GetWeeklyScheduleAsync(int teacherId, string weekName);
     }
 }

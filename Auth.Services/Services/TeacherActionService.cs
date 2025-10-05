@@ -1,21 +1,30 @@
-﻿using Auth.Application.Services.IServices;
+﻿using Auth.Application.DTOs.Teacher;
+using Auth.Application.Services.IServices;
+using Auth.Domain.Entities;
 using Auth.Domain.Repositories;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Auth.Domain.Entities;
 namespace Auth.Application.Services
 {
     public class TeacherActionService : ITeacherActionService
     {
         private readonly ITeacherActionRepository _repository;
+        private readonly ILogger<TeacherActionService> _logger;
 
-        public TeacherActionService(ITeacherActionRepository repository)
+        public TeacherActionService(ITeacherActionRepository teacherRepository, ILogger<TeacherActionService> logger)
         {
-            _repository = repository;
+            _repository = teacherRepository;
+            _logger = logger;
         }
+        public async Task<IEnumerable<Schedule>> GetWeeklyScheduleAsync(int teacherId, string weekName)
+        {
+            return await _repository.GetWeeklyScheduleAsync(teacherId, weekName);
+        }
+
 
         public async Task<IEnumerable<Class>> GetClassesAsync(int teacherId)
         {

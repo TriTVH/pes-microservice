@@ -51,5 +51,25 @@ namespace Auth.Infrastructure.Repository
                 .Where(a => a.ScheduleId == scheduleId)
                 .ToListAsync();
         }
+        public async Task<IEnumerable<Schedule>> GetWeeklyScheduleAsync(int teacherId, string weekName)
+        {
+            // Lấy danh sách các lớp do giáo viên này phụ trách
+            var classIds = await _context.Classes
+                .Where(c => c.TeacherId == teacherId)
+                .Select(c => c.Id)
+                .ToListAsync();
+
+            if (!classIds.Any())
+                return Enumerable.Empty<Schedule>();
+
+            // Lấy lịch theo WeekName và các lớp của giáo viên
+            var schedules = await _context.Schedules
+                .Where(s => s.WeekName == weekName && classIds.Contains(s.ClassesId.Value))
+                .Include(s => s.Classes)
+                .Include(s => s.Activities)
+                .ToListAsync();
+
+            return schedules;
+        }
     }
 }
