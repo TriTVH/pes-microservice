@@ -11,6 +11,11 @@ namespace SyllabusService.Infrastructure.Repositories.IRepositories
     {
         Task<int> CreateAdmissionTermAsync(AdmissionTerm admissionTerm);
         Task<AdmissionTerm?> GetOverlappingTermAsync(DateTime startDate, DateTime endDate);
+        Task<AdmissionTerm?> GetOverlappingTermAsyncExceptId(DateTime startDate, DateTime endDate, int excludeId);
         Task<IEnumerable<AdmissionTerm>> GetAdmissionTermsAsync();
+
+        Task<AdmissionTerm?> GetAdmissionTermByIdAsync(int id);
+
+        Task<int> UpdateAdmissionTermAsync(AdmissionTerm admissionTerm);
     }
 }

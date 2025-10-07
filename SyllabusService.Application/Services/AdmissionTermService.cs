@@ -7,6 +7,7 @@ using SyllabusService.Infrastructure.Repositories.IRepositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using TermAdmissionManagement.Application.DTOs;
@@ -60,6 +61,61 @@ namespace SyllabusService.Application.Services
             };
             await _admissionTermRepo.CreateAdmissionTermAsync(newTerm);
             return new ResponseObject("ok", "Create admission term successfully", null);
+        }
+
+        public async Task<ResponseObject> UpdateAdmissionTermStatusByAction(UpdateAdmissionTermActionRequest request)
+        {
+            var timeZoneId = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+                 ? "SE Asia Standard Time"
+                 : "Asia/Ho_Chi_Minh";
+
+            var vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById(timeZoneId);
+
+            var term = await _admissionTermRepo.GetAdmissionTermByIdAsync(request.Id);
+
+            if (term == null)
+                return new ResponseObject("notFound", "Admission term not found.", null);
+
+            var vietNamNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone);
+
+            switch (request.Action.ToLower())
+            {
+                case "start":
+                    if (term.Status != "inactive")
+                        return new ResponseObject("badRequest", "Only inactive terms can be started.", null);
+
+                    var overlap = await _admissionTermRepo.GetOverlappingTermAsyncExceptId(vietNamNow, term.EndDate, term.Id);
+
+                    if (overlap != null)
+                    {
+                        return new ResponseObject("conflict",
+                            $"Start time overlaps with another term from {overlap.StartDate:yyyy-MM-dd} to {overlap.EndDate:yyyy-MM-dd}.", null);
+                    }
+
+                    term.Status = "active";
+                    term.StartDate = vietNamNow;
+                    break;
+
+                case "end":
+                    if (term.Status != "active")
+                        return new ResponseObject("badRequest", "Only active terms can be ended.", null);
+                    var overlapEnd = await _admissionTermRepo.GetOverlappingTermAsyncExceptId(term.StartDate, vietNamNow, term.Id);
+                    if (overlapEnd != null)
+                    {
+                        return new ResponseObject("conflict",
+                            $"End time overlaps with another term from {overlapEnd.StartDate:yyyy-MM-dd} to {overlapEnd.EndDate:yyyy-MM-dd}.", null);
+                    }
+                    term.Status = "blocked";
+                    term.EndDate = vietNamNow;
+                    break;
+
+                default:
+                    return new ResponseObject("badRequest", "Invalid action. Must be 'start' or 'end'.", null);
+            }
+
+            await _admissionTermRepo.UpdateAdmissionTermAsync(term);
+            return new ResponseObject("ok", $"Admission term {request.Action}ed successfully.", null);
+
         }
 
         public async Task<ResponseObject> GetAllAdmissionTermsAsync()
