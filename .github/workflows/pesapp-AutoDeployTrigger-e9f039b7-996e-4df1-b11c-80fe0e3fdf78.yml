@@ -38,7 +38,10 @@ jobs:
         run: |
           docker build -t huatri/syllabusserviceapi -f ./SyllabusService.API/Dockerfile .
           docker push huatri/syllabusserviceapi:latest
-
+      - name: Build and push parentserviceapi image
+        run: |
+          docker build -t huatri/parentserviceapi -f ./ParentService.API/Dockerfile .
+          docker push huatri/parentserviceapi:latest
       - name: Build and push gateway image
         run: |
           docker build -t huatri/gatewayapi:latest -f ./Gateway.API/Dockerfile .
@@ -59,7 +62,16 @@ jobs:
             --resource-group backend_server_management \
             --image docker.io/huatri/syllabusserviceapi:latest \
             --container-name syllabusapi \
-            --output none         
+            --output none  
+      - name: Deploy parentserviceapi container
+        run: |
+          az containerapp update \
+            --name pesapp \
+            --resource-group backend_server_management \
+            --image docker.io/huatri/parentserviceapi:latest \
+            --container-name parentserviceapi \
+            --output none  
+          
       - name: Deploy gatewayapi container
         run: |
           az containerapp update \
