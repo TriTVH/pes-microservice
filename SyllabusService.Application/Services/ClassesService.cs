@@ -172,6 +172,7 @@ namespace SyllabusService.Application.Services
 
                     activitiesThisWeek.Add(new Activity
                     {
+                        Name = classes.Name,
                         DayOfWeek = pattern.DayOfWeek,
                         StartTime = pattern.StartTime,
                         EndTime = pattern.EndTime,
@@ -227,6 +228,7 @@ namespace SyllabusService.Application.Services
                 NumberOfWeeks = c.NumberOfWeeks,
                 NumberStudent = c.NumberStudent,
                 AcademicYear = c.AcademicYear,
+                StartDate = c.StartDate,
                 Status = c.Status
             });
 

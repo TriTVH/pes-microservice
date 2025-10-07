@@ -55,10 +55,14 @@ builder.Services.AddHttpClient<IAuthClient, AuthClient>(client =>
 builder.Services.AddScoped<ISyllabusRepository, SyllabusRepository>();
 builder.Services.AddScoped<IClassRepository, ClassesRepository>();
 builder.Services.AddScoped<IAdmissionTermRepo, AdmissionTermRepository>();
+builder.Services.AddScoped<IWeekRepository, WeekRepository>();
+builder.Services.AddScoped<IActivityRepository, ActivityRepository>();
 
 builder.Services.AddScoped<IClassesServices, ClassesService>(); 
 builder.Services.AddScoped<ISyllabusService, SyllabusServ>();
 builder.Services.AddScoped<IAdmissionTermService, AdmissionTermService>();
+builder.Services.AddScoped<IWeekService, WeekService>();
+builder.Services.AddScoped<IActivityService, ActivityService>();
 
 builder.Services.AddControllers();
 

@@ -46,11 +46,6 @@ namespace SyllabusService.Application.Services
                 return new ResponseObject("conflict",
                     $"The selected dates overlap with an existing term from {overlappingTerm.StartDate:yyyy-MM-dd} to {overlappingTerm.EndDate:yyyy-MM-dd}.", null);
             }
-            foreach (var cls in existingClasses)
-            {
-                cls.Status = "enrolling"; // hoặc "Đang tuyển sinh" nếu bạn dùng tiếng Việt
-                await _classRepo.UpdateClassAsync(cls); // đảm bảo repo có phương thức này
-            }
 
             var newTerm = new AdmissionTerm
             {
@@ -86,6 +81,7 @@ namespace SyllabusService.Application.Services
                     NumberOfWeeks = c.NumberOfWeeks,
                     NumberStudent = c.NumberStudent,
                     AcademicYear = c.AcademicYear,
+                    StartDate = c.StartDate,
                     Status = c.Status
                 }).ToList()
               )).ToList();
