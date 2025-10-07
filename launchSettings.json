@@ -6,7 +6,8 @@
       "serviceActions": {
         "termadmissionmanagement.api": "StartDebugging",
         "gateway.api": "StartDebugging",
-        "syllabusservice.api": "StartDebugging"
+        "syllabusservice.api": "StartDebugging",
+        "parentservice.api": "StartDebugging"
       }
     }
   }

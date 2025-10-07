@@ -28,8 +28,17 @@ services:
     networks:
       - proxybackend
 
+  parentservice.api:
+    image: ${DOCKER_REGISTRY-}parentserviceapi
+    build:
+      context: .
+      dockerfile: ParentService.API/Dockerfile
+    networks:
+      - proxybackend
+
 networks:
   proxybackend:
     name: proxybackend
     driver: bridge
+
 
