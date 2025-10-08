@@ -32,6 +32,9 @@ namespace ParentService.Infrastructure.Repositories
         {
             return await _context.Students.Where(x => x.ParentAccId == parentAccId).ToListAsync();
         }
-
+        public async Task<Student?> GetStudentAsyncById(int studentId)
+        {
+            return await _context.Students.Where(x => x.Id == studentId).FirstOrDefaultAsync();
+        }
     }
 }

@@ -24,6 +24,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[classes]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[student]",
          "ObjectType": 0
       },

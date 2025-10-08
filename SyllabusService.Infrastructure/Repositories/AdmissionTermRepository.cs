@@ -24,6 +24,12 @@ namespace SyllabusService.Infrastructure.Repositories
             return await _context.SaveChangesAsync();
         }
 
+        public async Task<int> UpdateAdmissionTermAsync(AdmissionTerm admissionTerm)
+        {
+            _context.AdmissionTerms.Update(admissionTerm);
+            return await _context.SaveChangesAsync();
+        }
+
         public async Task<IEnumerable<AdmissionTerm>> GetAdmissionTermsAsync()
         {
             return await _context.AdmissionTerms
@@ -31,10 +37,30 @@ namespace SyllabusService.Infrastructure.Repositories
                 .ToListAsync();
         }
 
+       public async Task<AdmissionTerm?> GetActiveAdmissionTerm()
+        {
+            return await _context.AdmissionTerms.Include(t => t.Classes)
+                .Where(t => t.Status.Equals("active")).FirstOrDefaultAsync();
+        }
+
         public async Task<AdmissionTerm?> GetOverlappingTermAsync(DateTime startDate, DateTime endDate)
         {
             return await _context.AdmissionTerms
                 .Where(term => startDate < term.EndDate && endDate > term.StartDate)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<AdmissionTerm?> GetOverlappingTermAsyncExceptId(DateTime startDate, DateTime endDate, int excludeId)
+        {
+            return await _context.AdmissionTerms
+                .Where(term => startDate < term.EndDate && endDate > term.StartDate && term.Id != excludeId)
+                .FirstOrDefaultAsync();
+        }
+        
+        public async Task<AdmissionTerm?> GetAdmissionTermByIdAsync(int id)
+        {
+            return await _context.AdmissionTerms
+                .Where(x => x.Id == id)
                 .FirstOrDefaultAsync();
         }
 

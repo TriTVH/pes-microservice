@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace SyllabusService.Application.DTOs.Request
 {
-    public class UpdateAdmissionTermStatusRequest
+    public class UpdateAdmissionTermActionRequest
     {
-
+        public int Id { get; set; }
+        public string Action { get; set; } 
     }
+
 }
