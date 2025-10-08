@@ -23,7 +23,7 @@ public partial class Student
 
     public string ProfileImage { get; set; }
 
-    public bool IsStudent { get; set; }
+    public bool? IsStudent { get; set; }
 
     public int? ParentAccId { get; set; }
 

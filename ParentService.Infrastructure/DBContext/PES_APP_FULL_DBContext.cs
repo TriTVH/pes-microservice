@@ -21,6 +21,8 @@ public partial class PES_APP_FULL_DBContext : DbContext
 
     public virtual DbSet<StudentClass> StudentClasses { get; set; }
 
+
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<AdmissionForm>(entity =>
@@ -37,7 +39,6 @@ public partial class PES_APP_FULL_DBContext : DbContext
             entity.Property(e => e.CancelReason)
                 .HasMaxLength(255)
                 .HasColumnName("cancel_reason");
-            entity.Property(e => e.Cost).HasColumnName("cost");
             entity.Property(e => e.Note)
                 .HasMaxLength(50)
                 .HasColumnName("note");

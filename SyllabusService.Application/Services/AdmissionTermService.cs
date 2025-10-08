@@ -145,6 +145,38 @@ namespace SyllabusService.Application.Services
             return new ResponseObject("ok", "Get all admission terms successfully", result);
         }
 
+        public async Task<ResponseObject> GetActiveAdmissionTermAsync()
+        {
+            var item = await _admissionTermRepo.GetActiveAdmissionTerm();
+
+            if (item == null)
+            {
+                return new ResponseObject("notFound", "There is currently no active admission term available", null);
+            }
+
+            var result =  new AdmissionTermDto(
+                item.Id,
+                item.AcdemicYear,
+                item.MaxNumberRegistration,
+                item.CurrentRegisteredStudents,
+                item.NumberOfClasses,
+                item.StartDate,
+                item.EndDate,
+                item.Status,
+                item.Classes.Select(c => new ClassDto
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    NumberOfWeeks = c.NumberOfWeeks,
+                    NumberStudent = c.NumberStudent,
+                    AcademicYear = c.AcademicYear,
+                    StartDate = c.StartDate,
+                    Status = c.Status
+                }).ToList());
+
+            return new ResponseObject("ok", "Get active admission terms successfully", result);
+        }
+
         private string ValidateCreateAdmissionTerm(CreateAdmissionTermRequest request)
         {
             if (request.startDate < DateTime.UtcNow)

@@ -51,6 +51,18 @@ namespace SyllabusService.Infrastructure.Repositories
             return await _context.Classes.ToListAsync();
         }
 
+    
+        public async Task<IEnumerable<Class>> GetClassesWithPatternActiviAsync(List<int> classIds)
+        {
+            if (classIds == null || !classIds.Any())
+                return new List<Class>();
+
+            return await _context.Classes
+                .Where(c => classIds.Contains(c.Id))
+                .Include(c => c.PatternActivities)
+                .ToListAsync();
+        }
+
         public async Task<List<Class>> GetExistingClassIdsAsync(List<int> classIds)
         {
             return await _context.Classes
@@ -67,6 +79,22 @@ namespace SyllabusService.Infrastructure.Repositories
                 .OrderByDescending (x => x.StartDate)
                 .ToListAsync();
         }
+
+        public async Task<List<Class>> GetClassesByIdsAsync(List<int> ids)
+        {
+            return await _context.Classes
+                .Include(c => c.PatternActivities)
+                .Where(c => ids.Contains(c.Id))
+                .ToListAsync();
+        }
+
+        public async Task<Class?> GetClassByIdAsync(int id)
+        {
+            return await _context.Classes
+                .Include(c => c.PatternActivities)
+                .FirstOrDefaultAsync(c => c.Id == id);
+        }
+
 
     }
 }

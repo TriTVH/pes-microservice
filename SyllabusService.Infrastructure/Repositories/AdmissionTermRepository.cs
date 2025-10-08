@@ -37,6 +37,12 @@ namespace SyllabusService.Infrastructure.Repositories
                 .ToListAsync();
         }
 
+       public async Task<AdmissionTerm?> GetActiveAdmissionTerm()
+        {
+            return await _context.AdmissionTerms.Include(t => t.Classes)
+                .Where(t => t.Status.Equals("active")).FirstOrDefaultAsync();
+        }
+
         public async Task<AdmissionTerm?> GetOverlappingTermAsync(DateTime startDate, DateTime endDate)
         {
             return await _context.AdmissionTerms

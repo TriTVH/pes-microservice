@@ -24,7 +24,7 @@ namespace ParentService.Application.DTOs.Response
 
         public string ProfileImage { get; set; }
 
-        public bool IsStudent { get; set; }
+        public bool? IsStudent { get; set; }
 
 
     }
