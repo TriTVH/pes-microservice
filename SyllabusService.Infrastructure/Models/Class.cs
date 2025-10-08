@@ -37,5 +37,5 @@ public partial class Class
 
     public virtual Syllabus Syllabus { get; set; }
 
-    public virtual ICollection<AdmissionTerm>? AdmissionTerms { get; set; } = new List<AdmissionTerm>();
+    public virtual ICollection<AdmissionTerm> AdmissionTerms { get; set; } = new List<AdmissionTerm>();
 }

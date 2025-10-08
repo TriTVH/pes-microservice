@@ -12,5 +12,6 @@ namespace SyllabusService.Application.Services.IServices
     {
         Task<ResponseObject> CreateAdmissionTermAsync(CreateAdmissionTermRequest request);
         Task<ResponseObject> GetAllAdmissionTermsAsync();
+        Task<ResponseObject> UpdateAdmissionTermStatusByAction(UpdateAdmissionTermActionRequest request);
     }
 }

@@ -46,5 +46,22 @@ namespace SyllabusService.API.Controllers
             return Ok(result);
 
         }
+
+        [HttpPut("status")]
+        public async Task<IActionResult> UpdateAdmissionTermStatus([FromBody] UpdateAdmissionTermActionRequest request)
+        {
+            var result = await _admissionTermService.UpdateAdmissionTermStatusByAction(request);
+
+            if (result.StatusResponseCode.Equals("badRequest"))
+            {
+                return BadRequest(result);
+            }
+            if (result.StatusResponseCode.Equals("conflict"))
+            {
+                return Conflict(result);
+            }
+            return Ok(result);
+        }
+
     }
 }

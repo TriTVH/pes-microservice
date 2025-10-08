@@ -23,6 +23,12 @@ namespace ParentService.Infrastructure.Repositories
             return await _context.SaveChangesAsync();
         }
 
+        public async Task CreateAdmissionFormClassesAsync(List<AdmissionFormClass> formClasses)
+        {
+            _context.AdmissionFormClasses.AddRange(formClasses);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<AdmissionFormClass?> FindByAdmissionTermIdAndClassIdAndStudentNameAsync( int admissionTermId, int classId, string studentName )
         {
             return await _context.AdmissionFormClasses

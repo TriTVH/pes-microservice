@@ -378,5 +378,60 @@ namespace SyllabusService.Application.Services
             });
             return new ResponseObject("ok", $"View list of inactive classes in {endDate.Year} successfully", result);
         }
+
+        public async Task<ResponseObject> CheckClassesAvailability(CheckClassRequest request)
+        {
+           
+            if (request.CurrentClassId <= 0 || request.StudentId <= 0)
+            {
+                return new ResponseObject("badRequest", "Invalid request data.", null);
+            }
+
+          
+            var checkedIds = request.CheckedClassIds?.ToList() ?? new List<int>();
+
+
+            
+            var newClass = await _classRepo.GetClassByIdAsync(request.CurrentClassId);
+            var checkedClasses = await _classRepo.GetClassesByIdsAsync(checkedIds);
+
+
+         
+            if (checkedClasses == null || !checkedClasses.Any())
+            {
+                checkedIds.Add(request.CurrentClassId);
+                return new ResponseObject("ok", "No existing classes found — no conflict detected.", checkedIds);
+            }
+           
+            foreach (var existingClass in checkedClasses)
+            {
+                // ❗ Bỏ qua nếu thời gian học không giao nhau (theo StartDate – EndDate)
+                if (newClass.StartDate > existingClass.EndDate || existingClass.StartDate > newClass.EndDate)
+                    continue;
+
+                foreach (var actA in newClass.PatternActivities)
+                {
+                    foreach (var actB in existingClass.PatternActivities)
+                    {
+                        if (actA.DayOfWeek == actB.DayOfWeek &&
+                            actA.StartTime < actB.EndTime &&
+                            actB.StartTime < actA.EndTime)
+                        {
+                            var conflictMessage =
+                                $"Conflict detected: Class '{newClass.Name}' (ID {newClass.Id}) " +
+                                $"conflicts with already selected Class '{existingClass.Name}' (ID {existingClass.Id}) " +
+                                $"on {actA.DayOfWeek} " +
+                                $"({actA.StartTime:hh\\:mm} - {actA.EndTime:hh\\:mm}).";
+
+                            return new ResponseObject("conflict", conflictMessage, checkedIds);
+                        }
+                    }
+                }
+            }
+            checkedIds.Add(request.CurrentClassId);
+            return new ResponseObject("ok", "No schedule conflicts detected.", checkedIds);
+        }
+
+
     }
 }

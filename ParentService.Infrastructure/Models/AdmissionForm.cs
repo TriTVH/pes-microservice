@@ -13,15 +13,13 @@ public partial class AdmissionForm
 
     public string CancelReason { get; set; }
 
-    public string? Note { get; set; }
+    public string Note { get; set; }
 
     public DateTime? PaymentExpiryDate { get; set; }
 
     public string Status { get; set; }
 
     public DateTime? SubmittedDate { get; set; }
-
-    public int? Cost { get; set; }
 
     public int AdmissionTermId { get; set; }
 
