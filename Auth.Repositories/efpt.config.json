@@ -15,7 +15,7 @@
    "T4TemplatePath": null,
    "Tables": [
       {
-         "Name": "[dbo].[parent]",
+         "Name": "[dbo].[account]",
          "ObjectType": 0
       }
    ],

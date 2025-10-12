@@ -1,5 +1,6 @@
 ﻿using Auth.Application.DTOs;
 using Auth.Application.DTOs.Teacher;
+using Auth.Application.DTOs.Parent;
 using Auth.Application.Services;
 using Auth.Domain.Repositories;
 using Auth.Infrastructure.Security;
@@ -37,6 +38,13 @@ namespace AuthService.API.Controllers
             return CreatedAtAction(nameof(GetById), new { id = acc.Id }, acc);
         }
 
+        [HttpPost("register-parent")]
+        public async Task<IActionResult> RegisterParent(RegisterParentRequestDto req)
+        {
+            var parent = await _svc.RegisterParentAsync(req);
+            return CreatedAtAction(nameof(GetById), new { id = parent.AccountId }, parent);
+        }
+
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginRequestDto req)
         {
@@ -44,13 +52,7 @@ namespace AuthService.API.Controllers
             return Ok(token);
         }
 
-        //[Authorize(Roles = "HR")]
-        //[HttpGet("getAllAccount")]
-        //public async Task<IActionResult> GetAll()
-        //{
-        //    var list = await _svc.GetAllAsync();
-        //    return Ok(list);
-        //}
+     
 
         [Authorize(Roles = "HR, EDUCATION")]
         [HttpGet("getAllAccount/{id}")]
@@ -69,33 +71,31 @@ namespace AuthService.API.Controllers
             return NoContent();
         }
 
-        //[Authorize(Roles = "HR")]
-        //[HttpDelete("ban/{id}")]
-        //public async Task<IActionResult> BanAccount(int id)
-        //{
-        //    await _svc.DeleteAsync(id); // will set Status = ACCOUNT_BAN
-        //    return NoContent();
-        //}
-        //[Authorize(Roles = "HR")]
-        //[HttpDelete("unban/{id}")]
-        //public async Task<IActionResult> UnBanAccount(int id)
-        //{
-        //    await _svc.UnBanAsync(id); // will set Status = ACCOUNT_UNBAN
-        //    return NoContent();
-        //}
-        [Authorize(Roles = "PARENT,TEACHER")]
+       
+
         [HttpPost("pass/forgot")]
-        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequest request)
+        public async Task<IActionResult> ForgotPasswordSimple([FromBody] ForgotPasswordSimpleRequestDto request)
         {
-            await _svc.ForgotPasswordAsync(request.Email);
-            return Ok(new { message = "Password reset email sent successfully" });
+            var result = await _svc.ForgotPasswordSimpleAsync(request);
+            return Ok(result);
         }
-        [Authorize(Roles = "PARENT,TEACHER")]
         [HttpPost("pass/reset")]
         public async Task<IActionResult> ResetPassword([FromBody] Auth.Application.DTOs.ResetPasswordRequest request)
         {
             await _svc.ResetPasswordAsync(request.Email, request.Token, request.NewPassword);
             return Ok(new { message = "Password reset successfully" });
+        }
+
+
+        [Authorize]
+        [HttpPost("change-password")]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequestDto request)
+        {
+            var userId = int.Parse(User.FindFirst("id")?.Value
+                ?? throw new Exception("Missing id claim"));
+
+            await _svc.ChangePasswordAsync(userId, request);
+            return Ok(new { message = "Password changed successfully" });
         }
 
         [HttpGet("profile")]
@@ -119,65 +119,18 @@ namespace AuthService.API.Controllers
             await _svc.UpdateProfileAsync(userId, dto);
             return NoContent();
         }
-        //[Authorize(Roles = "HR")]
-        //[HttpGet("teacher/{id}")]
-        //public async Task<IActionResult> GetTeacherById(int id)
-        //{
-        //    var teacher = await _svc.GetByIdAsync(id);
-        //    if (teacher == null || teacher.Role != "TEACHER")
-        //        return NotFound();
 
-        //    return Ok(teacher);
-        //}
-        
-        //[Authorize(Roles = "HR")]
-        //[HttpPost("teacher")]
-        //public async Task<IActionResult> CreateTeacher(CreateTeacherDto dto)
-        //{
-        //    var created = await _svc.CreateTeacherAsync(dto);
-        //    return CreatedAtAction(nameof(GetTeacherById), new { id = created.Id }, created);
-        //}
+        [HttpPost("first-login-completed")]
+        [Authorize]
+        public async Task<IActionResult> MarkFirstLoginCompleted()
+        {
+            var userId = int.Parse(User.FindFirst("id")?.Value
+                ?? throw new Exception("Missing id claim"));
 
-        //[Authorize(Roles = "HR")]
-        //[HttpPut("teacher/{id}")]
-        //public async Task<IActionResult> UpdateTeacher(int id, UpdateTeacherDto dto)
-        //{
-        //    await _svc.UpdateTeacherAsync(id, dto);
-        //    return NoContent();
-        //}
-
-        //[Authorize(Roles = "HR")] 
-        //[HttpGet("teacher")]
-        //public async Task<IActionResult> GetAllTeachers()
-        //{
-        //    var list = await _svc.GetTeachersAsync();
-        //    return Ok(list);
-        //}
-
-        //[Authorize(Roles = "HR")]
-        //[HttpGet("teacher/export")]
-        //public async Task<IActionResult> ExportTeachers()
-        //{
-        //    var file = await _svc.ExportTeachersAsync();
-        //    return File(file.FileContents, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", file.FileName);
-        //}
-
-        //// Parent list & export
-        //[Authorize(Roles = "HR")]
-        //[HttpGet("parent")]
-        //public async Task<IActionResult> GetParents()
-        //{
-        //    var list = await _svc.GetParentsAsync();
-        //    return Ok(list);
-        //}
-
-        //[Authorize(Roles = "HR")]
-        //[HttpGet("parent/export")]
-        //public async Task<IActionResult> ExportParents()
-        //{
-        //    var file = await _svc.ExportParentsAsync();
-        //    return File(file.FileContents, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", file.FileName);
-        //}
+            await _svc.MarkFirstLoginCompletedAsync(userId);
+            return Ok(new { message = "First login marked as completed" });
+        }
+       
 
     }
 }

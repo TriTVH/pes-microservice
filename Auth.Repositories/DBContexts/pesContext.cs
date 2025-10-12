@@ -47,12 +47,12 @@ namespace Auth.Infrastructure.DBContexts
                 entity.ToTable("Account");
 
                 entity.HasKey(e => e.Id);
-
                 entity.Property(e => e.Id).HasColumnName("id");
                 entity.Property(e => e.Address).HasMaxLength(150).HasColumnName("address");
                 entity.Property(e => e.AvatarUrl).HasMaxLength(255).HasColumnName("avatar_url");
                 entity.Property(e => e.CreatedAt).HasPrecision(6).HasColumnName("created_at");
                 entity.Property(e => e.Email).HasMaxLength(150).HasColumnName("email");
+                entity.Property(e => e.FirstLogin).HasColumnName("first_login");
                 entity.Property(e => e.Name).HasMaxLength(50).HasColumnName("name");
                 entity.Property(e => e.Phone).HasMaxLength(11).HasColumnName("phone");
                 entity.Property(e => e.Role).HasMaxLength(20).HasColumnName("role");

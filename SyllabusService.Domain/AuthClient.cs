@@ -48,7 +48,7 @@ namespace SyllabusService.Domain
             }
             catch (Exception ex)
             {
-                Console.WriteLine("[AuthClient] direct deserialize to ParentAccountDto failed: " + ex.Message);
+                // Log error if needed
             }
             return null;
         }

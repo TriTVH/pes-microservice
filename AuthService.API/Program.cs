@@ -41,9 +41,10 @@ builder.Services.AddScoped<IAuthService, Auth.Application.Services.AuthService>(
 builder.Services.AddScoped<ITeacherActionRepository, TeacherActionRepository>();
 // DI: Infrastructure
 builder.Services.AddScoped<IEmailSender, SmtpEmailSender>();
-builder.Services.AddScoped<IMemoryCache, MemoryCache>();
+builder.Services.AddMemoryCache();
 
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<IParentRepository, ParentRepository>();
 builder.Services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
 builder.Services.AddScoped<IPasswordHasher<Account>, PasswordHasher<Account>>();
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();

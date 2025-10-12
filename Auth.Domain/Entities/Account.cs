@@ -15,6 +15,8 @@ namespace Auth.Domain.Entities
         public string? Phone { get; private set; }
         public string? Address { get; private set; }
         public string? AvatarUrl { get; private set; }
+        [Column("first_login")]
+        public bool? FirstLogin { get; set; }
         public string? Gender { get; private set; }
         public string Role { get; private set; }
         [Column("identity_number")]
@@ -32,6 +34,7 @@ namespace Auth.Domain.Entities
             Name = name;
             Role = role;
             Status = "ACCOUNT_ACTIVE";
+            FirstLogin = true;
             CreatedAt = DateTime.UtcNow;
         }
 
@@ -89,6 +92,11 @@ namespace Auth.Domain.Entities
         public void ResetPassword(string hash)
         {
             PasswordHash = hash;
+        }
+
+        public void SetFirstLoginCompleted()
+        {
+            FirstLogin = false;
         }
     }
 }
