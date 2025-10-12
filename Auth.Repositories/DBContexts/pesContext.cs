@@ -23,7 +23,7 @@ namespace Auth.Infrastructure.DBContexts
         public virtual DbSet<Class> Classes { get; set; }
 
         public virtual DbSet<Schedule> Schedules { get; set; }
-
+        public virtual DbSet<Parent> Parents { get; set; }
         public static string GetConnectionString(string connectionStringName)
         {
             var config = new ConfigurationBuilder()
@@ -131,6 +131,23 @@ namespace Auth.Infrastructure.DBContexts
                 entity.HasOne(d => d.Classes).WithMany(p => p.Schedules)
                     .HasForeignKey(d => d.ClassesId)
                     .HasConstraintName("FK_schedule_classes");
+            });
+            modelBuilder.Entity<Parent>(entity =>
+            {
+                entity.HasKey(e => e.Id).HasName("PK__parent__3213E83FA5766047");
+
+                entity.ToTable("parent");
+
+                entity.HasIndex(e => e.AccountId, "UQ__parent__46A222CCFEC1B2DB").IsUnique();
+
+                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.AccountId).HasColumnName("account_id");
+                entity.Property(e => e.Job)
+                    .HasMaxLength(100)
+                    .HasColumnName("job");
+                entity.Property(e => e.RelationshipToChild)
+                    .HasMaxLength(50)
+                    .HasColumnName("relationship_to_child");
             });
             OnModelCreatingPartial(modelBuilder);
         }
