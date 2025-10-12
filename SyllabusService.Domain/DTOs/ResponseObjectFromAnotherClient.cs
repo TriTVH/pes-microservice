@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace SyllabusService.Domain.DTOs
 {
-    public class ResponseObjectFromAnotherClient<T>
+    public class ResponseObjectFromAnotherClient
     {
-        public int StatusResponseCode { get; set; }
+        public string StatusResponseCode { get; set; } = "";
         public string Message { get; set; } = "";
-        public T? Data { get; set; }
+        public object? Data { get; set; }
 
-        // parameterless ctor required for deserialization
         public ResponseObjectFromAnotherClient() { }
 
-        public ResponseObjectFromAnotherClient(int code, string message, T? data)
+
+        public ResponseObjectFromAnotherClient(string code, string message, object data)
         {
             StatusResponseCode = code;
             Message = message;

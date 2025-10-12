@@ -2,7 +2,6 @@
 using SyllabusService.Application.DTOs.Request;
 using SyllabusService.Application.DTOs.Response;
 using SyllabusService.Application.Services.IServices;
-using SyllabusService.Domain.DTOs;
 using SyllabusService.Domain.IClient;
 using SyllabusService.Infrastructure.Models;
 using SyllabusService.Infrastructure.Repositories.IRepositories;
@@ -11,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using TermAdmissionManagement.Application.DTOs;
 using static Azure.Core.HttpHeader;
@@ -20,13 +20,13 @@ namespace SyllabusService.Application.Services
     public class ClassesService : IClassesServices
     {
         private ISyllabusRepository _syllabusRepo;
-        private IAuthClient _authClient;
         private IClassRepository _classRepo;
-        public ClassesService(ISyllabusRepository syllabusRepo, IAuthClient authClient, IClassRepository classRepo)
+        private IAuthClient _authClient;
+        public ClassesService(ISyllabusRepository syllabusRepo, IClassRepository classRepo, IAuthClient authClient)
         {
             _syllabusRepo = syllabusRepo;
-            _authClient = authClient;
             _classRepo = classRepo;
+            _authClient = authClient;
         }
 
         public async Task<ResponseObject> CreateClass(CreateClassRequest request)
@@ -51,27 +51,14 @@ namespace SyllabusService.Application.Services
                 return new ResponseObject("notFound", "Syllabus not found or be deleted", null);
             }
 
-            int teacherId;
+            var teacherDto = await _authClient.GetTeacherProfileDtoById(request.teacherId);
 
-            ResponseObjectFromAnotherClient<TeacherProfileDto> response = await _authClient.GetTeacherProfile(request.teacherId);
-
-            if (response == null)
+            if(teacherDto == null)
             {
-                return new ResponseObject("errorConnection", "ERROR CONNECTION TO AUTH SERVICE", null);
+                return new ResponseObject("notFound", "Teacher not found or be deleted", null);
             }
 
-            switch (response.StatusResponseCode)
-            {
-                case 200:
-                    teacherId = request.teacherId;
-                    break;
-                case 404:
-                    return new ResponseObject("notFound", "Teacher not found or be deleted", null);
-                default:
-                    return new ResponseObject("errorConnection", $"Auth service error: {response.Message}", null);
-            }
-
-            var existingClasses = await _classRepo.GetClassesByTeacherIdAsync(teacherId);
+            var existingClasses = await _classRepo.GetClassesByTeacherIdAsync(request.teacherId);
 
             foreach (var existingClass in existingClasses)
             {
@@ -96,7 +83,7 @@ namespace SyllabusService.Application.Services
                             if (isSameDay && isSameTime && isDateConflict)
                             {
                                 return new ResponseObject("conflict",
-                                    $"Teacher {response.Data.Name} already has a class at {reqActivity.dayOfWeek} {reqActivity.startTime} on {act.Date}", null);
+                                    $"Teacher {teacherDto.Name} already has a class at {reqActivity.dayOfWeek} {reqActivity.startTime} on {act.Date}", null);
                             }
                         }
                     }
@@ -114,7 +101,7 @@ namespace SyllabusService.Application.Services
                 classes.Name = $"Class {syllabus.Name}_{request.startDate.Year}_v1";
                 classes.StartDate = request.startDate;
                 classes.Status = "inactive";
-                classes.TeacherId = teacherId;
+                classes.TeacherId = request.teacherId;
                 classes.Version = 1;
                 classes.SyllabusId = request.syllabusId;
                 classes.NumberStudent = 0;
@@ -125,7 +112,7 @@ namespace SyllabusService.Application.Services
                 classes.AcademicYear = request.startDate.Year;
                 classes.Name = $"Class {syllabus.Name}_{request.startDate.Year}_v{existingInSystem.Version + 1}";
                 classes.StartDate = request.startDate;
-                classes.TeacherId = teacherId;
+                classes.TeacherId = request.teacherId;
                 classes.Status = "inactive";
                 classes.NumberStudent = 0;
             }
@@ -229,12 +216,40 @@ namespace SyllabusService.Application.Services
                 NumberStudent = c.NumberStudent,
                 AcademicYear = c.AcademicYear,
                 StartDate = c.StartDate,
+                Cost = c.Syllabus.Cost,
                 Status = c.Status
             });
 
             return new ResponseObject("ok", "Get All classes successfully", result);
         }
 
+        public async Task<ResponseObject> GetClassesByIds(List<int> ids)
+        {
+            if (ids == null || !ids.Any())
+            {
+                return new ResponseObject("badRequest", "Ids cannot be empty", null);
+            }
+            var classes = await _classRepo.GetClassesByIdsAsync(ids);
+
+            var result = classes.Select(c => new ClassDto()
+            {
+                Id = c.Id,
+                Name = c.Name,
+                NumberOfWeeks = c.NumberOfWeeks,
+                NumberStudent = c.NumberStudent,
+                AcademicYear = c.AcademicYear,
+                StartDate = c.StartDate,
+                Cost = c.Syllabus.Cost,
+                Status = c.Status,
+                PatternActivitiesDTO = c.PatternActivities.Select(pa => new PatternActivityDto()
+                {
+                    DayOfWeek = pa.DayOfWeek,
+                    StartTime = pa.StartTime,
+                    EndTime = pa.EndTime
+                }).ToList()
+            });
+            return new ResponseObject("ok", "Get Classes By Ids successfully", result);
+        }
         public string? ValidateCreateClass(CreateClassRequest request)
         {
            
@@ -373,7 +388,9 @@ namespace SyllabusService.Application.Services
                 Name = cla.Name,
                 NumberOfWeeks = cla.NumberOfWeeks,
                 NumberStudent = cla.NumberStudent,
+                StartDate = cla.StartDate,
                 AcademicYear = cla.AcademicYear,
+                Cost = cla.Syllabus.Cost,
                 Status = cla.Status
             });
             return new ResponseObject("ok", $"View list of inactive classes in {endDate.Year} successfully", result);
@@ -387,15 +404,25 @@ namespace SyllabusService.Application.Services
                 return new ResponseObject("badRequest", "Invalid request data.", null);
             }
 
-          
+        
             var checkedIds = request.CheckedClassIds?.ToList() ?? new List<int>();
 
+            if (checkedIds.Contains(request.CurrentClassId))
+            {
+                return new ResponseObject(
+                    "conflict",
+                    $"Class with ID {request.CurrentClassId} is already selected.",
+                    checkedIds
+                );
+            }
 
-            
+
             var newClass = await _classRepo.GetClassByIdAsync(request.CurrentClassId);
+
+            if (newClass == null)
+                return new ResponseObject("notFound", $"Class with ID {request.CurrentClassId} not found.", null);
+
             var checkedClasses = await _classRepo.GetClassesByIdsAsync(checkedIds);
-
-
          
             if (checkedClasses == null || !checkedClasses.Any())
             {
@@ -432,6 +459,37 @@ namespace SyllabusService.Application.Services
             return new ResponseObject("ok", "No schedule conflicts detected.", checkedIds);
         }
 
+        public async Task<ResponseObject> GetClassByIdAsync(int id)
+        {
+            var classes = await _classRepo.GetClassByIdAsync(id);
+            
+            if (classes == null)
+            {
+                return new ResponseObject(
+                           "notFound",
+                           $"Class with ID {id} not found or be deleted.",
+                           null
+                       );
+            }
+
+            var result = new ClassDto()
+            {
+                Id = id,
+                Name = classes.Name,
+                NumberStudent = classes.NumberStudent,
+                AcademicYear = classes.AcademicYear,
+                NumberOfWeeks = classes.NumberOfWeeks,
+                StartDate = classes.StartDate,
+                Cost = classes.Syllabus.Cost,
+                Status = classes.Status
+            };
+
+            return new ResponseObject(
+            "ok",
+            "Class found successfully.",
+            result
+            );
+        }
 
     }
 }

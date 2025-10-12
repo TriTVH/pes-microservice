@@ -1,4 +1,5 @@
 ﻿using SyllabusService.Domain.DTOs;
+using SyllabusService.Domain.DTOs.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ namespace SyllabusService.Domain.IClient
 {
     public interface IAuthClient
     {
-        Task<ResponseObjectFromAnotherClient<TeacherProfileDto>> GetTeacherProfile(int? id);
+        Task<AccountDto?> GetTeacherProfileDtoById(int id);
+        Task<AccountDto?> GetParentProfileDto(int? id);
     }
 }

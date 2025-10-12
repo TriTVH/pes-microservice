@@ -1,5 +1,6 @@
 ﻿using ParentService.Application.DTOs;
 using ParentService.Application.DTOs.Request;
+using SyllabusService.Application.DTOs.Request;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,9 @@ namespace ParentService.Application.Services.IServices
 {
     public interface IAdmissionFormService
     {
-        Task<ResponseObject> CreateAdmissionFormAsync(CreateFormRequestWithNewStudentRequest request, int parentAccId);
-
+        Task<ResponseObject> CreateAdmissionFormAsync(CreateFormRequest request, int parentAccId);
+        Task<ResponseObject> CheckClassesAvailabilityAsync(CheckClassRequest request);
+        Task<ResponseObject> GetAdmissionFormsByParentAccountId(int parentAccountId);
+        Task<ResponseObject> GetClassesByAdmissionFormId(int afId);
     }
 }

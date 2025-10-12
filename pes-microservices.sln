@@ -5,7 +5,7 @@ VisualStudioVersion = 17.14.36408.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AuthService", "AuthService", "{BD72BBFF-70CB-490A-909A-B33CE050621C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IdentityAndUserService", "IdentityAndUserService", "{BD72BBFF-70CB-490A-909A-B33CE050621C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthService.API", "AuthService.API\AuthService.API.csproj", "{87481BE5-6ECB-4219-B59A-9FE97D021B6E}"
 EndProject
@@ -38,6 +38,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParentService.API", "ParentService.API\ParentService.API.csproj", "{3351026E-3F67-4793-939B-F5E664AB8E63}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParentService.Application", "ParentService.Application\ParentService.Application.csproj", "{A0C1E13E-0438-451A-B7E6-1F06B93C2FA6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParentService.Domain", "ParentService.Domain\ParentService.Domain.csproj", "{EFCA054F-63EB-442C-8E8A-111F8263FFE4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -97,6 +99,10 @@ Global
 		{A0C1E13E-0438-451A-B7E6-1F06B93C2FA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0C1E13E-0438-451A-B7E6-1F06B93C2FA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A0C1E13E-0438-451A-B7E6-1F06B93C2FA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFCA054F-63EB-442C-8E8A-111F8263FFE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFCA054F-63EB-442C-8E8A-111F8263FFE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFCA054F-63EB-442C-8E8A-111F8263FFE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFCA054F-63EB-442C-8E8A-111F8263FFE4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -117,6 +123,7 @@ Global
 		{1798D66E-E015-4CD6-891E-D8CB20040C79} = {BB7D657A-E2E5-4390-9A07-B338F4967011}
 		{3351026E-3F67-4793-939B-F5E664AB8E63} = {BB7D657A-E2E5-4390-9A07-B338F4967011}
 		{A0C1E13E-0438-451A-B7E6-1F06B93C2FA6} = {BB7D657A-E2E5-4390-9A07-B338F4967011}
+		{EFCA054F-63EB-442C-8E8A-111F8263FFE4} = {BB7D657A-E2E5-4390-9A07-B338F4967011}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FC29D3EF-583A-41F3-9FD8-6E5E09948415}

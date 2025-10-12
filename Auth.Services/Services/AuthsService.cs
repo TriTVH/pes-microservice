@@ -1,8 +1,10 @@
 ﻿using Auth.Application.DTOs;
 using Auth.Application.DTOs.Common;
 using Auth.Application.DTOs.Teacher;
+using Auth.Application.DTOs.Parent;
 using Auth.Application.Security;
 using Auth.Domain.Entities;
+using Auth.Domain.Enums;
 using Auth.Domain.Repositories;
 using Auth.Services.Services.IServices;
 using AuthService.API.DTOs;
@@ -20,6 +22,7 @@ namespace Auth.Application.Services
     public class AuthService : IAuthService
     {
         private readonly IAccountRepository _repo;
+        private readonly IParentRepository _parentRepo;
         private readonly IPasswordHasher<Account> _passwordHasher;
         private readonly IMapper _mapper;
         private readonly IConfiguration _config;
@@ -27,11 +30,13 @@ namespace Auth.Application.Services
         private readonly IEmailSender _emailSender;
         private readonly IMemoryCache _cache;
         public AuthService(IAccountRepository repo,
+                              IParentRepository parentRepo,
                               IPasswordHasher<Account> passwordHasher,
                               IMapper mapper,
                               IConfiguration config, IJwtTokenGenerator jwt, IEmailSender emailSender, IMemoryCache cache)
         {
             _repo = repo;
+            _parentRepo = parentRepo;
             _passwordHasher = passwordHasher;
             _mapper = mapper;
             _config = config;
@@ -174,18 +179,77 @@ namespace Auth.Application.Services
             _cache.Remove(email);
         }
 
+        // --- Simple forgot password (no email) ---
+        public async Task<ForgotPasswordSimpleResponseDto> ForgotPasswordSimpleAsync(ForgotPasswordSimpleRequestDto request)
+        {
+            var account = await _repo.GetByEmailAsync(request.Email);
+            if (account == null)
+                throw new InvalidOperationException("Email not found");
+
+            // Generate reset token
+            var resetToken = Guid.NewGuid().ToString();
+            var expiresAt = DateTime.UtcNow.AddMinutes(15);
+            
+            // Store token in cache
+            _cache.Set(request.Email, resetToken, TimeSpan.FromMinutes(15));
+
+            return new ForgotPasswordSimpleResponseDto(
+                resetToken,
+                "Reset token generated successfully. Use this token to reset your password.",
+                expiresAt
+            );
+        }
+
+
+        // --- Change password for logged in user ---
+        public async Task ChangePasswordAsync(int userId, ChangePasswordRequestDto request)
+        {
+            // Validate confirm password
+            if (request.NewPassword != request.ConfirmPassword)
+                throw new ArgumentException("Confirm password does not match new password");
+
+            // Get the account
+            var account = await _repo.GetByIdAsync(userId);
+            if (account == null)
+                throw new KeyNotFoundException("Account not found");
+
+            // Verify current password
+            var currentPasswordResult = _passwordHasher.VerifyHashedPassword(account, account.PasswordHash, request.CurrentPassword);
+            if (currentPasswordResult == PasswordVerificationResult.Failed)
+                throw new UnauthorizedAccessException("Current password is incorrect");
+
+            // Check if new password is different from current password
+            var newPasswordResult = _passwordHasher.VerifyHashedPassword(account, account.PasswordHash, request.NewPassword);
+            if (newPasswordResult == PasswordVerificationResult.Success)
+                throw new InvalidOperationException("New password must be different from current password");
+
+            // Hash and set new password
+            var newHash = _passwordHasher.HashPassword(account, request.NewPassword);
+            account.SetPasswordHash(newHash);
+
+            // Update account
+            await _repo.UpdateAsync(account);
+        }
+
 
         // --- Profile of current user ---
         public async Task<ViewProfileDto> GetProfileAsync(int userId)
         {
             var acc = await _repo.GetByIdAsync(userId) ?? throw new KeyNotFoundException("Account not found");
-            return new ViewProfileDto(acc.Id, acc.Email, acc.Name, acc.Phone, acc.Address, acc.AvatarUrl, acc.Gender, acc.IdentityNumber,acc.Role, acc.Status, acc.CreatedAt);
+            return new ViewProfileDto(acc.Id, acc.Email, acc.Name, acc.Phone, acc.Address, acc.AvatarUrl, acc.Gender, acc.IdentityNumber, acc.Role, acc.Status, acc.CreatedAt, acc.FirstLogin);
         }
 
         public async Task UpdateProfileAsync(int userId, UpdateProfileDto dto)
         {
             var acc = await _repo.GetByIdAsync(userId) ?? throw new KeyNotFoundException("Account not found");
             acc.UpdateProfile(dto.Name ?? acc.Name, dto.Phone ?? acc.Phone, dto.Address ?? acc.Address, dto.AvatarUrl ?? acc.AvatarUrl, dto.Gender ?? acc.Gender, dto.IdentityNumber ?? acc.IdentityNumber);
+            await _repo.UpdateAsync(acc);
+        }
+
+        public async Task MarkFirstLoginCompletedAsync(int userId)
+        {
+            var acc = await _repo.GetByIdAsync(userId) ?? throw new KeyNotFoundException("Account not found");
+            acc.SetFirstLoginCompleted();
             await _repo.UpdateAsync(acc);
         }
 
@@ -279,6 +343,49 @@ namespace Auth.Application.Services
             using var ms = new MemoryStream();
             wb.SaveAs(ms);
             return new ExportResult(ms.ToArray(), $"parents_{DateTime.UtcNow:yyyyMMdd_HHmm}.xlsx");
+        }
+
+        // --- Parent specific registration ---
+        public async Task<ParentDto> RegisterParentAsync(RegisterParentRequestDto request)
+        {
+            // Validate relationship to child
+            if (!RelationshipTypeExtensions.IsValid(request.RelationshipToChild))
+            {
+                throw new ArgumentException("Relationship to child must be either 'Cha' or 'Mẹ'");
+            }
+
+            // Check if email already exists
+            var exists = await _repo.GetByEmailAsync(request.Email);
+            if (exists != null) 
+                throw new InvalidOperationException("Email already registered");
+
+            // Create Account with PARENT role, ACCOUNT_ACTIVE status
+            var account = new Account(request.Email, request.Name, "PARENT");
+            account.SetPasswordHash(_passwordHasher.HashPassword(account, request.Password));
+            
+            // Save Account first to get the ID
+            await _repo.AddAsync(account);
+
+            // Create Parent entity with additional information
+            var parent = new Parent
+            {
+                Job = request.Job,
+                RelationshipToChild = request.RelationshipToChild,
+                AccountId = account.Id
+            };
+
+            // Save Parent entity
+            await _parentRepo.AddAsync(parent);
+
+            // Return ParentDto with all information
+            return new ParentDto(
+                parent.Id,
+                account.Email,
+                account.Name,
+                parent.Job,
+                parent.RelationshipToChild,
+                account.Id
+            );
         }
     }
 }

@@ -12,6 +12,7 @@ namespace ParentService.Infrastructure.Repositories.IRepositories
         Task<int> CreateStudentAsync(Student student);
         Task<bool> ExistByStudentNameAndParentId(string studentName, int parentId);
         Task<IEnumerable<Student>> GetStudentsAsyncByParentAccId(int parentAccId);
-        Task<Student?> GetStudentAsyncById(int studentId);
+        Task<Student> GetStudentAsyncById(int studentId);
+
     }
 }

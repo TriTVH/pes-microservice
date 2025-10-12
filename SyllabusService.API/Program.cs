@@ -2,6 +2,7 @@
 using Microsoft.OpenApi.Models;
 using Polly;
 using Polly.Extensions.Http;
+using SyllabusService.API.Background;
 using SyllabusService.API.Handler;
 using SyllabusService.API.SchemaFilter;
 using SyllabusService.Application.Services;
@@ -41,8 +42,24 @@ builder.Services.AddHttpClient<IAuthClient, AuthClient>(client =>
     {
         client.BaseAddress = new Uri("https://pesapp.orangeglacier-1e02abb7.southeastasia.azurecontainerapps.io/auth-api/");
     }
+    client.Timeout = TimeSpan.FromSeconds(30);
+}).AddHttpMessageHandler<TokenForwardingHandler>()
+    .AddPolicyHandler(HttpPolicyExtensions.HandleTransientHttpError()
+// Retry 3 lần, mỗi lần chờ lâu dần theo lũy thừa 2 (2^retryAttempt giây)
+//    // Lần 1: 2s, Lần 2: 4s, Lần 3: 8s
+.WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))));
 
-  
+
+builder.Services.AddHttpClient<IParentClient, ParentClient>(client =>
+{
+    if (builder.Environment.IsDevelopment())
+    {
+        client.BaseAddress = new Uri("http://gateway.api:5000/parent-api/");
+    }
+    else
+    {
+        client.BaseAddress = new Uri("https://pesapp.orangeglacier-1e02abb7.southeastasia.azurecontainerapps.io/parent-api/");
+    }
     client.Timeout = TimeSpan.FromSeconds(30);
 }).AddHttpMessageHandler<TokenForwardingHandler>()
     .AddPolicyHandler(HttpPolicyExtensions.HandleTransientHttpError()
@@ -57,12 +74,14 @@ builder.Services.AddScoped<IClassRepository, ClassesRepository>();
 builder.Services.AddScoped<IAdmissionTermRepo, AdmissionTermRepository>();
 builder.Services.AddScoped<IWeekRepository, WeekRepository>();
 builder.Services.AddScoped<IActivityRepository, ActivityRepository>();
+builder.Services.AddScoped<IAdmissionFormRepo, AdmissionFormRepo>();
 
 builder.Services.AddScoped<IClassesServices, ClassesService>(); 
 builder.Services.AddScoped<ISyllabusService, SyllabusServ>();
 builder.Services.AddScoped<IAdmissionTermService, AdmissionTermService>();
 builder.Services.AddScoped<IWeekService, WeekService>();
 builder.Services.AddScoped<IActivityService, ActivityService>();
+builder.Services.AddScoped<IAdmissionFormService, AdmissionFormService>();
 
 builder.Services.AddControllers();
 
@@ -120,6 +139,9 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddHostedService<AdmissionTermStatusBackgroundService>();
+builder.Services.AddHostedService<AdmissionFormBackgroundService>();
 
 
 var app = builder.Build();

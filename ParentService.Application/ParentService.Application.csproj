@@ -7,6 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ParentService.Domain\ParentService.Domain.csproj">
+      <Private>True</Private>
+    </ProjectReference>
     <ProjectReference Include="..\ParentService.Infrastructure\ParentService.Infrastructure.csproj">
       <Private>True</Private>
     </ProjectReference>

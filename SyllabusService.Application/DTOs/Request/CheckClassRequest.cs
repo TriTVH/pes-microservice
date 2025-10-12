@@ -8,9 +8,10 @@ namespace SyllabusService.Application.DTOs.Request
 {
     public class CheckClassRequest
     {
+        public int StudentId { get; set; }
+
         public int CurrentClassId { get; set; } 
         public List<int> CheckedClassIds { get; set; }
-        public int StudentId { get; set; }
 
     }
 }

@@ -1,6 +1,6 @@
 ﻿{
    "CodeGenerationMode": 4,
-   "ContextClassName": "pesContext",
+   "ContextClassName": "pesParentContext",
    "ContextNamespace": null,
    "FilterSchemas": false,
    "IncludeConnectionString": true,
@@ -16,18 +16,6 @@
    "Tables": [
       {
          "Name": "[dbo].[account]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[activity]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[classes]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[schedule]",
          "ObjectType": 0
       }
    ],

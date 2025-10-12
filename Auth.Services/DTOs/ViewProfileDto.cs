@@ -17,6 +17,7 @@ namespace Auth.Application.DTOs
    string IdentityNumber,
    string Role,
    string Status,
-   DateTime CreateAt
+   DateTime CreateAt,
+   bool? FirstLogin
    );
 }

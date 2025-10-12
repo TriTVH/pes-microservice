@@ -99,12 +99,6 @@ namespace SyllabusService.Application.Services
                 case "end":
                     if (term.Status != "active")
                         return new ResponseObject("badRequest", "Only active terms can be ended.", null);
-                    var overlapEnd = await _admissionTermRepo.GetOverlappingTermAsyncExceptId(term.StartDate, vietNamNow, term.Id);
-                    if (overlapEnd != null)
-                    {
-                        return new ResponseObject("conflict",
-                            $"End time overlaps with another term from {overlapEnd.StartDate:yyyy-MM-dd} to {overlapEnd.EndDate:yyyy-MM-dd}.", null);
-                    }
                     term.Status = "blocked";
                     term.EndDate = vietNamNow;
                     break;
@@ -138,6 +132,7 @@ namespace SyllabusService.Application.Services
                     NumberStudent = c.NumberStudent,
                     AcademicYear = c.AcademicYear,
                     StartDate = c.StartDate,
+                    Cost = c.Syllabus.Cost,
                     Status = c.Status
                 }).ToList()
               )).ToList();
@@ -154,7 +149,7 @@ namespace SyllabusService.Application.Services
                 return new ResponseObject("notFound", "There is currently no active admission term available", null);
             }
 
-            var result =  new AdmissionTermDto(
+            var result = new AdmissionTermDto(
                 item.Id,
                 item.AcdemicYear,
                 item.MaxNumberRegistration,
@@ -171,10 +166,41 @@ namespace SyllabusService.Application.Services
                     NumberStudent = c.NumberStudent,
                     AcademicYear = c.AcademicYear,
                     StartDate = c.StartDate,
-                    Status = c.Status
+                    Cost = c.Syllabus.Cost,
+                    Status = c.Status,
+                    PatternActivitiesDTO = c.PatternActivities.Select(pa => new PatternActivityDto()
+                    {
+                        DayOfWeek = pa.DayOfWeek,
+                        StartTime = pa.StartTime,
+                        EndTime = pa.EndTime
+                    }).ToList()
                 }).ToList());
 
             return new ResponseObject("ok", "Get active admission terms successfully", result);
+        }
+
+        public async Task<ResponseObject> GetAdmissionTermById(int id)
+        {
+            var item = await _admissionTermRepo.GetAdmissionTermByIdAsync(id);
+
+            if(item == null)
+            {
+                return new ResponseObject("notFound", "Admission term not found or be deleted", null);
+            }
+
+            var result = new AdmissionTermDto(id, item.AcdemicYear, item.MaxNumberRegistration, item.CurrentRegisteredStudents, item.NumberOfClasses, item.StartDate, item.EndDate, item.Status, null);
+            return new ResponseObject("ok", "View admission term by id successfully", result);
+        }
+
+        public async Task<ResponseObject> GetComboBoxAdmissionTermsAsync()
+        {
+            var items = await _admissionTermRepo.GetPrioritizedAdmissionTermsAsync();
+            var result = items.Select(at => new ComboItemAdmissionTerm()
+            {
+                Id = at.Id,
+                Name = $"{DateOnly.FromDateTime(at.StartDate):dd-MM-yyyy} to {DateOnly.FromDateTime(at.EndDate):dd-MM-yyyy}"
+            }).ToList();
+            return new ResponseObject("ok", "Get Combo Box admission term successfully", result);
         }
 
         private string ValidateCreateAdmissionTerm(CreateAdmissionTermRequest request)

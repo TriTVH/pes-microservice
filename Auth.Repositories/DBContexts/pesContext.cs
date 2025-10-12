@@ -23,7 +23,7 @@ namespace Auth.Infrastructure.DBContexts
         public virtual DbSet<Class> Classes { get; set; }
 
         public virtual DbSet<Schedule> Schedules { get; set; }
-
+        public virtual DbSet<Parent> Parents { get; set; }
         public static string GetConnectionString(string connectionStringName)
         {
             var config = new ConfigurationBuilder()
@@ -47,12 +47,12 @@ namespace Auth.Infrastructure.DBContexts
                 entity.ToTable("Account");
 
                 entity.HasKey(e => e.Id);
-
                 entity.Property(e => e.Id).HasColumnName("id");
                 entity.Property(e => e.Address).HasMaxLength(150).HasColumnName("address");
                 entity.Property(e => e.AvatarUrl).HasMaxLength(255).HasColumnName("avatar_url");
                 entity.Property(e => e.CreatedAt).HasPrecision(6).HasColumnName("created_at");
                 entity.Property(e => e.Email).HasMaxLength(150).HasColumnName("email");
+                entity.Property(e => e.FirstLogin).HasColumnName("first_login");
                 entity.Property(e => e.Name).HasMaxLength(50).HasColumnName("name");
                 entity.Property(e => e.Phone).HasMaxLength(11).HasColumnName("phone");
                 entity.Property(e => e.Role).HasMaxLength(20).HasColumnName("role");
@@ -131,6 +131,23 @@ namespace Auth.Infrastructure.DBContexts
                 entity.HasOne(d => d.Classes).WithMany(p => p.Schedules)
                     .HasForeignKey(d => d.ClassesId)
                     .HasConstraintName("FK_schedule_classes");
+            });
+            modelBuilder.Entity<Parent>(entity =>
+            {
+                entity.HasKey(e => e.Id).HasName("PK__parent__3213E83FA5766047");
+
+                entity.ToTable("parent");
+
+                entity.HasIndex(e => e.AccountId, "UQ__parent__46A222CCFEC1B2DB").IsUnique();
+
+                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.AccountId).HasColumnName("account_id");
+                entity.Property(e => e.Job)
+                    .HasMaxLength(100)
+                    .HasColumnName("job");
+                entity.Property(e => e.RelationshipToChild)
+                    .HasMaxLength(50)
+                    .HasColumnName("relationship_to_child");
             });
             OnModelCreatingPartial(modelBuilder);
         }
