@@ -12,6 +12,9 @@ namespace SyllabusService.Application.Services.IServices
     {
         Task<ResponseObject> CreateAdmissionTermAsync(CreateAdmissionTermRequest request);
         Task<ResponseObject> GetAllAdmissionTermsAsync();
+        Task<ResponseObject> GetAdmissionTermById(int id);
         Task<ResponseObject> UpdateAdmissionTermStatusByAction(UpdateAdmissionTermActionRequest request);
+        Task<ResponseObject> GetActiveAdmissionTermAsync();
+        Task<ResponseObject> GetComboBoxAdmissionTermsAsync();
     }
 }

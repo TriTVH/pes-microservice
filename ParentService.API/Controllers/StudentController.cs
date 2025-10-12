@@ -45,7 +45,7 @@ namespace ParentService.API.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpGet("list")]
         public async Task<IActionResult> GetAllStudents()
         {
 
@@ -56,5 +56,15 @@ namespace ParentService.API.Controllers
             return Ok(result);
         }
 
+        [HttpGet("public/{id}")]
+        public async Task<IActionResult> GetStudentByIdAsync(int id)
+        {
+            var result = await _studentService.GetStudentByIdAsync(id);
+            if (result.StatusResponseCode.Equals("notFound"))
+            {
+                return NotFound(result);
+            }
+            return Ok(result);
+        }
     }
 }

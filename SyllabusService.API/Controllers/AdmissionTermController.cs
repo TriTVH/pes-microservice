@@ -47,6 +47,32 @@ namespace SyllabusService.API.Controllers
 
         }
 
+        [HttpGet("active")]
+        public async Task<IActionResult> GetActiveAdmissionTermAsync()
+        {
+            var result = await _admissionTermService.GetActiveAdmissionTermAsync();
+            return Ok(result);
+        }
+
+        [HttpGet("common/{id}")]
+        public async Task<IActionResult> GetAdmissionTermByIdAsync(int id)
+        {
+            var result = await _admissionTermService.GetAdmissionTermById(id);
+
+            if (result.StatusResponseCode.Equals("notFound"))
+            {
+                return NotFound(result);
+            }
+            return Ok(result);
+        }
+
+        [HttpGet("comboBox")]
+        public async Task<IActionResult> GetComboBoxAdmissionTermsAsync()
+        {
+            var result = await _admissionTermService.GetComboBoxAdmissionTermsAsync();
+            return Ok(result);
+        }
+
         [HttpPut("status")]
         public async Task<IActionResult> UpdateAdmissionTermStatus([FromBody] UpdateAdmissionTermActionRequest request)
         {

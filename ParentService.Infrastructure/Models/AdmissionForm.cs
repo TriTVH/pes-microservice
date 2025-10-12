@@ -15,8 +15,6 @@ public partial class AdmissionForm
 
     public string Note { get; set; }
 
-    public DateTime? PaymentExpiryDate { get; set; }
-
     public string Status { get; set; }
 
     public DateTime? SubmittedDate { get; set; }
@@ -25,7 +23,7 @@ public partial class AdmissionForm
 
     public int? ParentAccountId { get; set; }
 
-    public int? StudentId { get; set; }
+    public int StudentId { get; set; }
 
     public virtual ICollection<AdmissionFormClass> AdmissionFormClasses { get; set; } = new List<AdmissionFormClass>();
 
