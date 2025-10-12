@@ -2,9 +2,14 @@
 using Microsoft.OpenApi.Models;
 using ParentService.Application.Services;
 using ParentService.Application.Services.IServices;
+using ParentService.Domain;
+using ParentService.Domain.IClient;
 using ParentService.Infrastructure.Models;
 using ParentService.Infrastructure.Repositories;
 using ParentService.Infrastructure.Repositories.IRepositories;
+using Polly;
+using Polly.Extensions.Http;
+using SyllabusService.API.Handler;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +28,30 @@ builder.Services.AddScoped<IStudentRepo, StudentRepo>();
 
 builder.Services.AddScoped<IAdmissionFormService, AdmissionFormService>();
 builder.Services.AddScoped<IStudentService, StudentService>();
+builder.Services.AddScoped<IVnPayService, VnPayService>();
+
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddTransient<TokenForwardingHandler>();
+
+builder.Services.AddHttpClient<IClassServiceClient, ClassServiceClient>(client =>
+{
+    if (builder.Environment.IsDevelopment())
+    {
+        client.BaseAddress = new Uri("http://gateway.api:5000/class-api/");
+    }
+    else
+    {
+        client.BaseAddress = new Uri("https://pesapp.orangeglacier-1e02abb7.southeastasia.azurecontainerapps.io/class-api/");
+    }
+
+
+    client.Timeout = TimeSpan.FromSeconds(30);
+}).AddHttpMessageHandler<TokenForwardingHandler>()
+.AddPolicyHandler(HttpPolicyExtensions.HandleTransientHttpError()
+// Retry 3 lần, mỗi lần chờ lâu dần theo lũy thừa 2 (2^retryAttempt giây)
+//    // Lần 1: 2s, Lần 2: 4s, Lần 3: 8s
+.WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))));
 
 builder.Services.AddControllers();
 

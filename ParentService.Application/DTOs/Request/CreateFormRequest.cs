@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ParentService.Application.DTOs.Request
 {
-    public class CreateFormRequestWithNewStudentRequest
+    public class CreateFormRequest
     {
 
         public int StudentId { get; set; }

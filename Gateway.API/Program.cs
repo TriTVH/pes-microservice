@@ -36,13 +36,30 @@ builder.Services.AddAuthentication(options => { options.DefaultAuthenticateSchem
 
 
 
-builder.Services.AddReverseProxy().LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
+builder.Services.AddReverseProxy().LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"))
+     .AddTransforms(builderContext =>
+     {
+         builderContext.AddResponseTransform(async transformContext =>
+         {
+             // Chỉ forward khi có body
+             if (transformContext.HttpContext.Response.ContentLength == 0 &&
+                 transformContext.ProxyResponse?.Content != null)
+             {
+                 await transformContext.ProxyResponse.Content.CopyToAsync(transformContext.HttpContext.Response.Body);
+             }
+         });
+     }); ;
 
 builder.Services.AddSwaggerGen();
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddAuthorization(options =>
 {
+    options.AddPolicy("ParentAndEducationAuth", policy =>
+    {
+        policy.RequireAuthenticatedUser();
+        policy.RequireRole("PARENT", "EDUCATION"); // Yêu cầu role PARENT hoặc EDUCATION
+    });
     options.AddPolicy("EducationAuth", policy =>
     {
         policy.RequireAuthenticatedUser();

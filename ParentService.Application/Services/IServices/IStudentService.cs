@@ -12,5 +12,7 @@ namespace ParentService.Application.Services.IServices
     {
         Task<ResponseObject> CreateStudentAsync(CreateNewStudentRequest request, int parentAccountId);
         Task<ResponseObject> GetStudentsAsync(int parentId);
+
+        Task<ResponseObject> GetStudentByIdAsync(int id);
     }
 }

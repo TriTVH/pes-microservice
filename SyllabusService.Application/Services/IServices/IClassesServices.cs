@@ -12,6 +12,8 @@ namespace SyllabusService.Application.Services.IServices
     public interface IClassesServices
     {
         Task<ResponseObject> CreateClass(CreateClassRequest request);
+        Task<ResponseObject> GetClassByIdAsync(int id);
+        Task<ResponseObject> GetClassesByIds(List<int> ids);
         Task<ResponseObject> GetClassesAfterDateInYearAsync(DateOnly endDate);
         Task<ResponseObject> GetAllClassesAsync();
         Task<ResponseObject> CheckClassesAvailability(CheckClassRequest request);

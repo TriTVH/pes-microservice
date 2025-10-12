@@ -58,8 +58,29 @@ namespace SyllabusService.API.Controllers
             var result = await _classesServices.GetAllClassesAsync();
             return Ok(result);
         }
+        [HttpGet("public/{id}")]
+        public async Task<IActionResult> GetClassById(int id)
+        {
+            var result = await _classesServices.GetClassByIdAsync(id);
+            if (result.StatusResponseCode.Equals("notFound"))
+            {
+                return NotFound(result);
+            }
+            return Ok(result);
+        }
+        [HttpPut("public/by-ids")]
+        public async Task<IActionResult> GetClassesByIds([FromBody] List<int> ids)
+        {
+            var result = await _classesServices.GetClassesByIds(ids);
 
-        [HttpPut("check/availability")]
+            if (result.StatusResponseCode.Equals("badRequest"))
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+
+        }
+            [HttpPut("public/check/availability")]
         public async Task<IActionResult> CheckAvailabilityClasses([FromBody] CheckClassRequest request)
         {
             var result = await _classesServices.CheckClassesAvailability(request);

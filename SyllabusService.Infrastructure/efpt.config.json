@@ -20,6 +20,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[admission_form]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[Admission_form_class]",
          "ObjectType": 0
       },
@@ -45,6 +49,14 @@
       },
       {
          "Name": "[dbo].[syllabus]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[transaction_items]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[transactions]",
          "ObjectType": 0
       }
    ],

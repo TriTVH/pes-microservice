@@ -1,56 +1,59 @@
 ﻿using SyllabusService.Domain.DTOs;
+using SyllabusService.Domain.DTOs.Response;
 using SyllabusService.Domain.IClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Json;
 using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace SyllabusService.Domain
 {
     public class AuthClient : IAuthClient
     {
-        private readonly HttpClient _http;
-        public AuthClient(HttpClient http) => _http = http;
+        private readonly HttpClient _httpClient;
 
-        public async Task<ResponseObjectFromAnotherClient<TeacherProfileDto>> GetTeacherProfile(int? id)
+        public AuthClient(HttpClient httpClient)
         {
-            var url = $"api/Hr/teacher/{id}";
-            var resp = await _http.GetAsync(url);
-            var body = await resp.Content.ReadAsStringAsync();
-
-            if (!resp.IsSuccessStatusCode)
-            {
-                return new ResponseObjectFromAnotherClient<TeacherProfileDto>
-                {
-                    StatusResponseCode = (int)resp.StatusCode,
-                    Message = resp.ReasonPhrase,
-                    Data = null
-                };
-            } 
-                
-
-            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-
-            try
-            {
-                var plain = JsonSerializer.Deserialize<TeacherProfileDto>(body, options);
-                if (plain != null)
-                {
-                    return new ResponseObjectFromAnotherClient<TeacherProfileDto>
-                    {
-                        StatusResponseCode = (int)resp.StatusCode,
-                        Message = resp.ReasonPhrase,
-                        Data = plain
-                    };
-                }
-            }
-            catch (Exception ex)
-            {
-                // Log error if needed
-            }
-            return null;
+            _httpClient = httpClient;
         }
+        public async Task<AccountDto?> GetTeacherProfileDtoById(int id)
+        {
+            var response = await _httpClient.GetAsync($"api/Hr/teacher/{id}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return null;
+            }
+
+            var content = await response.Content.ReadAsStringAsync();
+
+            var result = System.Text.Json.JsonSerializer.Deserialize<AccountDto>(content, new System.Text.Json.JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+            return result;
+        }
+
+        public async Task<AccountDto?> GetParentProfileDto(int? id)
+        {
+            var response = await _httpClient.GetAsync($"api/auth/getAllAccount/{id}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return null;
+            }
+
+            var content = await response.Content.ReadAsStringAsync();
+
+            var result = System.Text.Json.JsonSerializer.Deserialize<AccountDto>(content, new System.Text.Json.JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+            return result;
+        }
+
+       
     }
 }

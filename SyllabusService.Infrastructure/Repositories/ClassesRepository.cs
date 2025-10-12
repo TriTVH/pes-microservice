@@ -48,7 +48,7 @@ namespace SyllabusService.Infrastructure.Repositories
 
         public async Task<IEnumerable<Class>> GetClassesAsync()
         {
-            return await _context.Classes.ToListAsync();
+            return await _context.Classes.Include(c => c.Syllabus).ToListAsync();
         }
 
     
@@ -58,6 +58,7 @@ namespace SyllabusService.Infrastructure.Repositories
                 return new List<Class>();
 
             return await _context.Classes
+                .Include(c => c.Syllabus)
                 .Where(c => classIds.Contains(c.Id))
                 .Include(c => c.PatternActivities)
                 .ToListAsync();
@@ -66,12 +67,14 @@ namespace SyllabusService.Infrastructure.Repositories
         public async Task<List<Class>> GetExistingClassIdsAsync(List<int> classIds)
         {
             return await _context.Classes
+                .Include(c => c.Syllabus)
                 .Where(c => classIds.Contains(c.Id))
                 .ToListAsync();
         }
         public async Task<List<Class>> GetClassesAfterDateInYearAsync(DateOnly endDate, int academicYear)
         {
             return await _context.Classes
+                .Include(c => c.Syllabus)
                 .Where(c =>
                     c.StartDate > endDate &&
                     c.AcademicYear == academicYear &&
@@ -84,6 +87,7 @@ namespace SyllabusService.Infrastructure.Repositories
         {
             return await _context.Classes
                 .Include(c => c.PatternActivities)
+                .Include(c => c.Syllabus)
                 .Where(c => ids.Contains(c.Id))
                 .ToListAsync();
         }
@@ -91,6 +95,7 @@ namespace SyllabusService.Infrastructure.Repositories
         public async Task<Class?> GetClassByIdAsync(int id)
         {
             return await _context.Classes
+                .Include(c => c.Syllabus)
                 .Include(c => c.PatternActivities)
                 .FirstOrDefaultAsync(c => c.Id == id);
         }

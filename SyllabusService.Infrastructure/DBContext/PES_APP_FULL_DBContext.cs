@@ -26,9 +26,61 @@ public partial class PES_APP_FULL_DBContext : DbContext
 
     public virtual DbSet<Syllabus> Syllabi { get; set; }
 
+    public virtual DbSet<AdmissionForm> AdmissionForms { get; set; }
+
+    public virtual DbSet<AdmissionFormClass> AdmissionFormClasses { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+
+        modelBuilder.Entity<AdmissionForm>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__admissio__3213E83FC654F923");
+
+            entity.ToTable("admission_form");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.AdmissionTermId).HasColumnName("admission_term_id");
+            entity.Property(e => e.ApprovedDate)
+                .HasPrecision(6)
+                .HasColumnName("approved_date");
+            entity.Property(e => e.CancelReason)
+                .HasMaxLength(255)
+                .HasColumnName("cancel_reason");
+            entity.Property(e => e.Note)
+                .HasMaxLength(50)
+                .HasColumnName("note");
+            entity.Property(e => e.ParentAccountId).HasColumnName("parent_account_id");
+            entity.Property(e => e.Status)
+                .HasMaxLength(50)
+                .HasColumnName("status");
+            entity.Property(e => e.StudentId).HasColumnName("student_id");
+            entity.Property(e => e.SubmittedDate)
+                .HasPrecision(6)
+                .HasColumnName("submitted_date");
+
+            entity.HasOne(d => d.AdmissionTerm).WithMany(p => p.AdmissionForms)
+                .HasForeignKey(d => d.AdmissionTermId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_admission_form_AdmissionTerm");
+        });
+
+        modelBuilder.Entity<AdmissionFormClass>(entity =>
+        {
+            entity.HasKey(e => new { e.AdmissionFormId, e.ClassId });
+
+            entity.ToTable("Admission_form_class");
+
+            entity.Property(e => e.AdmissionFormId).HasColumnName("admission_form_id");
+            entity.Property(e => e.ClassId).HasColumnName("class_id");
+
+            entity.HasOne(d => d.AdmissionForm).WithMany(p => p.AdmissionFormClasses)
+                .HasForeignKey(d => d.AdmissionFormId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Admission_form_class_admission_form");
+        });
+
         modelBuilder.Entity<Class>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__classes__3213E83FBB957C05");

@@ -29,6 +29,11 @@ namespace ParentService.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task<IEnumerable<AdmissionForm>> GetAdmissionFormsByParentAccountIdAsync(int parentAccountId)
+        {
+            return await _context.AdmissionForms.Where(x => x.ParentAccountId == parentAccountId).OrderByDescending(x => x.SubmittedDate).ToListAsync();
+        }
+
         public async Task<AdmissionFormClass?> FindByAdmissionTermIdAndClassIdAndStudentNameAsync( int admissionTermId, int classId, string studentName )
         {
             return await _context.AdmissionFormClasses
@@ -36,5 +41,32 @@ namespace ParentService.Infrastructure.Repositories
                .ThenInclude(f => f.Student)
                .FirstOrDefaultAsync(x => x.AdmissionForm.AdmissionTermId == admissionTermId && x.ClassId == classId && x.AdmissionForm.Student.Name == studentName);
         }
+
+        public async Task<string?> GetStudentAdmissionFormStatusAsync(int studentId, int classId)
+        {
+            var admissionFormClass = await _context.AdmissionFormClasses
+                .Include(afc => afc.AdmissionForm)
+                .Where(afc => afc.ClassId == classId && afc.AdmissionForm.StudentId == studentId)
+                .OrderByDescending(afc => afc.AdmissionForm.SubmittedDate) 
+                .Select(afc => afc.AdmissionForm.Status)
+                .FirstOrDefaultAsync();
+
+            return admissionFormClass; 
+        }
+        
+        public async Task<List<int>> GetClassIdsByAdmissionFormId(int afId)
+        {
+            return await _context.AdmissionFormClasses
+                .Where(x => x.AdmissionFormId == afId)
+                .Select(x => x.ClassId)
+                .ToListAsync();
+        }
+        public async Task<AdmissionForm?> GetAdmissionFormByIdAsync(int id)
+        {
+            return await _context.AdmissionForms
+                .Include(x => x.Student)
+                .FirstOrDefaultAsync(x => x.Id == id);
+        }
+
     }
 }

@@ -117,5 +117,26 @@ namespace ParentService.Application.Services
             return age;
         }
 
+        public async Task<ResponseObject> GetStudentByIdAsync(int id)
+        {
+            var item = await _studentRepo.GetStudentAsyncById(id);
+            if(item == null)
+            {
+                return new ResponseObject("notFound", "Student not found or be deleted", null);
+            }
+            var result = new StudentDTO()
+            {
+                Id = id,
+                BirthCertificateImg = item.BirthCertificateImg,
+                HouseholdRegistrationImg = item.HouseholdRegistrationImg,
+                ProfileImage = item.ProfileImage,
+                Name = item.Name,
+                DateOfBirth = item.DateOfBirth,
+                PlaceOfBirth = item.PlaceOfBirth,
+                Gender = item.Gender,
+                IsStudent = item.IsStudent
+            };
+            return new ResponseObject("ok", "View student by id successfully", result);
+        }
     }
 }

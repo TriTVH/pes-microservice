@@ -23,5 +23,7 @@ public partial class AdmissionTerm
 
     public DateTime EndDate { get; set; }
 
+    public virtual ICollection<AdmissionForm> AdmissionForms { get; set; } = new List<AdmissionForm>();
+
     public virtual ICollection<Class> Classes { get; set; } = new List<Class>();
 }

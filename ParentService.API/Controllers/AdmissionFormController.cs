@@ -1,8 +1,13 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ParentService.API.Utils;
+using ParentService.Application.DTOs;
 using ParentService.Application.DTOs.Request;
 using ParentService.Application.Services;
 using ParentService.Application.Services.IServices;
+using ParentService.Domain.IClient;
+using SyllabusService.Application.DTOs.Request;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ParentService.API.Controllers
 {
@@ -11,17 +16,63 @@ namespace ParentService.API.Controllers
     public class AdmissionFormController : ControllerBase
     {
         private IAdmissionFormService _admissionFormService;
-        public AdmissionFormController(IAdmissionFormService admissionFormService)
+        private IVnPayService _vnPayService;
+        public AdmissionFormController(IAdmissionFormService admissionFormService, IVnPayService vnPayService)
         {
             _admissionFormService = admissionFormService;
+            _vnPayService = vnPayService;
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAdmissionFormAsync([FromBody] CreateFormRequestWithNewStudentRequest request)
+        public async Task<IActionResult> CreateAdmissionFormAsync([FromBody] CreateFormRequest request)
         {
             var userId = Request.Headers["X-User-Id"].ToString();
 
             var result = await _admissionFormService.CreateAdmissionFormAsync(request, int.Parse(userId));
+
+            return Ok(result);
+        }
+        [HttpPut("check/availability/classes")]
+        public async Task<IActionResult> CheckClassesAvailabilityAsync([FromBody] CheckClassRequest request)
+        {
+
+            var result = await _admissionFormService.CheckClassesAvailabilityAsync(request);
+
+            if (result.StatusResponseCode.Equals("badRequest"))
+            {
+                return BadRequest(result);
+            }
+
+            if (result.StatusResponseCode.Equals("conflict"))
+            {
+                return Conflict(result);
+            }
+            return Ok(result);
+        }
+
+        [HttpGet("list")]
+        public async Task<IActionResult> GetAdmissionFormsAsync()
+        {
+            var userId = Request.Headers["X-User-Id"].ToString();
+            var result = await _admissionFormService.GetAdmissionFormsByParentAccountId(int.Parse(userId));
+            return Ok(result);
+        }
+
+        [HttpGet("class/list/{afId}")]
+        public async Task<IActionResult> GetClassesByAdmissionFormId(int afId)
+        {
+            var result = await _admissionFormService.GetClassesByAdmissionFormId(afId);
+            if (result.StatusResponseCode.Equals("badRequest"))
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+
+        [HttpGet("paymentUrl/{id}")]
+        public async Task<IActionResult> GetPaymentUrl(int id)
+        {
+          var result = await _vnPayService.GetPaymentUrl(IpHelper.GetIpAddress(HttpContext), id);
 
             return Ok(result);
         }

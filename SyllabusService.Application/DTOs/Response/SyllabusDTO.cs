@@ -13,6 +13,6 @@ namespace SyllabusService.Application.DTOs.Response
         public string Description { get; set; }
         public int? Cost { get; set; }
         public int HoursOfSyllabus { get; set; }
-        public string? IsActive { get; set; }
+        public string IsActive { get; set; }
     }
 }

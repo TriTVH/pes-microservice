@@ -43,9 +43,6 @@ public partial class PES_APP_FULL_DBContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("note");
             entity.Property(e => e.ParentAccountId).HasColumnName("parent_account_id");
-            entity.Property(e => e.PaymentExpiryDate)
-                .HasPrecision(6)
-                .HasColumnName("payment_expiry_date");
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
