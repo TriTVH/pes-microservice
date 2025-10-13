@@ -21,6 +21,8 @@ public partial class PES_APP_FULL_DBContext : DbContext
 
     public virtual DbSet<StudentClass> StudentClasses { get; set; }
 
+    public virtual DbSet<TransactionItem> TransactionItems { get; set; }
+    public virtual DbSet<Transaction> Transactions { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -115,6 +117,45 @@ public partial class PES_APP_FULL_DBContext : DbContext
             entity.HasOne(d => d.Student).WithMany(p => p.StudentClasses)
                 .HasForeignKey(d => d.StudentId)
                 .HasConstraintName("FK_student_class_student");
+        });
+
+        modelBuilder.Entity<Transaction>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__transact__3213E83FCA2A56A6");
+
+            entity.ToTable("transactions");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Amount).HasColumnName("amount");
+            entity.Property(e => e.Description)
+                .HasMaxLength(100)
+                .HasColumnName("description");
+            entity.Property(e => e.FormId)
+                .HasColumnName("form_id");
+            entity.Property(e => e.PaymentDate).HasColumnName("payment_date");
+            entity.Property(e => e.Status)
+                .HasMaxLength(50)
+                .HasColumnName("status");
+        });
+
+        modelBuilder.Entity<TransactionItem>(entity =>
+        {
+            entity.ToTable("transaction_items");
+
+            entity.Property(e => e.Id)
+                .UseIdentityColumn()
+                .HasColumnName("id");
+            entity.Property(e => e.Cost).HasColumnName("cost");
+            entity.Property(e => e.Name)
+                .IsRequired()
+                .HasMaxLength(50)
+                .HasColumnName("name");
+            entity.Property(e => e.TransactionId).HasColumnName("transaction_id");
+
+            entity.HasOne(d => d.Transaction).WithMany(p => p.TransactionItems)
+                .HasForeignKey(d => d.TransactionId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_transaction_items_transactions");
         });
 
         OnModelCreatingPartial(modelBuilder);

@@ -1,6 +1,6 @@
 ﻿using ParentService.Application.DTOs;
+using ParentService.Domain.DTOs.Request;
 using ParentService.Domain.IClient;
-using SyllabusService.Application.DTOs.Request;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,6 +57,17 @@ namespace ParentService.Domain
         public async Task<ResponseObjectFromAnotherClient> GetClassesByIds(List<int> ids)
         {
             var response = await _httpClient.PutAsJsonAsync($"api/classes/public/by-ids", ids);
+            var content = await response.Content.ReadAsStringAsync();
+            var result = System.Text.Json.JsonSerializer.Deserialize<ResponseObjectFromAnotherClient>(content, new System.Text.Json.JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+            return result;
+        }
+
+        public async Task<ResponseObjectFromAnotherClient> GetActivitiesBetweenStartDateAndEndDate(GetActivitiesBetweenStartDateAndEndDateRequest request)
+        {
+            var response = await _httpClient.PutAsJsonAsync($"api/activity/common/list", request);
             var content = await response.Content.ReadAsStringAsync();
             var result = System.Text.Json.JsonSerializer.Deserialize<ResponseObjectFromAnotherClient>(content, new System.Text.Json.JsonSerializerOptions
             {

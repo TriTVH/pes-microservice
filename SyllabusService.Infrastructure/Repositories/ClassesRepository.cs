@@ -100,6 +100,29 @@ namespace SyllabusService.Infrastructure.Repositories
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
 
+        public async Task<IEnumerable<Class>> GetActiveClassesByStudentId(int studentId)
+        {
+            return await _context.StudentClasses
+                        .Include(sc => sc.Classes)
+        .Where(sc => sc.StudentId == studentId && sc.Classes.Status.Equals("active"))
+        .Select(sc => sc.Classes)
+        .ToListAsync();
+        }
+
+        public async Task UpdateClassStatusAuto()
+        {
+            var now = DateOnly.FromDateTime(
+        TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow,
+        TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time")).Date);
+
+            await _context.Classes
+                .Where(c => c.EndDate < now)
+                .ExecuteUpdateAsync(c => c.SetProperty(x => x.Status, "done"));
+
+            await _context.Classes
+                .Where(c => c.StartDate <= now && c.EndDate >= now)
+                .ExecuteUpdateAsync(c => c.SetProperty(x => x.Status, "active"));
+        }
 
     }
 }

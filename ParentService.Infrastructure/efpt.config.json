@@ -34,6 +34,14 @@
       {
          "Name": "[dbo].[student_class]",
          "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[transaction_items]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[transactions]",
+         "ObjectType": 0
       }
    ],
    "UiHint": null,

@@ -25,6 +25,7 @@ builder.Services.AddDbContext<PES_APP_FULL_DBContext>(options =>
 
 builder.Services.AddScoped<IAdmissionFormRepo, AdmissionFormRepo>();
 builder.Services.AddScoped<IStudentRepo, StudentRepo>();
+builder.Services.AddScoped<ITransactionRepo, TransactionRepo>();
 
 builder.Services.AddScoped<IAdmissionFormService, AdmissionFormService>();
 builder.Services.AddScoped<IStudentService, StudentService>();

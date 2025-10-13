@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ParentService.Application.DTOs.Request;
 using ParentService.Application.Services.IServices;
+using ParentService.Domain.DTOs.Request;
 
 namespace ParentService.API.Controllers
 {
@@ -63,6 +64,17 @@ namespace ParentService.API.Controllers
             if (result.StatusResponseCode.Equals("notFound"))
             {
                 return NotFound(result);
+            }
+            return Ok(result);
+        }
+
+        [HttpPut("activity/list")]
+        public async Task<IActionResult> GetActivitiesBetweenStartDateAndEndDate(int studentId, WeekRequest request)
+        {
+            var result = await _studentService.GetActivitiesBetweenStartDateAndEndDate(studentId, request);
+            if (result.StatusResponseCode.Equals("badRequest"))
+            {
+                return BadRequest(result);
             }
             return Ok(result);
         }

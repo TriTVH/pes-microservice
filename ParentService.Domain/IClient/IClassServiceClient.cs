@@ -1,5 +1,5 @@
 ﻿using ParentService.Application.DTOs;
-using SyllabusService.Application.DTOs.Request;
+using ParentService.Domain.DTOs.Request;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +14,6 @@ namespace ParentService.Domain.IClient
         Task<ResponseObjectFromAnotherClient> GetAdmissionTermById(int id);
         Task<ResponseObjectFromAnotherClient> GetByClassId(int id);
         Task<ResponseObjectFromAnotherClient> GetClassesByIds(List<int> ids);
+        Task<ResponseObjectFromAnotherClient> GetActivitiesBetweenStartDateAndEndDate(GetActivitiesBetweenStartDateAndEndDateRequest request);
     }
 }

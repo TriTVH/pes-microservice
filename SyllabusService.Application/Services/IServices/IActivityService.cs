@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SyllabusService.Application.DTOs.Request;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,5 +11,6 @@ namespace SyllabusService.Application.Services.IServices
     public interface IActivityService
     {
         Task<ResponseObject> GetAllActivitiesByScheduleId(int scheduleId);
+        Task<ResponseObject> GetActivitiesBetweenStartDateAndEndDate(GetActivitiesBetweenStartDateAndEndDateRequest request);
     }
 }

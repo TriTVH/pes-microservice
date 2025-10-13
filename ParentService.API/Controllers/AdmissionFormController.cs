@@ -5,8 +5,8 @@ using ParentService.Application.DTOs;
 using ParentService.Application.DTOs.Request;
 using ParentService.Application.Services;
 using ParentService.Application.Services.IServices;
+using ParentService.Domain.DTOs.Request;
 using ParentService.Domain.IClient;
-using SyllabusService.Application.DTOs.Request;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ParentService.API.Controllers
@@ -77,5 +77,20 @@ namespace ParentService.API.Controllers
             return Ok(result);
         }
 
+        [HttpGet("paymentUrl/confirm")]
+        public async Task<IActionResult> ConfirmPaymentUrl([FromQuery] string vnp_Amount, string vnp_OrderInfo, string vnp_PayDate, string vnp_TransactionStatus, string vnp_TxnRef)
+        {
+            var result = await _vnPayService.ConfirmPaymentUrl(vnp_Amount, vnp_OrderInfo, vnp_PayDate, vnp_TransactionStatus, vnp_TxnRef);
+
+            if (result.StatusResponseCode.Equals("badRequest"))
+            {
+                return BadRequest(result);
+            }
+            if (result.StatusResponseCode.Equals("notFound"))
+            {
+                return NotFound(result);
+            }
+            return Ok(result);
+        }
     }
 }
