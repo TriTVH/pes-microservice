@@ -2,12 +2,13 @@
 using ParentService.Application.DTOs.Request;
 using ParentService.Application.DTOs.Response;
 using ParentService.Application.Services.IServices;
+using ParentService.Domain.DTOs.Request;
+using ParentService.Domain.DTOs.Response;
 using ParentService.Domain.IClient;
 using ParentService.Infrastructure.Models;
 using ParentService.Infrastructure.Repositories;
 using ParentService.Infrastructure.Repositories.IRepositories;
-using SyllabusService.Application.DTOs.Request;
-using SyllabusService.Application.DTOs.Response;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -220,7 +221,7 @@ namespace ParentService.Application.Services
                     Id = af.Id,
                     Student = new StudentDTO()
                     {
-                        Id = af.StudentId,
+                        Id = af.Id,
                         Name = student.Name,
                         Gender = student.Gender,
                         PlaceOfBirth = student.PlaceOfBirth,
@@ -251,7 +252,6 @@ namespace ParentService.Application.Services
            new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
             return new ResponseObject("ok", "View all classes by admission form id successfully", classes);
-
         }
 
     }

@@ -48,6 +48,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[student_class]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[syllabus]",
          "ObjectType": 0
       },

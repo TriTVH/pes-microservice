@@ -1,6 +1,7 @@
 ﻿using ParentService.Application.DTOs;
 using ParentService.Application.DTOs.Request;
-using SyllabusService.Application.DTOs.Request;
+using ParentService.Domain.DTOs.Request;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;

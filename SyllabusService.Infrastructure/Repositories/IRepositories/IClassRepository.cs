@@ -20,6 +20,9 @@ namespace SyllabusService.Infrastructure.Repositories.IRepositories
 
         Task<Class?> GetClassByIdAsync(int id);
         Task<List<Class>> GetClassesByIdsAsync(List<int> ids);
+        Task<IEnumerable<Class>> GetActiveClassesByStudentId(int studentId);
+
+        Task UpdateClassStatusAuto();
 
     }
 }

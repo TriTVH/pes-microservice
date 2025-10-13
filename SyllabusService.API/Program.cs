@@ -142,6 +142,7 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddHostedService<AdmissionTermStatusBackgroundService>();
 builder.Services.AddHostedService<AdmissionFormBackgroundService>();
+builder.Services.AddHostedService<ClassStatusBackgroundService>();
 
 
 var app = builder.Build();

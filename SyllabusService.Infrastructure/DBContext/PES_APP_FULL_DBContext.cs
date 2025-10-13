@@ -20,6 +20,8 @@ public partial class PES_APP_FULL_DBContext : DbContext
 
     public virtual DbSet<Class> Classes { get; set; }
 
+    public virtual DbSet<StudentClass> StudentClasses { get; set; }
+
     public virtual DbSet<PatternActivity> PatternActivities { get; set; }
 
     public virtual DbSet<Schedule> Schedules { get; set; }
@@ -109,6 +111,21 @@ public partial class PES_APP_FULL_DBContext : DbContext
             entity.HasOne(d => d.Syllabus).WithMany(p => p.Classes)
                 .HasForeignKey(d => d.SyllabusId)
                 .HasConstraintName("FK_classes_syllabus");
+        });
+
+        modelBuilder.Entity<StudentClass>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__student___3213E83F85939150");
+
+            entity.ToTable("student_class");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.ClassesId).HasColumnName("classes_id");
+            entity.Property(e => e.StudentId).HasColumnName("student_id");
+
+            entity.HasOne(d => d.Classes).WithMany(p => p.StudentClasses)
+                .HasForeignKey(d => d.ClassesId)
+                .HasConstraintName("FK_student_class_classes");
         });
 
         modelBuilder.Entity<AdmissionTerm>(entity =>

@@ -2,13 +2,13 @@
 
 namespace SyllabusService.API.Background
 {
-    public class AdmissionFormBackgroundService : BackgroundService
+    public class ClassStatusBackgroundService : BackgroundService
     {
         private readonly IServiceProvider _serviceProvider;
 
-        public AdmissionFormBackgroundService(IServiceProvider serviceProvider)
+        public ClassStatusBackgroundService(IServiceProvider serviceProvider)
         {
-            _serviceProvider = serviceProvider;
+          _serviceProvider = serviceProvider;
         }
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
@@ -16,12 +16,11 @@ namespace SyllabusService.API.Background
             {
                 using (var scope = _serviceProvider.CreateScope())
                 {
-                    var repo = scope.ServiceProvider.GetRequiredService<IAdmissionFormRepo>();
-                    await repo.UpdateAdmissionFormsOverDueDateAuto();
+                    var repo = scope.ServiceProvider.GetRequiredService<IClassRepository>();
+                    await repo.UpdateClassStatusAuto();
+                    await Task.Delay(TimeSpan.FromMinutes(20), stoppingToken);
                 }
-
-                await Task.Delay(TimeSpan.FromMinutes(10), stoppingToken); 
             }
         }
-        }
+    }
 }

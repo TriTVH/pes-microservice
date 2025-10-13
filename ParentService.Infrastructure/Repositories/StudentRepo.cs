@@ -37,6 +37,23 @@ namespace ParentService.Infrastructure.Repositories
             return await _context.Students.Where(x => x.Id == studentId).FirstOrDefaultAsync();
         }
 
+        public async Task<int> UpdateStudentAsync(Student student)
+        {
+            _context.Students.Update(student);
+            return await _context.SaveChangesAsync();
+        }
+        public async Task<int> AddStudentClassAsync(StudentClass sc)
+        {
+            _context.StudentClasses.Add(sc);
+            return await _context.SaveChangesAsync();
+        }
 
+        public async Task<List<int?>> GetClassIdsByStudentIdAsync(int studentId)
+        {
+            return await _context.StudentClasses
+                .Where(sc => sc.StudentId == studentId)
+                .Select(sc => sc.ClassesId)
+                .ToListAsync();
+        }
     }
 }
