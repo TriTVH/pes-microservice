@@ -145,7 +145,15 @@ namespace ParentService.Application.Services
 
            if(!request.CheckedClassIds.Any())
             {
-                return new ResponseObject("ok", "No schedule conflicts detected.", null);
+                List<int> classIds = new List<int>();
+                classIds.Add(request.CurrentClassId);
+                var currentClassResult = await _classServiceClient.GetClassesByIds(classIds);
+
+                var currentClass = ((JsonElement)currentClassResult.Data).Deserialize<List<ClassDto>>(
+                 new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
+             );
+
+                return new ResponseObject("ok", "No schedule conflicts detected.", currentClass);
             }
 
             var checkedClassesResult = await _classServiceClient.GetClassesByIds(request.CheckedClassIds);
