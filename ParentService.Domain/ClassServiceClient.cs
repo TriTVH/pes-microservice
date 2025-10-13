@@ -75,6 +75,15 @@ namespace ParentService.Domain
             });
             return result;
         }
-
+        public async Task<ResponseObjectFromAnotherClient> GetActiveAdmissionTerm()
+        {
+            var response = await _httpClient.GetAsync($"api/term/active");
+            var content = await response.Content.ReadAsStringAsync();
+            var result = System.Text.Json.JsonSerializer.Deserialize<ResponseObjectFromAnotherClient>(content, new System.Text.Json.JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+            return result;
+        }
     }
 }
