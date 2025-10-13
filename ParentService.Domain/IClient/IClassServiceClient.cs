@@ -15,5 +15,6 @@ namespace ParentService.Domain.IClient
         Task<ResponseObjectFromAnotherClient> GetByClassId(int id);
         Task<ResponseObjectFromAnotherClient> GetClassesByIds(List<int> ids);
         Task<ResponseObjectFromAnotherClient> GetActivitiesBetweenStartDateAndEndDate(GetActivitiesBetweenStartDateAndEndDateRequest request);
+        Task<ResponseObjectFromAnotherClient> GetActiveAdmissionTerm();
     }
 }

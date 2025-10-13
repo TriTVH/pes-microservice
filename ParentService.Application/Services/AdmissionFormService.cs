@@ -46,6 +46,8 @@ namespace ParentService.Application.Services
                 return new ResponseObject("badRequest", "Admission form must contain at least one class.", null);
             }
 
+
+
             foreach (var classId in request.ClassIds)
             {
 
@@ -55,6 +57,14 @@ namespace ParentService.Application.Services
                 var classDto = ((JsonElement)result.Data).Deserialize<ClassDto>(
                     new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
                 );
+
+                var activeTemResponse = await _classServiceClient.GetActiveAdmissionTerm();
+
+                var activeTerm = ((JsonElement)result.Data).Deserialize<List<ClassDto>>(
+                    new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
+                );
+
+
 
                 var formStatus = await _admissionRepo.GetStudentAdmissionFormStatusAsync(request.StudentId, classId);
 
@@ -132,6 +142,11 @@ namespace ParentService.Application.Services
         {
 
             var result = await _classServiceClient.CheckClassesAvailabilityAsync(request);
+
+           if(!request.CheckedClassIds.Any())
+            {
+                return new ResponseObject("ok", "No schedule conflicts detected.", null);
+            }
 
             var checkedClassesResult = await _classServiceClient.GetClassesByIds(request.CheckedClassIds);
 
