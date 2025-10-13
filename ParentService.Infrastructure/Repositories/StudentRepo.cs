@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Azure.Core;
+using Microsoft.EntityFrameworkCore;
 using ParentService.Infrastructure.Models;
 using ParentService.Infrastructure.Repositories.IRepositories;
 using System;
@@ -48,12 +49,22 @@ namespace ParentService.Infrastructure.Repositories
             return await _context.SaveChangesAsync();
         }
 
-        public async Task<List<int?>> GetClassIdsByStudentIdAsync(int studentId)
+        public async Task<List<int>> GetClassIdsByStudentIdAsync(int studentId)
         {
             return await _context.StudentClasses
                 .Where(sc => sc.StudentId == studentId)
                 .Select(sc => sc.ClassesId)
                 .ToListAsync();
         }
+
+        public async Task<bool> CheckDuplicateNameStudentOfParent(int parentAccId, string studentName, int studentId)
+        {
+            return await _context.Students.AnyAsync(s =>
+            s.ParentAccId == parentAccId &&
+            s.Name.ToLower() == studentName.ToLower() &&
+            s.Id != studentId // loại trừ chính bản thân
+        );
+        }
+
     }
 }

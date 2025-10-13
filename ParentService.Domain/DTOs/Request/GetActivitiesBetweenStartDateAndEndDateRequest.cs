@@ -8,7 +8,7 @@ namespace ParentService.Domain.DTOs.Request
 {
     public class GetActivitiesBetweenStartDateAndEndDateRequest
     {
-        public List<int?> classIds {  get; set; }
+        public List<int> classIds {  get; set; }
         public DateOnly startWeek {  get; set; }
         public DateOnly endWeek { get; set; }
     }

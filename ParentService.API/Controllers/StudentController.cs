@@ -68,6 +68,20 @@ namespace ParentService.API.Controllers
             return Ok(result);
         }
 
+        [HttpGet("classes/list")]
+        public async Task<IActionResult> GetClassesByStudentId([FromQuery] int studentId)
+        {
+            var result = await _studentService.GetClassesByStudentId(studentId);
+
+            if (result.StatusResponseCode.Equals("notFound"))
+            {
+                return NotFound(result);
+            }
+
+            return Ok(result);
+
+        }
+
         [HttpPut("activity/list")]
         public async Task<IActionResult> GetActivitiesBetweenStartDateAndEndDate(int studentId, WeekRequest request)
         {
@@ -78,5 +92,28 @@ namespace ParentService.API.Controllers
             }
             return Ok(result);
         }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateStudentAsync(UpdateStudentRequest request)
+        {
+            var userId = Request.Headers["X-User-Id"].ToString();
+
+            var result = await _studentService.UpdateStudentAsync(int.Parse(userId), request);
+
+            if (result.StatusResponseCode.Equals("notFound"))
+            {
+                return NotFound(result);
+            }
+            if (result.StatusResponseCode.Equals("badRequest"))
+            {
+                return BadRequest(result);
+            }
+            if (result.StatusResponseCode.Equals("conflict"))
+            {
+                return Conflict(result);
+            }
+            return Ok(result);
+        }
+
     }
 }

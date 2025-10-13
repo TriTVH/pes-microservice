@@ -17,5 +17,8 @@ namespace ParentService.Application.Services.IServices
         Task<ResponseObject> GetStudentByIdAsync(int id);
 
         Task<ResponseObject> GetActivitiesBetweenStartDateAndEndDate(int studentId, WeekRequest request);
+        Task<ResponseObject> UpdateStudentAsync(int parentAccountId, UpdateStudentRequest request);
+
+        Task<ResponseObject> GetClassesByStudentId(int studentId);
     }
 }

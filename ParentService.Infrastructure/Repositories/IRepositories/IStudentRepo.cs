@@ -15,7 +15,8 @@ namespace ParentService.Infrastructure.Repositories.IRepositories
         Task<Student> GetStudentAsyncById(int studentId);
         Task<int> UpdateStudentAsync(Student student);
         Task<int> AddStudentClassAsync(StudentClass sc);
-        Task<List<int?>> GetClassIdsByStudentIdAsync(int studentId);
+        Task<List<int>> GetClassIdsByStudentIdAsync(int studentId);
+        Task<bool> CheckDuplicateNameStudentOfParent(int parentAccId, string studentName, int studentId);
 
     }
 }

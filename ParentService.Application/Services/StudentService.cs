@@ -1,4 +1,6 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Azure.Core;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using ParentService.Application.DTOs;
 using ParentService.Application.DTOs.Request;
 using ParentService.Application.DTOs.Response;
@@ -172,6 +174,104 @@ namespace ParentService.Application.Services
 
              return new ResponseObject("ok", "Get Activities between start week and end week successfully", activitiesDTO);
 
+        }
+
+        public async Task<ResponseObject> UpdateStudentAsync(int parentAccountId, UpdateStudentRequest request)
+        {
+            var student = await _studentRepo.GetStudentAsyncById(request.Id);
+
+            if (student == null)
+            {
+                return new ResponseObject("notFound", "Student not found.", null);
+            }
+
+            string error = ValidateUpdateStudent(request);
+
+            if (!error.IsNullOrEmpty())
+            {
+                return new ResponseObject("badRequest", error, null);
+            }
+
+            if (student.IsStudent)
+            {
+                return new ResponseObject("conflict", "Cannot update information of an enrolled student.", null);
+            }
+
+      
+            if (!string.IsNullOrWhiteSpace(request.Name) && request.Name != student.Name)
+            {
+                var duplicateName = await _studentRepo.CheckDuplicateNameStudentOfParent(parentAccountId, request.Name, request.Id);
+
+                if (duplicateName)
+                    return new ResponseObject("conflict",$"A student named '{request.Name}' already exists for this parent account.", null);
+            }
+            student.Name = request.Name;
+            student.DateOfBirth = request.DateOfBirth;
+            student.Gender = request.Gender;
+            student.PlaceOfBirth = request.PlaceOfBirth;
+            student.ProfileImage = request.ProfileImage;
+            student.BirthCertificateImg = request.BirthCertificateImg;
+            student.HouseholdRegistrationImg = request.HouseholdRegistrationImg;
+
+            await _studentRepo.UpdateStudentAsync(student);
+
+            return new ResponseObject("ok", "Student updated successfully.", null);
+        }
+
+        public async Task<ResponseObject> GetClassesByStudentId(int studentId)
+        {
+            var student = await _studentRepo.GetStudentAsyncById(studentId);
+
+            if (student == null)
+            {
+                return new ResponseObject("notFound", "Student not found.", null);
+            }
+
+            var classIds = await _studentRepo.GetClassIdsByStudentIdAsync(studentId);
+
+            var classesResult = await _classServiceClient.GetClassesByIds(classIds);
+
+            var classes = ((JsonElement)classesResult.Data).Deserialize<List<ClassDto>>(
+             new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+            return new ResponseObject("ok", "Get classes of student successfully", classes);
+        
+
+        }
+
+        private string ValidateUpdateStudent(UpdateStudentRequest request)
+        {
+            if (!string.IsNullOrWhiteSpace(request.Name))
+            {
+                if (request.Name.Length < 2 || request.Name.Length > 50)
+                   return "Name must be between 2 and 50 characters.";
+            }
+
+            if (request.DateOfBirth is null)
+                return "Date of birth is required.";
+
+            var age = CalculateAge(request.DateOfBirth.Value);
+
+            if (age < 3 || age > 5)
+                return "Student age must be between 3 and 5 years old.";
+
+            if (string.IsNullOrWhiteSpace(request.Gender))
+                return "Gender is required.";
+            else if (!new[] { "Male", "Female" }.Contains(request.Gender, StringComparer.OrdinalIgnoreCase))
+                return "Gender must be Male, Female.";
+
+            if (string.IsNullOrWhiteSpace(request.PlaceOfBirth))
+                return "Place of birth is required.";
+
+            if (string.IsNullOrWhiteSpace(request.ProfileImage))
+                return "Profile image is required.";
+
+            if (string.IsNullOrWhiteSpace(request.HouseholdRegistrationImg))
+                return "Household registration image is required.";
+
+            if (string.IsNullOrWhiteSpace(request.BirthCertificateImg))
+                return "Birth certificate image is required.";
+            return "";
         }
 
     }
