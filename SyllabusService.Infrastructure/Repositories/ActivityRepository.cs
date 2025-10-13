@@ -24,5 +24,22 @@ namespace SyllabusService.Infrastructure.Repositories
             return await _context.Activities.Where(x => x.ScheduleId == scheduleId).ToListAsync();
         }
 
+        public async Task<IEnumerable<Activity>> GetActivitiesBetweenStartDateAndEndDate(List<int?> classIds, DateOnly weekStart, DateOnly weekEnd)
+        {
+            var activities = await _context.Activities
+                .Include(a => a.Schedule)
+                .Where(a => classIds.Contains(a.Schedule.ClassesId)
+                && a.Date >= weekStart &&
+                a.Date <= weekEnd)
+                .ToListAsync();
+           var ordered = activities
+          .OrderBy(a => a.Date)
+          .ThenBy(a => a.StartTime)
+          .ToList();
+            return ordered;
+        }
+
+ 
+
     }
 }

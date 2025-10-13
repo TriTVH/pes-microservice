@@ -21,7 +21,7 @@ namespace SyllabusService.API.Background
                     await repo.UpdateStatusAuto();
                 }
 
-                await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken); // kiểm tra mỗi 1 phut
+                await Task.Delay(TimeSpan.FromMinutes(5), stoppingToken); // kiểm tra mỗi 1 phut
             }
         }
     }

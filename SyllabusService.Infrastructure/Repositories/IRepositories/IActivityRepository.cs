@@ -10,5 +10,6 @@ namespace SyllabusService.Infrastructure.Repositories.IRepositories
     public interface IActivityRepository
     {
         Task<IEnumerable<Activity>> GetActivitiesByScheduleIdAsync(int scheduleId);
+        Task<IEnumerable<Activity>> GetActivitiesBetweenStartDateAndEndDate(List<int?> classIds, DateOnly weekStart, DateOnly weekEnd);
     }
 }

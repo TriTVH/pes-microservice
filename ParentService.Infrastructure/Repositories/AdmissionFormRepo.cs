@@ -68,5 +68,11 @@ namespace ParentService.Infrastructure.Repositories
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
+        public async Task<int> UpdateAdmissionFormAsync(AdmissionForm admissionForm)
+        {
+            _context.AdmissionForms.Update(admissionForm);
+            return await _context.SaveChangesAsync();
+        }
+
     }
 }

@@ -3,12 +3,16 @@ using ParentService.Application.DTOs;
 using ParentService.Application.DTOs.Request;
 using ParentService.Application.DTOs.Response;
 using ParentService.Application.Services.IServices;
+using ParentService.Domain.DTOs.Request;
+using ParentService.Domain.DTOs.Response;
+using ParentService.Domain.IClient;
 using ParentService.Infrastructure.Models;
 using ParentService.Infrastructure.Repositories.IRepositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -17,9 +21,11 @@ namespace ParentService.Application.Services
     public class StudentService : IStudentService
     {
         private IStudentRepo _studentRepo;
-        public StudentService(IStudentRepo studentRepo)
+        private IClassServiceClient _classServiceClient;
+        public StudentService(IStudentRepo studentRepo, IClassServiceClient classServiceClient)
         {
             _studentRepo = studentRepo;
+            _classServiceClient = classServiceClient;
         }
 
         public async Task<ResponseObject> CreateStudentAsync(CreateNewStudentRequest request, int parentAccountId)
@@ -138,5 +144,35 @@ namespace ParentService.Application.Services
             };
             return new ResponseObject("ok", "View student by id successfully", result);
         }
+
+        public async Task<ResponseObject> GetActivitiesBetweenStartDateAndEndDate(int studentId, WeekRequest request)
+        {
+            var classIds = await _studentRepo.GetClassIdsByStudentIdAsync(studentId);
+
+            if (request.startWeek > request.endWeek)
+            {
+                return new ResponseObject("badRequest", "Start week cannot be later than end week.", null);
+            }
+
+            if (!classIds.Any())
+            {
+                return new ResponseObject("ok", "Get Activities between start week and end week successfully", new List<ActivityDTO>());
+            }
+            
+            GetActivitiesBetweenStartDateAndEndDateRequest getActivitiesRequest = new GetActivitiesBetweenStartDateAndEndDateRequest();
+            getActivitiesRequest.classIds = classIds;
+            getActivitiesRequest.startWeek = request.startWeek;
+            getActivitiesRequest.endWeek = request.endWeek;
+
+            var activitiesResult = await _classServiceClient.GetActivitiesBetweenStartDateAndEndDate(getActivitiesRequest);
+
+            var activitiesDTO = ((JsonElement)activitiesResult.Data).Deserialize<List<ActivityDTO>>(
+                    new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
+                );
+
+             return new ResponseObject("ok", "Get Activities between start week and end week successfully", activitiesDTO);
+
+        }
+
     }
 }

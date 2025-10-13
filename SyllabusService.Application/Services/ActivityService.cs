@@ -1,4 +1,5 @@
-﻿using SyllabusService.Application.DTOs.Response;
+﻿using SyllabusService.Application.DTOs.Request;
+using SyllabusService.Application.DTOs.Response;
 using SyllabusService.Application.Services.IServices;
 using SyllabusService.Infrastructure.Repositories.IRepositories;
 using System;
@@ -32,6 +33,29 @@ namespace SyllabusService.Application.Services
                 EndTime = a.EndTime
             });
             return new ResponseObject("ok","View all activities of schedule successfully", result);
+        }
+
+        public async Task<ResponseObject> GetActivitiesBetweenStartDateAndEndDate(GetActivitiesBetweenStartDateAndEndDateRequest request)
+        {
+            if (!request.classIds.Any())
+            {
+                return new ResponseObject("badRequest", "Class IDs cannot be empty or null.", null);
+            }
+            if (request.startWeek > request.endWeek)
+            {
+                return new ResponseObject("badRequest", "Start week cannot be later than end week.", null);
+            }
+            var items = await _repo.GetActivitiesBetweenStartDateAndEndDate(request.classIds, request.startWeek, request.endWeek);
+            var result = items.Select( a => new ActivityDTO()
+            {
+                Id = a.Id,
+                Name = a.Name,
+                DayOfWeek = a.DayOfWeek,
+                Date = a.Date,
+                StartTime = a.StartTime,
+                EndTime = a.EndTime
+            });
+            return new ResponseObject("ok", "Get Activities Between Start Week And End Week Successfully", result);
         }
 
     }

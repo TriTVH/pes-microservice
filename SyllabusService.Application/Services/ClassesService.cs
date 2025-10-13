@@ -429,8 +429,13 @@ namespace SyllabusService.Application.Services
                 checkedIds.Add(request.CurrentClassId);
                 return new ResponseObject("ok", "No existing classes found — no conflict detected.", checkedIds);
             }
-           
-            foreach (var existingClass in checkedClasses)
+
+            var currentClasses = await _classRepo.GetActiveClassesByStudentId(request.StudentId);
+
+          
+            var allExistingClasses = checkedClasses.Concat(currentClasses).ToList();
+
+            foreach (var existingClass in allExistingClasses)
             {
                 // ❗ Bỏ qua nếu thời gian học không giao nhau (theo StartDate – EndDate)
                 if (newClass.StartDate > existingClass.EndDate || existingClass.StartDate > newClass.EndDate)

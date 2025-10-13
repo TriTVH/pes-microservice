@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace SyllabusService.Infrastructure.Models;
+namespace ParentService.Infrastructure.Models;
 
 public partial class Class
 {
@@ -30,14 +30,4 @@ public partial class Class
     public int? SyllabusId { get; set; }
 
     public int? TeacherId { get; set; }
-
-    public virtual ICollection<PatternActivity> PatternActivities { get; set; } = new List<PatternActivity>();
-
-    public virtual ICollection<Schedule> Schedules { get; set; } = new List<Schedule>();
-
-    public virtual ICollection<StudentClass> StudentClasses { get; set; } = new List<StudentClass>();
-
-    public virtual Syllabus Syllabus { get; set; }
-
-    public virtual ICollection<AdmissionTerm> AdmissionTerms { get; set; } = new List<AdmissionTerm>();
 }
