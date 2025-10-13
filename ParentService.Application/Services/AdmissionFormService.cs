@@ -60,7 +60,7 @@ namespace ParentService.Application.Services
 
                 var activeTemResponse = await _classServiceClient.GetActiveAdmissionTerm();
 
-                var activeTerm = ((JsonElement)result.Data).Deserialize<List<ClassDto>>(
+                var activeTerm = ((JsonElement)result.Data).Deserialize<AdmissionTermDto>(
                     new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
                 );
 
