@@ -51,6 +51,12 @@ namespace SyllabusService.API.Controllers
         public async Task<IActionResult> GetActiveAdmissionTermAsync()
         {
             var result = await _admissionTermService.GetActiveAdmissionTermAsync();
+
+            if (result.StatusResponseCode.Equals("notFound"))
+            {
+                return NotFound(result);
+            }
+
             return Ok(result);
         }
 
