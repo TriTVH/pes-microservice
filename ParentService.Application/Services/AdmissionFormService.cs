@@ -64,7 +64,19 @@ namespace ParentService.Application.Services
                     new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
                 );
 
+                if (activeTerm == null)
+                {
+                    return new ResponseObject("notFound", "Active admission term not found or over due", null);
+                }
 
+                var validClassIds = activeTerm.ClassDtos.Select(c => c.Id).ToHashSet();
+                var invalidClasses = request.ClassIds.Where(id => !validClassIds.Contains(id)).ToList();
+
+                if (invalidClasses.Any())
+                {
+                    string invalidList = string.Join(", ", invalidClasses);
+                    return new ResponseObject("badRequest", $"Classes with ID(s): {invalidList} do not belong to the active admission term.", null);
+                }
 
                 var formStatus = await _admissionRepo.GetStudentAdmissionFormStatusAsync(request.StudentId, classId);
 
