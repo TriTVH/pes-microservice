@@ -12,13 +12,17 @@ namespace ParentService.Application.Services.IServices
     public interface IStudentService
     {
         Task<ResponseObject> CreateStudentAsync(CreateNewStudentRequest request, int parentAccountId);
+
+        Task<ResponseObject> UpdateStudentAsync(int parentAccountId, UpdateStudentRequest request);
+
+        Task<ResponseObject> DeleteStudentAsync(int studentId);
+
         Task<ResponseObject> GetStudentsAsync(int parentId);
 
         Task<ResponseObject> GetStudentByIdAsync(int id);
 
         Task<ResponseObject> GetActivitiesBetweenStartDateAndEndDate(int studentId, WeekRequest request);
-        Task<ResponseObject> UpdateStudentAsync(int parentAccountId, UpdateStudentRequest request);
-
+       
         Task<ResponseObject> GetClassesByStudentId(int studentId);
     }
 }

@@ -14,7 +14,10 @@ namespace ParentService.Application.Services.IServices
     {
         Task<ResponseObject> CreateAdmissionFormAsync(CreateFormRequest request, int parentAccId);
         Task<ResponseObject> CheckClassesAvailabilityAsync(CheckClassRequest request);
+       
         Task<ResponseObject> GetAdmissionFormsByParentAccountId(int parentAccountId);
         Task<ResponseObject> GetClassesByAdmissionFormId(int afId);
+        Task<ResponseObject> RemoveClassesFromAdmissionForm(RemoveClassesFromAdmissionFormRequest request);
+        Task<ResponseObject> DeleteAdmissionForm(int afId);
     }
 }

@@ -64,13 +64,7 @@ namespace SyllabusService.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public async Task<List<Class>> GetExistingClassIdsAsync(List<int> classIds)
-        {
-            return await _context.Classes
-                .Include(c => c.Syllabus)
-                .Where(c => classIds.Contains(c.Id))
-                .ToListAsync();
-        }
+     
         public async Task<List<Class>> GetClassesAfterDateInYearAsync(DateOnly endDate, int academicYear)
         {
             return await _context.Classes

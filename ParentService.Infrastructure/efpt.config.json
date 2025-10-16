@@ -7,7 +7,7 @@
    "MinimumProductVersion": "2.6.1166",
    "ModelNamespace": null,
    "OutputContextPath": null,
-   "OutputPath": "Models",
+   "OutputPath": "Ent",
    "PreserveCasingWithRegex": true,
    "ProjectRootNamespace": "ParentService.Infrastructure",
    "Schemas": null,
@@ -15,26 +15,6 @@
    "SelectedToBeGenerated": 0,
    "T4TemplatePath": null,
    "Tables": [
-      {
-         "Name": "[dbo].[admission_form]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[Admission_form_class]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[classes]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[student]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[student_class]",
-         "ObjectType": 0
-      },
       {
          "Name": "[dbo].[transaction_items]",
          "ObjectType": 0

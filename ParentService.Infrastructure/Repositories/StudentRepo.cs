@@ -23,7 +23,18 @@ namespace ParentService.Infrastructure.Repositories
             _context.Students.Add(student);
             return await _context.SaveChangesAsync();
         }
+        public async Task<Student?> GetStudentWithAdmissionFormsAsync(int studentId)
+        {
+            return await _context.Students
+                .Include(s => s.AdmissionForms)
+                .FirstOrDefaultAsync(s => s.Id == studentId);
+        }
 
+        public async Task DeleteStudentAsync(Student student)
+        {
+            _context.Students.Remove(student);
+            await _context.SaveChangesAsync();
+        }
         public async Task<bool> ExistByStudentNameAndParentId(string studentName, int parentId)
         {
             return await _context.Students.AnyAsync(x => x.Name == studentName && x.ParentAccId == parentId);
@@ -57,7 +68,7 @@ namespace ParentService.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public async Task<bool> CheckDuplicateNameStudentOfParent(int parentAccId, string studentName, int studentId)
+        public async Task<bool> CheckDuplicateNameStudentOfParentExceptStudentId(int parentAccId, string studentName, int studentId)
         {
             return await _context.Students.AnyAsync(s =>
             s.ParentAccId == parentAccId &&

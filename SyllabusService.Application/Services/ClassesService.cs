@@ -250,7 +250,125 @@ namespace SyllabusService.Application.Services
             });
             return new ResponseObject("ok", "Get Classes By Ids successfully", result);
         }
-        public string? ValidateCreateClass(CreateClassRequest request)
+
+        public async Task<ResponseObject> GetClassesAfterDateInYearAsync(DateOnly endDate)
+        {
+
+            var items = await _classRepo.GetClassesAfterDateInYearAsync(endDate, endDate.Year);
+            var result = items.Select(cla => new ClassDto()
+            {
+                Id = cla.Id,
+                Name = cla.Name,
+                NumberOfWeeks = cla.NumberOfWeeks,
+                NumberStudent = cla.NumberStudent,
+                StartDate = cla.StartDate,
+                AcademicYear = cla.AcademicYear,
+                Cost = cla.Syllabus.Cost,
+                Status = cla.Status
+            });
+            return new ResponseObject("ok", $"View list of inactive classes in {endDate.Year} successfully", result);
+        }
+
+        public async Task<ResponseObject> CheckClassesAvailability(CheckClassRequest request)
+        {
+
+            if (request.CurrentClassId <= 0 || request.StudentId <= 0)
+            {
+                return new ResponseObject("badRequest", "Invalid request data.", null);
+            }
+
+
+            var checkedIds = request.CheckedClassIds?.ToList() ?? new List<int>();
+
+            if (checkedIds.Contains(request.CurrentClassId))
+            {
+                return new ResponseObject(
+                    "conflict",
+                    $"Class with ID {request.CurrentClassId} is already selected.",
+                    checkedIds
+                );
+            }
+
+            var newClass = await _classRepo.GetClassByIdAsync(request.CurrentClassId);
+
+            if (newClass == null)
+                return new ResponseObject("notFound", $"Class with ID {request.CurrentClassId} not found.", null);
+
+            var checkedClasses = await _classRepo.GetClassesByIdsAsync(checkedIds);
+
+            if (checkedClasses == null || !checkedClasses.Any())
+            {
+                checkedIds.Add(request.CurrentClassId);
+                return new ResponseObject("ok", "No existing classes found — no conflict detected.", checkedIds);
+            }
+
+            var currentClasses = await _classRepo.GetActiveClassesByStudentId(request.StudentId);
+
+
+            var allExistingClasses = checkedClasses.Concat(currentClasses).ToList();
+
+            foreach (var existingClass in allExistingClasses)
+            {
+                // ❗ Bỏ qua nếu thời gian học không giao nhau (theo StartDate – EndDate)
+                if (newClass.StartDate > existingClass.EndDate || existingClass.StartDate > newClass.EndDate)
+                    continue;
+
+                foreach (var actA in newClass.PatternActivities)
+                {
+                    foreach (var actB in existingClass.PatternActivities)
+                    {
+                        if (actA.DayOfWeek == actB.DayOfWeek &&
+                            actA.StartTime < actB.EndTime &&
+                            actB.StartTime < actA.EndTime)
+                        {
+                            var conflictMessage =
+                                $"Conflict detected: Class '{newClass.Name}' (ID {newClass.Id}) " +
+                                $"conflicts with already selected Class '{existingClass.Name}' (ID {existingClass.Id}) " +
+                                $"on {actA.DayOfWeek} " +
+                                $"({actA.StartTime:hh\\:mm} - {actA.EndTime:hh\\:mm}).";
+
+                            return new ResponseObject("conflict", conflictMessage, checkedIds);
+                        }
+                    }
+                }
+            }
+            checkedIds.Add(request.CurrentClassId);
+            return new ResponseObject("ok", "No schedule conflicts detected.", checkedIds);
+        }
+
+        public async Task<ResponseObject> GetClassByIdAsync(int id)
+        {
+            var classes = await _classRepo.GetClassByIdAsync(id);
+
+            if (classes == null)
+            {
+                return new ResponseObject(
+                           "notFound",
+                           $"Class with ID {id} not found or be deleted.",
+                           null
+                       );
+            }
+
+            var result = new ClassDto()
+            {
+                Id = id,
+                Name = classes.Name,
+                NumberStudent = classes.NumberStudent,
+                AcademicYear = classes.AcademicYear,
+                NumberOfWeeks = classes.NumberOfWeeks,
+                StartDate = classes.StartDate,
+                Cost = classes.Syllabus.Cost,
+                Status = classes.Status
+            };
+
+            return new ResponseObject(
+            "ok",
+            "Class found successfully.",
+            result
+            );
+        }
+
+        private string? ValidateCreateClass(CreateClassRequest request)
         {
            
             if (request.startDate < DateOnly.FromDateTime(DateTime.Now))
@@ -361,7 +479,7 @@ namespace SyllabusService.Application.Services
             return fromDate.AddDays(daysToAdd);
         }
 
-        public (DateTime StartOfWeek, DateTime EndOfWeek) GetWeekRange(DateOnly date)
+        private (DateTime StartOfWeek, DateTime EndOfWeek) GetWeekRange(DateOnly date)
         {
             // Chuyển DateOnly → DateTime (với giờ mặc định là 00:00)
             DateTime dateTime = date.ToDateTime(new TimeOnly(0, 0));
@@ -378,123 +496,15 @@ namespace SyllabusService.Application.Services
             return (startOfWeek, endOfWeek);
         }
 
-        public async Task<ResponseObject> GetClassesAfterDateInYearAsync(DateOnly endDate)
+       
+
+        private async Task<bool> CheckClassFull(Class clas)
         {
-  
-            var items = await _classRepo.GetClassesAfterDateInYearAsync(endDate, endDate.Year);
-            var result = items.Select(cla => new ClassDto()
+            if (clas.NumberStudent >= 30)
             {
-                Id = cla.Id,
-                Name = cla.Name,
-                NumberOfWeeks = cla.NumberOfWeeks,
-                NumberStudent = cla.NumberStudent,
-                StartDate = cla.StartDate,
-                AcademicYear = cla.AcademicYear,
-                Cost = cla.Syllabus.Cost,
-                Status = cla.Status
-            });
-            return new ResponseObject("ok", $"View list of inactive classes in {endDate.Year} successfully", result);
+                return false;
+            }
+            return true;
         }
-
-        public async Task<ResponseObject> CheckClassesAvailability(CheckClassRequest request)
-        {
-           
-            if (request.CurrentClassId <= 0 || request.StudentId <= 0)
-            {
-                return new ResponseObject("badRequest", "Invalid request data.", null);
-            }
-
-        
-            var checkedIds = request.CheckedClassIds?.ToList() ?? new List<int>();
-
-            if (checkedIds.Contains(request.CurrentClassId))
-            {
-                return new ResponseObject(
-                    "conflict",
-                    $"Class with ID {request.CurrentClassId} is already selected.",
-                    checkedIds
-                );
-            }
-
-
-            var newClass = await _classRepo.GetClassByIdAsync(request.CurrentClassId);
-
-            if (newClass == null)
-                return new ResponseObject("notFound", $"Class with ID {request.CurrentClassId} not found.", null);
-
-            var checkedClasses = await _classRepo.GetClassesByIdsAsync(checkedIds);
-         
-            if (checkedClasses == null || !checkedClasses.Any())
-            {
-                checkedIds.Add(request.CurrentClassId);
-                return new ResponseObject("ok", "No existing classes found — no conflict detected.", checkedIds);
-            }
-
-            var currentClasses = await _classRepo.GetActiveClassesByStudentId(request.StudentId);
-
-          
-            var allExistingClasses = checkedClasses.Concat(currentClasses).ToList();
-
-            foreach (var existingClass in allExistingClasses)
-            {
-                // ❗ Bỏ qua nếu thời gian học không giao nhau (theo StartDate – EndDate)
-                if (newClass.StartDate > existingClass.EndDate || existingClass.StartDate > newClass.EndDate)
-                    continue;
-
-                foreach (var actA in newClass.PatternActivities)
-                {
-                    foreach (var actB in existingClass.PatternActivities)
-                    {
-                        if (actA.DayOfWeek == actB.DayOfWeek &&
-                            actA.StartTime < actB.EndTime &&
-                            actB.StartTime < actA.EndTime)
-                        {
-                            var conflictMessage =
-                                $"Conflict detected: Class '{newClass.Name}' (ID {newClass.Id}) " +
-                                $"conflicts with already selected Class '{existingClass.Name}' (ID {existingClass.Id}) " +
-                                $"on {actA.DayOfWeek} " +
-                                $"({actA.StartTime:hh\\:mm} - {actA.EndTime:hh\\:mm}).";
-
-                            return new ResponseObject("conflict", conflictMessage, checkedIds);
-                        }
-                    }
-                }
-            }
-            checkedIds.Add(request.CurrentClassId);
-            return new ResponseObject("ok", "No schedule conflicts detected.", checkedIds);
-        }
-
-        public async Task<ResponseObject> GetClassByIdAsync(int id)
-        {
-            var classes = await _classRepo.GetClassByIdAsync(id);
-            
-            if (classes == null)
-            {
-                return new ResponseObject(
-                           "notFound",
-                           $"Class with ID {id} not found or be deleted.",
-                           null
-                       );
-            }
-
-            var result = new ClassDto()
-            {
-                Id = id,
-                Name = classes.Name,
-                NumberStudent = classes.NumberStudent,
-                AcademicYear = classes.AcademicYear,
-                NumberOfWeeks = classes.NumberOfWeeks,
-                StartDate = classes.StartDate,
-                Cost = classes.Syllabus.Cost,
-                Status = classes.Status
-            };
-
-            return new ResponseObject(
-            "ok",
-            "Class found successfully.",
-            result
-            );
-        }
-
     }
 }
