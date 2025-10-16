@@ -29,7 +29,7 @@ public partial class Class
 
     public int? SyllabusId { get; set; }
 
-    public int? TeacherId { get; set; }
+    public int TeacherId { get; set; }
 
     public virtual ICollection<PatternActivity> PatternActivities { get; set; } = new List<PatternActivity>();
 
