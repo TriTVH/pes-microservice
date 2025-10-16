@@ -2,6 +2,7 @@
 using SyllabusService.Application.DTOs.Request;
 using SyllabusService.Application.DTOs.Response;
 using SyllabusService.Application.Services.IServices;
+using SyllabusService.Domain.DTOs.Response;
 using SyllabusService.Domain.IClient;
 using SyllabusService.Infrastructure.Models;
 using SyllabusService.Infrastructure.Repositories.IRepositories;
@@ -208,19 +209,35 @@ namespace SyllabusService.Application.Services
         public async Task<ResponseObject> GetAllClassesAsync()
         {
             var items = await _classRepo.GetClassesAsync();
-            var result = items.Select(c => new ClassDto()
+
+            var tasks = items.Select(async c =>
             {
-                Id = c.Id,
-                Name = c.Name,
-                NumberOfWeeks = c.NumberOfWeeks,
-                NumberStudent = c.NumberStudent,
-                AcademicYear = c.AcademicYear,
-                StartDate = c.StartDate,
-                Cost = c.Syllabus.Cost,
-                Status = c.Status
+                AccountDto? teacher = null;
+
+                if (c.TeacherId != 0)
+                {
+                    teacher = await _authClient.GetTeacherProfileDtoById(c.TeacherId);
+                }
+
+                return new ClassDto()
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    NumberOfWeeks = c.NumberOfWeeks,
+                    NumberStudent = c.NumberStudent,
+                    AcademicYear = c.AcademicYear,
+                    StartDate = c.StartDate,
+                    Cost = c.Syllabus?.Cost ?? 0,
+                    Status = c.Status,
+                    teacherName = teacher.Name ?? "Unknown",
+                    teacherEmail = teacher.Email ?? "N/A"
+                };
             });
 
+            var result = await Task.WhenAll(tasks);
+
             return new ResponseObject("ok", "Get All classes successfully", result);
+
         }
 
         public async Task<ResponseObject> GetClassesByIds(List<int> ids)

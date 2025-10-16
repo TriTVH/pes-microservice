@@ -12,6 +12,10 @@ namespace SyllabusService.Application.DTOs.Response
 
         public string Name { get; set; }
 
+        public string teacherName { get; set; }
+
+        public string teacherEmail { get; set; }
+
         public int? NumberStudent { get; set; }
         public int? AcademicYear { get; set; }
         public int? NumberOfWeeks { get; set; }
