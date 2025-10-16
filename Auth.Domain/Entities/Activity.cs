@@ -12,7 +12,7 @@
 
             public DateOnly? Date { get; set; }
 
-            public byte? DayOfWeek { get; set; } 
+            public string? DayOfWeek { get; set; } 
 
             public TimeOnly? EndTime { get; set; }
 
