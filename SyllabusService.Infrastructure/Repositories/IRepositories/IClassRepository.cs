@@ -13,7 +13,6 @@ namespace SyllabusService.Infrastructure.Repositories.IRepositories
         Task<Class?> GetClassByYearAndSyllabusId(int year, int syllabusId);
 
         Task<IEnumerable<Class>> GetClassesByTeacherIdAsync(int teacherId);
-        Task<List<Class>> GetExistingClassIdsAsync(List<int> classIds);
         Task<int> UpdateClassAsync(Class classes);
         Task<IEnumerable<Class>> GetClassesAsync();
         Task<List<Class>> GetClassesAfterDateInYearAsync(DateOnly endDate, int academicYear);

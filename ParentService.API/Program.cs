@@ -1,5 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MassTransit;
+using MassTransit.Scheduling;
+
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using ParentService.Application.Consumers;
 using ParentService.Application.Services;
 using ParentService.Application.Services.IServices;
 using ParentService.Domain;
@@ -22,6 +26,24 @@ builder.Configuration
 builder.Services.AddDbContext<PES_APP_FULL_DBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
+
+builder.Services.AddMassTransit(busConfigurator =>
+{
+    busConfigurator.SetKebabCaseEndpointNameFormatter();
+    busConfigurator.AddConsumer<PaymentTimeoutConsumer>();
+
+    busConfigurator.UsingRabbitMq((context, configurator) =>
+    {
+
+        configurator.Host(new Uri(builder.Configuration["MessageBroker:Host"]), h =>
+        {
+            h.Username(builder.Configuration["MessageBroker:Username"]);
+            h.Password(builder.Configuration["MessageBroker:Password"]);
+        });
+
+        configurator.ConfigureEndpoints(context);
+    });
+});
 
 builder.Services.AddScoped<IAdmissionFormRepo, AdmissionFormRepo>();
 builder.Services.AddScoped<IStudentRepo, StudentRepo>();

@@ -46,6 +46,21 @@ namespace ParentService.API.Controllers
             }
         }
 
+        [HttpDelete]
+        public async Task<IActionResult> DeleteStudent([FromQuery] int studentId)
+        {
+            var result = await _studentService.DeleteStudentAsync(studentId);
+            if (result.StatusResponseCode.Equals("notFound"))
+               {
+                return NotFound(result);
+               }
+            if (result.StatusResponseCode.Equals("conflict"))
+            {
+                return Conflict(result);
+            }
+            return Ok(result);
+        }
+
         [HttpGet("list")]
         public async Task<IActionResult> GetAllStudents()
         {
@@ -83,7 +98,7 @@ namespace ParentService.API.Controllers
         }
 
         [HttpPut("activity/list")]
-        public async Task<IActionResult> GetActivitiesBetweenStartDateAndEndDate(int studentId, WeekRequest request)
+        public async Task<IActionResult> GetActivitiesBetweenStartDateAndEndDate([FromQuery] int studentId, [FromBody] WeekRequest request)
         {
             var result = await _studentService.GetActivitiesBetweenStartDateAndEndDate(studentId, request);
             if (result.StatusResponseCode.Equals("badRequest"))
@@ -94,7 +109,7 @@ namespace ParentService.API.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateStudentAsync(UpdateStudentRequest request)
+        public async Task<IActionResult> UpdateStudentAsync([FromBody] UpdateStudentRequest request)
         {
             var userId = Request.Headers["X-User-Id"].ToString();
 

@@ -15,6 +15,8 @@ public partial class Transaction
 
     public DateOnly? PaymentDate { get; set; }
 
+    public string TxnRef { get; set; }
+
     public string Status { get; set; }
 
     public int FormId { get; set; }

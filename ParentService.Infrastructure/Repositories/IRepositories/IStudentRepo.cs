@@ -10,13 +10,15 @@ namespace ParentService.Infrastructure.Repositories.IRepositories
     public interface IStudentRepo
     {
         Task<int> CreateStudentAsync(Student student);
-        Task<bool> ExistByStudentNameAndParentId(string studentName, int parentId);
+        Task<int> UpdateStudentAsync(Student student);
+        Task DeleteStudentAsync(Student student);
         Task<IEnumerable<Student>> GetStudentsAsyncByParentAccId(int parentAccId);
         Task<Student> GetStudentAsyncById(int studentId);
-        Task<int> UpdateStudentAsync(Student student);
         Task<int> AddStudentClassAsync(StudentClass sc);
         Task<List<int>> GetClassIdsByStudentIdAsync(int studentId);
-        Task<bool> CheckDuplicateNameStudentOfParent(int parentAccId, string studentName, int studentId);
+        Task<Student?> GetStudentWithAdmissionFormsAsync(int studentId);
+        Task<bool> CheckDuplicateNameStudentOfParentExceptStudentId(int parentAccId, string studentName, int studentId);
+        Task<bool> ExistByStudentNameAndParentId(string studentName, int parentId);
 
     }
 }

@@ -1,10 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MassTransit;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Polly;
 using Polly.Extensions.Http;
 using SyllabusService.API.Background;
 using SyllabusService.API.Handler;
 using SyllabusService.API.SchemaFilter;
+using SyllabusService.Application.Consumers;
 using SyllabusService.Application.Services;
 using SyllabusService.Application.Services.IServices;
 using SyllabusService.Domain;
@@ -66,6 +68,23 @@ builder.Services.AddHttpClient<IParentClient, ParentClient>(client =>
 // Retry 3 lần, mỗi lần chờ lâu dần theo lũy thừa 2 (2^retryAttempt giây)
 //    // Lần 1: 2s, Lần 2: 4s, Lần 3: 8s
 .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))));
+
+builder.Services.AddMassTransit(busConfigurator =>
+{
+    busConfigurator.SetKebabCaseEndpointNameFormatter();
+     
+    busConfigurator.AddConsumer<PaymentSuccessConsumer>();
+
+    busConfigurator.UsingRabbitMq((context, configurator) =>
+    {
+        configurator.Host(new Uri(builder.Configuration["MessageBroker:Host"]), h =>
+        {
+            h.Username(builder.Configuration["MessageBroker:Username"]);
+            h.Password(builder.Configuration["MessageBroker:Password"]);
+        });
+        configurator.ConfigureEndpoints(context);
+    });
+});
 
 // Add services to the container.
 

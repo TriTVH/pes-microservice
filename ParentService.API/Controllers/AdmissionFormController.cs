@@ -50,11 +50,40 @@ namespace ParentService.API.Controllers
             return Ok(result);
         }
 
+        [HttpDelete]
+        public async Task<IActionResult> DeleteAdmissionForm([FromQuery] int afId)
+        {
+            var result = await _admissionFormService.DeleteAdmissionForm(afId);
+
+            if (result.StatusResponseCode.Equals("notFound"))
+            {
+                return NotFound(result);
+            }
+
+            return Ok(result);
+        }
+
         [HttpGet("list")]
         public async Task<IActionResult> GetAdmissionFormsAsync()
         {
             var userId = Request.Headers["X-User-Id"].ToString();
             var result = await _admissionFormService.GetAdmissionFormsByParentAccountId(int.Parse(userId));
+            return Ok(result);
+        }
+
+        [HttpPut("remove/class/list")]
+        public async Task<IActionResult> RemoveClassesFromAdmissionForm(RemoveClassesFromAdmissionFormRequest request)
+        {
+            var result = await _admissionFormService.RemoveClassesFromAdmissionForm(request);
+
+            if (result.StatusResponseCode.Equals("notFound"))
+            {
+                return NotFound(result);
+            }
+            if (result.StatusResponseCode.Equals("badRequest"))
+            {
+                return BadRequest(result);
+            }
             return Ok(result);
         }
 
@@ -66,14 +95,28 @@ namespace ParentService.API.Controllers
             {
                 return BadRequest(result);
             }
+            if (result.StatusResponseCode.Equals("notFound"))
+            {
+                return NotFound(result);
+
+            }
             return Ok(result);
         }
+
 
         [HttpGet("paymentUrl/{id}")]
         public async Task<IActionResult> GetPaymentUrl(int id)
         {
           var result = await _vnPayService.GetPaymentUrl(IpHelper.GetIpAddress(HttpContext), id);
 
+            if (result.StatusResponseCode.Equals("notFound"))
+            {
+                return NotFound(result);
+            }
+            if (result.StatusResponseCode.Equals("conflict"))
+            {
+                return Conflict(result);
+            }          
             return Ok(result);
         }
 
@@ -89,6 +132,10 @@ namespace ParentService.API.Controllers
             if (result.StatusResponseCode.Equals("notFound"))
             {
                 return NotFound(result);
+            }
+            if (result.StatusResponseCode.Equals("conflict"))
+            {
+                return Conflict(result);
             }
             return Ok(result);
         }
