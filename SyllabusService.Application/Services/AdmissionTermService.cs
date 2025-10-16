@@ -32,7 +32,7 @@ namespace SyllabusService.Application.Services
             {
                 return new ResponseObject("badRequest", error, null);
             }
-            var existingClasses = await _classRepo.GetExistingClassIdsAsync(request.classIds);
+            var existingClasses = await _classRepo.GetClassesByIdsAsync(request.classIds);
 
             var existingClassIds = existingClasses.Select(c => c.Id).ToList();
 

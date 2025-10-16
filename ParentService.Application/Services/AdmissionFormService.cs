@@ -1,4 +1,5 @@
-﻿using ParentService.Application.DTOs;
+﻿using Microsoft.SqlServer.Server;
+using ParentService.Application.DTOs;
 using ParentService.Application.DTOs.Request;
 using ParentService.Application.DTOs.Response;
 using ParentService.Application.Services.IServices;
@@ -36,6 +37,8 @@ namespace ParentService.Application.Services
 
             Student student = await _studentRepo.GetStudentAsyncById(request.StudentId);
 
+            var fullClasses = new List<string>();
+
             if (student == null)
             {
                 return new ResponseObject("notFound", "Student not found or be deleted", null);
@@ -45,8 +48,6 @@ namespace ParentService.Application.Services
             {
                 return new ResponseObject("badRequest", "Admission form must contain at least one class.", null);
             }
-
-
 
             foreach (var classId in request.ClassIds)
             {
@@ -58,24 +59,10 @@ namespace ParentService.Application.Services
                     new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
                 );
 
-                var activeTemResponse = await _classServiceClient.GetActiveAdmissionTerm();
-
-                var activeTerm = ((JsonElement)result.Data).Deserialize<AdmissionTermDto>(
-                    new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
-                );
-
-                if (activeTerm == null)
+                if (classDto.NumberStudent >= 30)
                 {
-                    return new ResponseObject("notFound", "Active admission term not found or over due", null);
-                }
-
-                var validClassIds = activeTerm.ClassDtos.Select(c => c.Id).ToHashSet();
-                var invalidClasses = request.ClassIds.Where(id => !validClassIds.Contains(id)).ToList();
-
-                if (invalidClasses.Any())
-                {
-                    string invalidList = string.Join(", ", invalidClasses);
-                    return new ResponseObject("badRequest", $"Classes with ID(s): {invalidList} do not belong to the active admission term.", null);
+                    fullClasses.Add(classDto.Name);
+                    continue;
                 }
 
                 var formStatus = await _admissionRepo.GetStudentAdmissionFormStatusAsync(request.StudentId, classId);
@@ -91,7 +78,7 @@ namespace ParentService.Application.Services
                         );
                     }
 
-                    if (formStatus.Equals("waiting_for_payment", StringComparison.OrdinalIgnoreCase))
+                    if (formStatus.Equals("waiting_for_payment", StringComparison.OrdinalIgnoreCase) || formStatus.Equals("payment_in_progress", StringComparison.OrdinalIgnoreCase) )
                     {
                         return new ResponseObject(
                             "conflict",
@@ -109,6 +96,12 @@ namespace ParentService.Application.Services
                         );
                     }
                 }
+            }
+
+            if (fullClasses.Any())
+            {
+                string fullList = string.Join(", ", fullClasses);
+                return new ResponseObject("badRequest", $"The following class(es) are already full: {fullList}. Please remove these items to countinue saving admission form", null);
             }
 
             var timeZoneId = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
@@ -150,46 +143,127 @@ namespace ParentService.Application.Services
 
         }
 
+        public async Task<ResponseObject> DeleteAdmissionForm(int afId)
+        {
+            var form = await _admissionRepo.GetAdmissionFormByIdAsync(afId);
+
+            if (form == null)
+            {
+                return new ResponseObject("notFound", "Admission form not found or has been deleted.", null);
+            }
+
+            if (form.Status.Equals("payment_in_progress"))
+            {
+                return new ResponseObject(
+          "conflict",
+          $"Cannot delete this admission form because payment is currently in progress.",
+          null
+      );
+
+            }
+
+            await _admissionRepo.DeleteAdmissionForm(form);
+
+            return new ResponseObject("ok", "Delete Admission Form Successfully", null);
+        }
+
+        public async Task<ResponseObject> RemoveClassesFromAdmissionForm(RemoveClassesFromAdmissionFormRequest request)
+        {
+            if (!request.ClassIds.Any())
+            {
+                return new ResponseObject("badRequest", "Class IDs list cannot be empty.", null);
+            }
+            var form = await _admissionRepo.GetAdmissionFormByIdAsync(request.AdmissionFormId);
+
+            if (form == null)
+            {
+                return new ResponseObject("notFound", "Admission form not found or has been deleted.", null);
+            }
+            if (form.Status.Equals("done", StringComparison.OrdinalIgnoreCase))
+            {
+                return new ResponseObject("badRequest", "This admission form has already been completed and cannot be modified.", null);
+            }
+            var classesToRemove = form.AdmissionFormClasses
+           .Where(c => request.ClassIds.Contains(c.ClassId))
+           .ToList();
+            if (!classesToRemove.Any())
+            {
+                return new ResponseObject("notFound", "No matching classes found in this admission form.", null);
+            }
+            foreach (var classToRemove in classesToRemove)
+            {
+                form.AdmissionFormClasses.Remove(classToRemove);
+            }
+
+            int remainingClassesCount = form.AdmissionFormClasses.Count - classesToRemove.Count;
+            if (remainingClassesCount <= 0)
+            {
+                return new ResponseObject("badRequest", "Cannot remove all classes. An admission form must have at least one class.", null);
+            }
+
+            // 🔹 Save changes
+            await _admissionRepo.UpdateAdmissionFormAsync(form);
+
+            return new ResponseObject("ok", $"Removed {classesToRemove.Count} class(es) from the admission form successfully.", null);
+        }
+
         public async Task<ResponseObject> CheckClassesAvailabilityAsync(CheckClassRequest request)
         {
 
-            var result = await _classServiceClient.CheckClassesAvailabilityAsync(request);
+            var activeTemResponse = await _classServiceClient.GetActiveAdmissionTerm();
 
-           if(!request.CheckedClassIds.Any())
+            var activeTerm = ((JsonElement)activeTemResponse.Data).Deserialize<AdmissionTermDto>(
+                new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
+            );
+
+            if (activeTerm == null)
+            {
+                return new ResponseObject("notFound", "Active admission term not found or over due", null);
+            }
+
+            var validClassIds = activeTerm.ClassDtos.Select(c => c.Id).ToHashSet();
+
+            if (!validClassIds.Contains(request.CurrentClassId))
+            {
+                return new ResponseObject("conflict", $"This class is not part of the active admission term.", null);
+            }
+
+            if (!request.CheckedClassIds.Any())
             {
                 List<int> classIds = new List<int>();
+
                 classIds.Add(request.CurrentClassId);
-                var currentClassResult = await _classServiceClient.GetClassesByIds(classIds);
 
-                var currentClass = ((JsonElement)currentClassResult.Data).Deserialize<List<ClassDto>>(
+                var classListResult = await _classServiceClient.GetClassesByIds(classIds);
+
+                var classList = ((JsonElement)classListResult.Data).Deserialize<List<ClassDto>>(
                  new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
-             );
+                );
 
-                return new ResponseObject("ok", "No schedule conflicts detected.", currentClass);
+                if (!classList.Any())
+                {
+                    return new ResponseObject("notFound", "No class information found.", null);
+                }
+
+                return new ResponseObject("ok", "No schedule conflicts detected.", classList);
+            }
+
+            var clasResult = await _classServiceClient.GetByClassId(request.CurrentClassId);
+
+            var classDto = ((JsonElement)clasResult.Data).Deserialize<ClassDto>(
+               new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
+              );
+
+            if(classDto.NumberStudent >= 30)
+            {
+                return new ResponseObject("conflict", $"{classDto.Name} is full of students", null);
             }
 
             var checkedClassesResult = await _classServiceClient.GetClassesByIds(request.CheckedClassIds);
 
             var checkedClasses = ((JsonElement)checkedClassesResult.Data).Deserialize<List<ClassDto>>(
              new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
-         );
-
-
-            if (result.StatusResponseCode.Equals("badRequest"))
-            {
-                return new ResponseObject(result.StatusResponseCode, result.Message, checkedClasses);   
-            }
-
-            if (result.StatusResponseCode.Equals("conflict"))
-            {
-                return new ResponseObject(result.StatusResponseCode, result.Message, checkedClasses);
-            }
-
-            var classesResult = await _classServiceClient.GetByClassId(request.CurrentClassId);
-
-            var classDto = ((JsonElement)classesResult.Data).Deserialize<ClassDto>(
-                new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
-            );
+             );
 
             var formStatus = await _admissionRepo.GetStudentAdmissionFormStatusAsync(request.StudentId, request.CurrentClassId);
 
@@ -222,10 +296,23 @@ namespace ParentService.Application.Services
                     );
                 }
             }
-            
+
+            var result = await _classServiceClient.CheckClassesAvailabilityAsync(request);
+
+            if (result.StatusResponseCode.Equals("badRequest"))
+            {
+                return new ResponseObject(result.StatusResponseCode, result.Message, checkedClasses);
+            }
+
+            if (result.StatusResponseCode.Equals("conflict"))
+            {
+                return new ResponseObject(result.StatusResponseCode, result.Message, checkedClasses);
+            }
+
             var checkedClassIdsAfter = ((JsonElement)result.Data).Deserialize<List<int>>(
                  new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
              );
+
             var checkedClassesAfterResult = await _classServiceClient.GetClassesByIds(checkedClassIdsAfter);
 
             var checkedClassesAfter = ((JsonElement)checkedClassesAfterResult.Data).Deserialize<List<ClassDto>>(
@@ -233,7 +320,6 @@ namespace ParentService.Application.Services
          );
 
             return new ResponseObject("ok", result.Message, checkedClassesAfter);
-
         }
 
         public async Task<ResponseObject> GetAdmissionFormsByParentAccountId(int parentAccountId)
@@ -274,11 +360,19 @@ namespace ParentService.Application.Services
                     Status = af.Status,
                 });
             }
+
             return new ResponseObject("ok", "View All admission forms of parent successfully", result);
         }
 
         public async Task<ResponseObject> GetClassesByAdmissionFormId(int afId) 
         {
+            var form = await _admissionRepo.GetAdmissionFormByIdAsync(afId);
+
+            if (form == null)
+            {
+                return new ResponseObject("notFound", "Admission form not found or be deleted", null);
+            }
+
             var classIds = await _admissionRepo.GetClassIdsByAdmissionFormId(afId);
 
             var classesResult = await _classServiceClient.GetClassesByIds(classIds);

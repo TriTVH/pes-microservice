@@ -13,7 +13,7 @@ public partial class TransactionItem
 
     public string Name { get; set; }
 
-    public int? Cost { get; set; }
+    public int Cost { get; set; }
 
     public virtual Transaction Transaction { get; set; }
 }

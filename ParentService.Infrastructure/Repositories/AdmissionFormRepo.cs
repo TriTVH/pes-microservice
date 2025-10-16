@@ -29,6 +29,12 @@ namespace ParentService.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task<int> DeleteAdmissionForm(AdmissionForm admissionForm)
+        {
+            _context.AdmissionForms.Remove(admissionForm);
+            return await _context.SaveChangesAsync();
+        }
+
         public async Task<IEnumerable<AdmissionForm>> GetAdmissionFormsByParentAccountIdAsync(int parentAccountId)
         {
             return await _context.AdmissionForms.Where(x => x.ParentAccountId == parentAccountId).OrderByDescending(x => x.SubmittedDate).ToListAsync();
@@ -64,6 +70,7 @@ namespace ParentService.Infrastructure.Repositories
         public async Task<AdmissionForm?> GetAdmissionFormByIdAsync(int id)
         {
             return await _context.AdmissionForms
+                .Include(x => x.AdmissionFormClasses)
                 .Include(x => x.Student)
                 .FirstOrDefaultAsync(x => x.Id == id);
         }

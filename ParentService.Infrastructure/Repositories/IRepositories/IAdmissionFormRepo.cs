@@ -17,5 +17,6 @@ namespace ParentService.Infrastructure.Repositories.IRepositories
         Task<List<int>> GetClassIdsByAdmissionFormId(int afId);
         Task<AdmissionForm?> GetAdmissionFormByIdAsync(int id);
         Task<int> UpdateAdmissionFormAsync(AdmissionForm admissionForm);
+        Task<int> DeleteAdmissionForm(AdmissionForm admissionForm);
     }
 }

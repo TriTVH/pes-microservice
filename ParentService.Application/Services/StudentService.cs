@@ -200,7 +200,7 @@ namespace ParentService.Application.Services
       
             if (!string.IsNullOrWhiteSpace(request.Name) && request.Name != student.Name)
             {
-                var duplicateName = await _studentRepo.CheckDuplicateNameStudentOfParent(parentAccountId, request.Name, request.Id);
+                var duplicateName = await _studentRepo.CheckDuplicateNameStudentOfParentExceptStudentId(parentAccountId, request.Name, request.Id);
 
                 if (duplicateName)
                     return new ResponseObject("conflict",$"A student named '{request.Name}' already exists for this parent account.", null);
@@ -237,6 +237,31 @@ namespace ParentService.Application.Services
             return new ResponseObject("ok", "Get classes of student successfully", classes);
         
 
+        }
+
+        public async Task<ResponseObject> DeleteStudentAsync(int studentId)
+        {
+            // 🧩 1. Check student exists
+            var student = await _studentRepo.GetStudentWithAdmissionFormsAsync(studentId);
+            if (student == null)
+                return new ResponseObject("notFound", "Student not found or has already been deleted.", null);
+
+           
+            var hasPaymentInProgress = student.AdmissionForms
+                .Any(f => f.Status.Equals("waiting_for_payment", StringComparison.OrdinalIgnoreCase));
+
+            if (hasPaymentInProgress)
+            {
+                return new ResponseObject(
+                    "conflict",
+                    $"Cannot delete student '{student.Name}' because one or more admission forms are still processing payment.",
+                    null
+                );
+            }
+
+            await _studentRepo.DeleteStudentAsync(student);
+
+            return new ResponseObject("ok", $"Student '{student.Name}' deleted successfully.", null);
         }
 
         private string ValidateUpdateStudent(UpdateStudentRequest request)

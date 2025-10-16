@@ -21,9 +21,9 @@ public partial class PES_APP_FULL_DBContext : DbContext
 
     public virtual DbSet<StudentClass> StudentClasses { get; set; }
 
-    public virtual DbSet<TransactionItem> TransactionItems { get; set; }
     public virtual DbSet<Transaction> Transactions { get; set; }
 
+    public virtual DbSet<TransactionItem> TransactionItems { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -55,6 +55,7 @@ public partial class PES_APP_FULL_DBContext : DbContext
 
             entity.HasOne(d => d.Student).WithMany(p => p.AdmissionForms)
                 .HasForeignKey(d => d.StudentId)
+                .OnDelete(DeleteBehavior.Cascade) // 👈 Add this lin
                 .HasConstraintName("FK_admission_form_student");
         });
 
@@ -69,7 +70,7 @@ public partial class PES_APP_FULL_DBContext : DbContext
 
             entity.HasOne(d => d.AdmissionForm).WithMany(p => p.AdmissionFormClasses)
                 .HasForeignKey(d => d.AdmissionFormId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Admission_form_class_admission_form");
         });
 
@@ -128,34 +129,36 @@ public partial class PES_APP_FULL_DBContext : DbContext
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Amount).HasColumnName("amount");
             entity.Property(e => e.Description)
-                .HasMaxLength(100)
+                .HasMaxLength(800)
                 .HasColumnName("description");
+            entity.Property(e => e.TxnRef)
+                .HasMaxLength(100)
+                .HasColumnName("txnRef");
             entity.Property(e => e.FormId)
                 .HasColumnName("form_id");
             entity.Property(e => e.PaymentDate).HasColumnName("payment_date");
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .HasColumnName("status");
+
+            entity.HasMany(t => t.TransactionItems)
+        .WithOne(ti => ti.Transaction)
+        .HasForeignKey(ti => ti.TransactionId)
+        .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<TransactionItem>(entity =>
         {
             entity.ToTable("transaction_items");
 
-            entity.Property(e => e.Id)
-                .UseIdentityColumn()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Cost).HasColumnName("cost");
             entity.Property(e => e.Name)
                 .IsRequired()
-                .HasMaxLength(50)
+                .HasMaxLength(250)
                 .HasColumnName("name");
             entity.Property(e => e.TransactionId).HasColumnName("transaction_id");
 
-            entity.HasOne(d => d.Transaction).WithMany(p => p.TransactionItems)
-                .HasForeignKey(d => d.TransactionId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_transaction_items_transactions");
         });
 
         OnModelCreatingPartial(modelBuilder);

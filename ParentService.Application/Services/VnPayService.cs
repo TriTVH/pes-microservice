@@ -1,4 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Azure;
+using Contracts;
+using MassTransit;
+using MassTransit.Transports;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using ParentService.Application.DTOs;
 using ParentService.Application.DTOs.Response;
@@ -7,6 +11,7 @@ using ParentService.Application.Services.IServices;
 using ParentService.Domain.DTOs.Response;
 using ParentService.Domain.IClient;
 using ParentService.Infrastructure.Models;
+using ParentService.Infrastructure.Repositories;
 using ParentService.Infrastructure.Repositories.IRepositories;
 using System;
 using System.Collections.Generic;
@@ -22,17 +27,22 @@ namespace ParentService.Application.Services
     {
         private readonly IConfiguration _configuration;
         private readonly IAdmissionFormRepo _admissionFormRepo;
-        private readonly IClassServiceClient _classServiceClient;
         private readonly ITransactionRepo _transactionRepo;
         private readonly IStudentRepo _studentRepo;
+        private readonly IClassServiceClient _classServiceClient;
+        private readonly IRequestClient<PaymentSuccessEvent> _requestClient;
+        private readonly IPublishEndpoint _publishEndpoint;
 
-        public VnPayService(IConfiguration configuration, IAdmissionFormRepo admissionFormRepo, IClassServiceClient classServiceClient, ITransactionRepo transactionRepo, IStudentRepo studentRepo)
+        public VnPayService(IConfiguration configuration, IAdmissionFormRepo admissionFormRepo, IClassServiceClient classServiceClient, IRequestClient<PaymentSuccessEvent> requestClient, ITransactionRepo transactionRepo, IStudentRepo studentRepo, IPublishEndpoint publishEndpoint)
         {
+            
             _configuration = configuration;
             _admissionFormRepo = admissionFormRepo;
-            _classServiceClient = classServiceClient;
             _transactionRepo = transactionRepo;
+            _classServiceClient = classServiceClient;
+            _requestClient = requestClient;
             _studentRepo = studentRepo;
+            _publishEndpoint = publishEndpoint;
         }
 
         public async Task<ResponseObject> GetPaymentUrl(string ipAdress, int formId)
@@ -40,9 +50,16 @@ namespace ParentService.Application.Services
 
             var form = await _admissionFormRepo.GetAdmissionFormByIdAsync(formId);
 
+            var fullClasses = new List<string>();
+
             if (form == null)
             {
                 return new ResponseObject("notFound", "Admission form not found or be deleted", null);
+            }
+
+            if (form.Status.Equals("done"))
+            {
+                return new ResponseObject("conflict", "This admission form has already been completed.", null);
             }
 
             var admissionTermResult = await _classServiceClient.GetAdmissionTermById(form.AdmissionTermId);
@@ -62,6 +79,18 @@ namespace ParentService.Application.Services
             foreach (var clas in classes)
             {
                 totalCost = totalCost + clas.Cost;
+                
+                if (clas.NumberStudent >= 30)
+                {
+                    fullClasses.Add(clas.Name);
+                    continue;
+                }
+
+            }
+            if (fullClasses.Any())
+            {
+                string fullList = string.Join(", ", fullClasses);
+                return new ResponseObject("badRequest", $"The following class(es) are already full: {fullList}. Please remove these items to countinue paying", null);
             }
 
             var timeZoneId = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
@@ -104,6 +133,21 @@ namespace ParentService.Application.Services
             var paymentUrl =
                pay.CreateRequestUrl(_configuration["Vnpay:BaseUrl"], _configuration["Vnpay:HashSecret"]);
 
+            form.Status = "payment_in_progress";
+            await _admissionFormRepo.UpdateAdmissionFormAsync(form);
+
+            _ = Task.Run(async () =>
+            {
+                await Task.Delay(TimeSpan.FromMinutes(10));
+                await _publishEndpoint.Publish(new PaymentTimeoutEvent
+                {
+                    AdmissionFormId = form.Id,
+                    CreatedAt = DateTime.UtcNow
+                });
+            });
+
+            Console.WriteLine($"[Scheduler] Published PaymentTimeoutEvent for formId={form.Id}");
+
             return new ResponseObject("ok", paymentUrl, null);
         }
 
@@ -136,6 +180,7 @@ namespace ParentService.Application.Services
             }
 
             int amount = 0;
+
             if (int.TryParse(vnp_Amount, out var rawAmount))
             {
                 amount = rawAmount / 100;
@@ -143,61 +188,101 @@ namespace ParentService.Application.Services
 
             if (vnp_TransactionStatus == "00") // 00 = Thành công
             {
+
                 form.Status = "done";
 
-                if (!form.Student.IsStudent)
-                {
-                    form.Student.IsStudent = true;
-                    await _studentRepo.UpdateStudentAsync(form.Student);
-                }
-
-                var transaction = new Transaction
-                {
-                    FormId = formId,
-                    Amount = amount,
-                    PaymentDate = DateOnly.FromDateTime(payDate ?? DateTime.UtcNow.AddHours(7)),
-                    Status = "success",
-                    Description = $"Thanh toán VNPay thành công - Mã GD: {vnp_TxnRef}",
-                    TransactionItems = new List<TransactionItem>()
-                };
+                await _admissionFormRepo.UpdateAdmissionFormAsync(form);
 
                 var classIds = await _admissionFormRepo.GetClassIdsByAdmissionFormId(formId);
 
-                var classesResult = await _classServiceClient.GetClassesByIds(classIds);
+                var response = await _requestClient.GetResponse<ClassProcessResultEvent>(
+              new PaymentSuccessEvent
+              {
+                  AdmissionFormId = formId,
+                  ClassIds = classIds,
+                  Amount = amount,
+                  TxnRef = vnp_TxnRef,
+                  PayDate = payDate
+              },
+              timeout: RequestTimeout.After(s: 90));
+                var result = response.Message;
 
-                var classes = ((JsonElement)classesResult.Data).Deserialize<List<ClassDto>>(
-               new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                var classesResponse = await _classServiceClient.GetClassesByIds(classIds);
+                var classes = ((JsonElement)classesResponse.Data).Deserialize<List<ClassDto>>(
+                new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
+                );
 
-                foreach (var cls in classes)
+                var successClasses = classes
+                    .Where(c => result.SuccessfulClassIds.Contains(c.Id))
+                    .Select(c => new { c.Id, c.Name, c.Cost })
+                    .ToList();
+
+                var fullClasses = classes
+                    .Where(c => result.FailedClassIds.Contains(c.Id))
+                    .Select(c => new { c.Id, c.Name, c.Cost })
+                    .ToList();
+
+                var successTotal = successClasses.Sum(c => c.Cost ?? 0);
+                var refundTotal = fullClasses.Sum(c => c.Cost ?? 0);
+
+                if (successTotal > 0)
                 {
-                    var item = new TransactionItem
-                    {
-                        // KHÔNG gán Id
-                        Name = cls.Name ?? $"Lớp {cls.Id}",
-                        Cost = cls.Cost,
-                        Transaction = transaction // Quan hệ ngược
-                    };
+                   
 
-                    transaction.TransactionItems.Add(item);
+                    if (!form.Student.IsStudent)
+                    {
+                        form.Student.IsStudent = true;
+                        await _studentRepo.UpdateStudentAsync(form.Student);
+                    }
+
+
+                    await _transactionRepo.CreateTransactionAsync(new Transaction
+                    {
+                        FormId = formId,
+                        Amount = successTotal,
+                        Status = "success",
+                        Description = $"Registered classes successful",
+                        TxnRef = vnp_TxnRef,
+                        TransactionItems = successClasses.Select(c => new TransactionItem
+                        {
+                            Name = c.Name,
+                            Cost = c.Cost ?? 0
+                        }).ToList()
+                    });
                 }
 
-                foreach (var clsId in classIds)
+                if (refundTotal > 0)
                 {
-                    var studentClass = new StudentClass
+                    await _transactionRepo.CreateTransactionAsync(new Transaction
                     {
-                        StudentId = form.Student.Id,
-                        ClassesId = clsId
-                    };
-                    await _studentRepo.AddStudentClassAsync(studentClass);
-                }
-                await _admissionFormRepo.UpdateAdmissionFormAsync(form);
-                await _transactionRepo.CreateTransactionAsync(transaction);
+                        FormId = formId,
+                        Amount = refundTotal,
+                        Status = "waiting_for_refund",
+                        Description = $"Refund for full classes. Please contact the administrator to process your refund. Contact number: 0886122578",
+                        TransactionItems = fullClasses.Select(c => new TransactionItem
+                        {
+                            Name = c.Name,
+                            Cost = c.Cost ?? 0
+                        }).ToList()
+                    });
 
-                return new ResponseObject("ok", "Payment confirmed successfully.", null);
+                    var fullClassNames = fullClasses.Select(c => c.Name).ToList();
+
+                    var message = $"Enrollment in the following classes is no longer available: {string.Join(", ", fullClassNames)}. Please consult the transactions list for refund details.";
+
+                    // Return the response
+                    return new ResponseObject("conflict", message, null);
+
+                }      
+                return new ResponseObject("ok", "All classes registered successfully", null);
             }
             else
             {
-                return new ResponseObject("ok", "Payment failed or canceled.", null);
+                form.Status = "waiting_for_payment";
+
+                await _admissionFormRepo.UpdateAdmissionFormAsync(form);
+                
+                return new ResponseObject("conflict", "Payment failed or canceled.", null);
             }
         }
     }
