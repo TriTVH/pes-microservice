@@ -39,15 +39,15 @@ namespace AuthService.API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterRequestDto req)
         {
-            var acc = await _svc.RegisterAsync(req);
-            return CreatedAtAction(nameof(GetById), new { id = acc.Id }, acc);
+            var response = await _authWrapper.RegisterWithResponseAsync(req);
+            return response.ToApiResponse();
         }
 
         [HttpPost("register-parent")]
         public async Task<IActionResult> RegisterParent(RegisterParentRequestDto req)
         {
-            var parent = await _svc.RegisterParentAsync(req);
-            return CreatedAtAction(nameof(GetById), new { id = parent.AccountId }, parent);
+            var response = await _authWrapper.RegisterParentWithResponseAsync(req);
+            return response.ToApiResponse();
         }
 
         [HttpPost("login")]
@@ -63,17 +63,16 @@ namespace AuthService.API.Controllers
         [HttpGet("getAllAccount/{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var acc = await _svc.GetByIdAsync(id);
-            if (acc == null) return NotFound();
-            return Ok(acc);
+            var response = await _authWrapper.GetAccountByIdWithResponseAsync(id);
+            return response.ToApiResponse();
         }
 
         [Authorize]
         [HttpPut("updateProfile/{id}")]
         public async Task<IActionResult> Update(int id, UpdateAccountDto dto)
         {
-            await _svc.UpdateAsync(id, dto);
-            return NoContent();
+            var response = await _authWrapper.UpdateAccountWithResponseAsync(id, dto);
+            return response.ToApiResponse();
         }
 
        
@@ -81,8 +80,8 @@ namespace AuthService.API.Controllers
         [HttpPost("pass/forgot")]
         public async Task<IActionResult> ForgotPasswordSimple([FromBody] ForgotPasswordSimpleRequestDto request)
         {
-            var result = await _svc.ForgotPasswordSimpleAsync(request);
-            return Ok(result);
+            var response = await _authWrapper.ForgotPasswordSimpleWithResponseAsync(request);
+            return response.ToApiResponse();
         }
         [HttpPost("pass/reset")]
         public async Task<IActionResult> ResetPassword([FromBody] Auth.Application.DTOs.ResetPasswordRequest request)

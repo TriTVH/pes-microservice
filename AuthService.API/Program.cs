@@ -40,6 +40,7 @@ builder.Services.AddAutoMapper(typeof(AccountProfile).Assembly);
 builder.Services.AddScoped<IAuthService, Auth.Application.Services.AuthService>();
 builder.Services.AddScoped<Auth.Services.Services.AuthServiceWrapper>();
 builder.Services.AddScoped<ITeacherActionRepository, TeacherActionRepository>();
+builder.Services.AddScoped<Auth.Services.Services.TeacherActionServiceWrapper>();
 // DI: Infrastructure
 builder.Services.AddScoped<IEmailSender, SmtpEmailSender>();
 builder.Services.AddMemoryCache();

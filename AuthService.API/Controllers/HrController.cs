@@ -33,31 +33,30 @@ namespace AuthService.API.Controllers
         [HttpGet("getAllAccount")]
         public async Task<IActionResult> GetAll()
         {
-            var list = await _svc.GetAllAsync();
-            return Ok(list);
+            var response = await _authWrapper.GetAllAccountsWithResponseAsync();
+            return response.ToApiResponse();
         }
 
         [Authorize(Roles = "HR")]
         [HttpGet("getAllAccount/{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var acc = await _svc.GetByIdAsync(id);
-            if (acc == null) return NotFound();
-            return Ok(acc);
+            var response = await _authWrapper.GetAccountByIdWithResponseAsync(id);
+            return response.ToApiResponse();
         }
         [Authorize(Roles = "HR")]
         [HttpDelete("ban/{id}")]
         public async Task<IActionResult> BanAccount(int id)
         {
-            await _svc.DeleteAsync(id); // will set Status = ACCOUNT_BAN
-            return NoContent();
+            var response = await _authWrapper.DeleteAccountWithResponseAsync(id);
+            return response.ToApiResponse();
         }
         [Authorize(Roles = "HR")]
         [HttpDelete("unban/{id}")]
         public async Task<IActionResult> UnBanAccount(int id)
         {
-            await _svc.UnBanAsync(id); // will set Status = ACCOUNT_UNBAN
-            return NoContent();
+            var response = await _authWrapper.UnbanAccountWithResponseAsync(id);
+            return response.ToApiResponse();
         }
         [Authorize(Roles = "HR")]
         [HttpPost("teacher")]
