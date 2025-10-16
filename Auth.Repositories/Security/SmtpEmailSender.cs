@@ -1,45 +1,36 @@
 ﻿using Auth.Application.Security;
-using Auth.Infrastructure.Models.Email;
-using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Mail;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Auth.Infrastructure.Security
 {
     public class SmtpEmailSender : IEmailSender
     {
-        private readonly SmtpSettings _settings;
+        private readonly IConfiguration _config;
 
-        public SmtpEmailSender(IOptions<SmtpSettings> settings)
+        public SmtpEmailSender(IConfiguration config)
         {
-            _settings = settings.Value;
+            _config = config;
         }
 
-        public async Task SendEmailAsync(string to, string subject, string body)
+        public async Task SendEmailAsync(string to, string subject, string htmlBody)
         {
-            using var client = new SmtpClient(_settings.Host, _settings.Port)
+            var from = _config["EmailSettings:From"];
+            var smtp = _config["EmailSettings:SmtpServer"];
+            var port = int.Parse(_config["EmailSettings:Port"] ?? "587");
+            var username = _config["EmailSettings:Username"];
+            var password = _config["EmailSettings:Password"];
+
+            using var message = new MailMessage(from!, to, subject, htmlBody) { IsBodyHtml = true };
+            using var client = new SmtpClient(smtp, port)
             {
-                Credentials = new NetworkCredential(_settings.Username, _settings.Password),
-                EnableSsl = _settings.EnableSsl
+                Credentials = new NetworkCredential(username, password),
+                EnableSsl = true
             };
-
-            using var message = new MailMessage
-            {
-                From = new MailAddress(_settings.FromEmail, _settings.FromName),
-                Subject = subject,
-                Body = body,
-                IsBodyHtml = true 
-            };
-
-            message.To.Add(to);
-
             await client.SendMailAsync(message);
         }
     }
-
 }

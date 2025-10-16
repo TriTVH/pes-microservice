@@ -4,15 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Auth.Application.DTOs.Parent
+namespace Auth.Application.DTOs.Teacher
 {
-    public record ParentDto(
+    public record CreateTeacherResponseDto(
         int Id,
         string Email,
         string Name,
-        string Job,
-        string RelationshipToChild,
-        int AccountId
+        string GeneratedPassword,
+        string Message
     );
 }
-

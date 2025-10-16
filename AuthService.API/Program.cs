@@ -38,6 +38,7 @@ builder.Services.AddAutoMapper(typeof(AccountProfile).Assembly);
 
 // DI: Application service
 builder.Services.AddScoped<IAuthService, Auth.Application.Services.AuthService>();
+builder.Services.AddScoped<Auth.Services.Services.AuthServiceWrapper>();
 builder.Services.AddScoped<ITeacherActionRepository, TeacherActionRepository>();
 // DI: Infrastructure
 builder.Services.AddScoped<IEmailSender, SmtpEmailSender>();

@@ -5,6 +5,8 @@ using Auth.Application.Services;
 using Auth.Domain.Repositories;
 using Auth.Infrastructure.Security;
 using Auth.Services.Services.IServices;
+using Auth.Services.Services;
+using Auth.Services.Extensions;
 using AuthService.API.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -19,14 +21,17 @@ namespace AuthService.API.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _svc;
+        private readonly AuthServiceWrapper _authWrapper;
         private readonly IPasswordHasher _passwordHasher;
         private readonly IMemoryCache _cache;
     public AuthController(
        IAuthService svc,
+       AuthServiceWrapper authWrapper,
        IPasswordHasher passwordHasher,
        IMemoryCache cache)
         {
             _svc = svc;
+            _authWrapper = authWrapper;
             _passwordHasher = passwordHasher;
             _cache = cache;
         }
@@ -48,8 +53,8 @@ namespace AuthService.API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginRequestDto req)
         {
-            var token = await _svc.LoginAsync(req);
-            return Ok(token);
+            var response = await _authWrapper.LoginWithResponseAsync(req);
+            return response.ToApiResponse();
         }
 
      

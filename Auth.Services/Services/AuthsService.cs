@@ -179,7 +179,7 @@ namespace Auth.Application.Services
             _cache.Remove(email);
         }
 
-        // --- Simple forgot password (no email) ---
+       
         public async Task<ForgotPasswordSimpleResponseDto> ForgotPasswordSimpleAsync(ForgotPasswordSimpleRequestDto request)
         {
             var account = await _repo.GetByEmailAsync(request.Email);
@@ -201,7 +201,7 @@ namespace Auth.Application.Services
         }
 
 
-        // --- Change password for logged in user ---
+       
         public async Task ChangePasswordAsync(int userId, ChangePasswordRequestDto request)
         {
             // Validate confirm password
@@ -263,6 +263,101 @@ namespace Auth.Application.Services
             acc.SetPasswordHash(_passwordHasher.HashPassword(acc, dto.Password));
             await _repo.AddAsync(acc);
             return new ProfileDto(acc.Id, acc.Email, acc.Name, acc.Phone, acc.Address, acc.AvatarUrl, acc.Gender, acc.Role);
+        }
+
+
+        public async Task<CreateTeacherResponseDto> CreateTeacherEmailOnlyAsync(CreateTeacherEmailOnlyDto dto)
+        {
+            var exists = await _repo.GetByEmailAsync(dto.Email);
+            if (exists != null) throw new InvalidOperationException("Email already registered");
+
+            // Extract name from email (before @)
+            var name = dto.Email.Split('@')[0];
+            
+            // Generate random password
+            var generatedPassword = GenerateRandomPassword();
+            
+            // Create account with role TEACHER
+            var acc = new Account(dto.Email, name, "TEACHER");
+            acc.SetPasswordHash(_passwordHasher.HashPassword(acc, generatedPassword));
+            await _repo.AddAsync(acc);
+
+            // Send email with credentials
+            var subject = "Teacher Account Created - PES System";
+            var body = $@"
+                <div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px;'>
+                    <h2 style='color: #2c3e50; text-align: center; margin-bottom: 30px;'>Welcome to PES System</h2>
+                    
+                    <div style='background-color: #f8f9fa; padding: 20px; border-radius: 6px; margin-bottom: 20px;'>
+                        <h3 style='color: #495057; margin-top: 0;'>Your Teacher Account Has Been Created</h3>
+                        <p style='margin-bottom: 10px;'><strong>Username (Email):</strong> {dto.Email}</p>
+                        <p style='margin-bottom: 10px;'><strong>Password:</strong> <span style='background-color: #e9ecef; padding: 4px 8px; border-radius: 4px; font-family: monospace; font-weight: bold;'>{generatedPassword}</span></p>
+                        <p style='margin-bottom: 10px;'><strong>Name:</strong> {name}</p>
+                        <p style='margin-bottom: 0;'><strong>Role:</strong> Teacher</p>
+                    </div>
+                    
+                    <div style='background-color: #d4edda; padding: 15px; border-radius: 6px; margin-bottom: 20px;'>
+                        <h4 style='color: #155724; margin-top: 0;'>Important Security Information:</h4>
+                        <ul style='margin-bottom: 0; color: #155724;'>
+                            <li>Please login and change your password immediately</li>
+                            <li>Keep your credentials secure and confidential</li>
+                            <li>Contact HR if you have any issues accessing your account</li>
+                        </ul>
+                    </div>
+                    
+                    <div style='background-color: #e3f2fd; padding: 15px; border-radius: 6px; margin-bottom: 20px;'>
+                        <h4 style='color: #1976d2; margin-top: 0;'>Next Steps:</h4>
+                        <ol style='margin-bottom: 0; color: #1976d2;'>
+                            <li>Login to the system using the credentials above</li>
+                            <li>Change your password to something secure</li>
+                            <li>Complete your profile information</li>
+                        </ol>
+                    </div>
+                    
+                    <div style='text-align: center; margin-top: 30px;'>
+                        <p style='color: #6c757d; font-size: 14px;'>This is an automated message from the PES System</p>
+                        <p style='color: #6c757d; font-size: 14px;'>Please do not reply to this email</p>
+                    </div>
+                    
+                    <p style='margin-top: 30px;'>Best regards,<br><strong>HR Team - PES System</strong></p>
+                </div>
+            ";
+
+            try
+            {
+                await _emailSender.SendEmailAsync(dto.Email, subject, body);
+                
+                return new CreateTeacherResponseDto(
+                    acc.Id,
+                    acc.Email,
+                    name,
+                    generatedPassword,
+                    "Teacher created successfully. Login credentials sent via email."
+                );
+            }
+            catch (Exception ex)
+            {
+                // If email fails, still return success but with manual credential info
+                return new CreateTeacherResponseDto(
+                    acc.Id,
+                    acc.Email,
+                    name,
+                    generatedPassword,
+                    $"Teacher created successfully. Email sending failed - please provide credentials manually:\n" +
+                    $"Username: {dto.Email}\n" +
+                    $"Password: {generatedPassword}\n" +
+                    $"Error: {ex.Message}"
+                );
+            }
+        }
+
+
+        private string GenerateRandomPassword()
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
+            var random = new Random();
+            return new string(Enumerable.Repeat(chars, 8)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
         public async Task UpdateTeacherAsync(int id, UpdateTeacherDto dto)

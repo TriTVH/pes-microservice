@@ -1,6 +1,8 @@
 ﻿using Auth.Application.DTOs.Teacher;
 using Auth.Infrastructure.Security;
 using Auth.Services.Services.IServices;
+using Auth.Services.Services;
+using Auth.Services.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,14 +15,17 @@ namespace AuthService.API.Controllers
     public class HrController : ControllerBase
     {
         private readonly IAuthService _svc;
+        private readonly AuthServiceWrapper _authWrapper;
         private readonly IPasswordHasher _passwordHasher;
         private readonly IMemoryCache _cache;
         public HrController(
            IAuthService svc,
+           AuthServiceWrapper authWrapper,
            IPasswordHasher passwordHasher,
            IMemoryCache cache)
         {
             _svc = svc;
+            _authWrapper = authWrapper;
             _passwordHasher = passwordHasher;
             _cache = cache;
         }
@@ -60,6 +65,15 @@ namespace AuthService.API.Controllers
         {
             var created = await _svc.CreateTeacherAsync(dto);
             return CreatedAtAction(nameof(GetTeacherById), new { id = created.Id }, created);
+        }
+
+
+        [Authorize(Roles = "HR")]
+        [HttpPost("teacher/email_sending")]
+        public async Task<IActionResult> CreateTeacherEmailOnly(CreateTeacherEmailOnlyDto dto)
+        {
+            var response = await _authWrapper.CreateTeacherEmailOnlyWithResponseAsync(dto);
+            return response.ToApiResponse();
         }
 
         [Authorize(Roles = "HR")]
@@ -112,5 +126,6 @@ namespace AuthService.API.Controllers
 
             return Ok(teacher);
         }
+
     }
 }
