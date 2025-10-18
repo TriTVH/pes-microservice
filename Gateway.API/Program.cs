@@ -36,7 +36,17 @@ builder.Services.AddAuthentication(options => { options.DefaultAuthenticateSchem
 
 
 
-builder.Services.AddReverseProxy().LoadFromConfig(builder.Configuration.GetSection("ReverseProxy")); ;
+builder.Services.AddReverseProxy().LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"))
+     .AddTransforms(builderContext =>
+     {
+         builderContext.AddResponseTransform(async transformContext =>
+         {
+             if (transformContext.ProxyResponse?.Content != null)
+             {
+                 await transformContext.ProxyResponse.Content.CopyToAsync(transformContext.HttpContext.Response.Body);
+             }
+         });
+     });
 
 builder.Services.AddSwaggerGen();
 builder.Services.AddEndpointsApiExplorer();
