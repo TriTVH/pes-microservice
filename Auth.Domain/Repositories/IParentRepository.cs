@@ -16,3 +16,4 @@ namespace Auth.Domain.Repositories
         Task UpdateAsync(Parent parent);
     }
 }
+

@@ -38,7 +38,13 @@ builder.Services.AddAutoMapper(typeof(AccountProfile).Assembly);
 
 // DI: Application service
 builder.Services.AddScoped<IAuthService, Auth.Application.Services.AuthService>();
+builder.Services.AddScoped<Auth.Services.Services.AuthServiceWrapper>();
 builder.Services.AddScoped<ITeacherActionRepository, TeacherActionRepository>();
+builder.Services.AddScoped<Auth.Services.Services.TeacherActionServiceWrapper>();
+
+// DI: AI Service
+builder.Services.AddScoped<Auth.Services.Services.IServices.IAIService, Auth.Services.Services.AIService>();
+builder.Services.AddScoped<Auth.Services.Services.AIServiceWrapper>();
 // DI: Infrastructure
 builder.Services.AddScoped<IEmailSender, SmtpEmailSender>();
 builder.Services.AddMemoryCache();

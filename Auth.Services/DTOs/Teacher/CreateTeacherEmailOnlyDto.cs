@@ -5,12 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Auth.Application.DTOs
+namespace Auth.Application.DTOs.Teacher
 {
-    public record ForgotPasswordSimpleRequestDto(
+    public record CreateTeacherEmailOnlyDto(
         [Required(ErrorMessage = "Email is required")]
         [EmailAddress(ErrorMessage = "Invalid email format")]
         string Email
     );
 }
-

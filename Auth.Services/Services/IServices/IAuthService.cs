@@ -38,6 +38,7 @@ namespace Auth.Services.Services.IServices
 
         // --- Teacher management ---
         Task<ProfileDto> CreateTeacherAsync(CreateTeacherDto dto);
+        Task<CreateTeacherResponseDto> CreateTeacherEmailOnlyAsync(CreateTeacherEmailOnlyDto dto);
         Task UpdateTeacherAsync(int id, UpdateTeacherDto dto);
         Task<IEnumerable<ProfileDto>> GetTeachersAsync();
 

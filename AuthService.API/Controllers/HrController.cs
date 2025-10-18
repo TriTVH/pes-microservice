@@ -1,6 +1,8 @@
 ﻿using Auth.Application.DTOs.Teacher;
 using Auth.Infrastructure.Security;
 using Auth.Services.Services.IServices;
+using Auth.Services.Services;
+using Auth.Services.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,14 +15,17 @@ namespace AuthService.API.Controllers
     public class HrController : ControllerBase
     {
         private readonly IAuthService _svc;
+        private readonly AuthServiceWrapper _authWrapper;
         private readonly IPasswordHasher _passwordHasher;
         private readonly IMemoryCache _cache;
         public HrController(
            IAuthService svc,
+           AuthServiceWrapper authWrapper,
            IPasswordHasher passwordHasher,
            IMemoryCache cache)
         {
             _svc = svc;
+            _authWrapper = authWrapper;
             _passwordHasher = passwordHasher;
             _cache = cache;
         }
@@ -28,31 +33,30 @@ namespace AuthService.API.Controllers
         [HttpGet("getAllAccount")]
         public async Task<IActionResult> GetAll()
         {
-            var list = await _svc.GetAllAsync();
-            return Ok(list);
+            var response = await _authWrapper.GetAllAccountsWithResponseAsync();
+            return response.ToApiResponse();
         }
 
         [Authorize(Roles = "HR")]
         [HttpGet("getAllAccount/{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var acc = await _svc.GetByIdAsync(id);
-            if (acc == null) return NotFound();
-            return Ok(acc);
+            var response = await _authWrapper.GetAccountByIdWithResponseAsync(id);
+            return response.ToApiResponse();
         }
         [Authorize(Roles = "HR")]
         [HttpDelete("ban/{id}")]
         public async Task<IActionResult> BanAccount(int id)
         {
-            await _svc.DeleteAsync(id); // will set Status = ACCOUNT_BAN
-            return NoContent();
+            var response = await _authWrapper.DeleteAccountWithResponseAsync(id);
+            return response.ToApiResponse();
         }
         [Authorize(Roles = "HR")]
         [HttpDelete("unban/{id}")]
         public async Task<IActionResult> UnBanAccount(int id)
         {
-            await _svc.UnBanAsync(id); // will set Status = ACCOUNT_UNBAN
-            return NoContent();
+            var response = await _authWrapper.UnbanAccountWithResponseAsync(id);
+            return response.ToApiResponse();
         }
         [Authorize(Roles = "HR")]
         [HttpPost("teacher")]
@@ -60,6 +64,15 @@ namespace AuthService.API.Controllers
         {
             var created = await _svc.CreateTeacherAsync(dto);
             return CreatedAtAction(nameof(GetTeacherById), new { id = created.Id }, created);
+        }
+
+
+        [Authorize(Roles = "HR")]
+        [HttpPost("teacher/email_sending")]
+        public async Task<IActionResult> CreateTeacherEmailOnly(CreateTeacherEmailOnlyDto dto)
+        {
+            var response = await _authWrapper.CreateTeacherEmailOnlyWithResponseAsync(dto);
+            return response.ToApiResponse();
         }
 
         [Authorize(Roles = "HR")]
@@ -112,5 +125,6 @@ namespace AuthService.API.Controllers
 
             return Ok(teacher);
         }
+
     }
 }

@@ -30,3 +30,4 @@ namespace Auth.Domain.Enums
         }
     }
 }
+

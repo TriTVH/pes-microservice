@@ -41,14 +41,12 @@ builder.Services.AddReverseProxy().LoadFromConfig(builder.Configuration.GetSecti
      {
          builderContext.AddResponseTransform(async transformContext =>
          {
-             // Chỉ forward khi có body
-             if (transformContext.HttpContext.Response.ContentLength == 0 &&
-                 transformContext.ProxyResponse?.Content != null)
+             if (transformContext.ProxyResponse?.Content != null)
              {
                  await transformContext.ProxyResponse.Content.CopyToAsync(transformContext.HttpContext.Response.Body);
              }
          });
-     }); ;
+     });
 
 builder.Services.AddSwaggerGen();
 builder.Services.AddEndpointsApiExplorer();

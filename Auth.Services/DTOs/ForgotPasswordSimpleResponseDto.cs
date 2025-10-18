@@ -12,3 +12,4 @@ namespace Auth.Application.DTOs
         DateTime ExpiresAt
     );
 }
+
