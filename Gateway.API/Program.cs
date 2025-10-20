@@ -36,17 +36,7 @@ builder.Services.AddAuthentication(options => { options.DefaultAuthenticateSchem
 
 
 
-builder.Services.AddReverseProxy().LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"))
-     .AddTransforms(builderContext =>
-     {
-         builderContext.AddResponseTransform(async transformContext =>
-         {
-             if (transformContext.ProxyResponse?.Content != null)
-             {
-                 await transformContext.ProxyResponse.Content.CopyToAsync(transformContext.HttpContext.Response.Body);
-             }
-         });
-     });
+builder.Services.AddReverseProxy().LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
 
 builder.Services.AddSwaggerGen();
 builder.Services.AddEndpointsApiExplorer();
@@ -74,6 +64,8 @@ builder.Services.AddCors(options => { options.AddPolicy("AllowAll",
     policy => { policy.AllowAnyOrigin() .AllowAnyMethod() .AllowAnyHeader(); }); });
 var app = builder.Build(); 
 app.UseHttpsRedirection();
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapReverseProxy(proxyPipeline =>
 {
     proxyPipeline.Use(async (context, next) =>
@@ -112,6 +104,5 @@ app.UseSwaggerUI(c =>
 });
 
 app.UseCors("AllowAll");
-app.UseAuthentication();
-app.UseAuthorization(); 
+
 app.Run();
