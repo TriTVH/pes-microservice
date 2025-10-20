@@ -36,7 +36,36 @@ builder.Services.AddAuthentication(options => { options.DefaultAuthenticateSchem
 
 
 
-builder.Services.AddReverseProxy().LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
+builder.Services.AddReverseProxy()
+    .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"))
+    .AddTransforms(builderContext =>
+    {
+        builderContext.AddResponseTransform(async transformContext =>
+        {
+            if (transformContext.ProxyResponse?.Content == null)
+                return;
+
+            // ⚠️ Ngăn YARP auto-forward body (bạn sẽ handle thủ công)
+            transformContext.SuppressResponseBody = true;
+
+            // Đọc stream từ backend
+            using var originalStream = await transformContext.ProxyResponse.Content.ReadAsStreamAsync();
+            using var memoryStream = new MemoryStream();
+            await originalStream.CopyToAsync(memoryStream);
+            memoryStream.Position = 0;
+
+            // Lấy nội dung body dưới dạng string
+            var responseBody = Encoding.UTF8.GetString(memoryStream.ToArray());
+
+            // Forward lại response tới client (reset stream)
+            memoryStream.Position = 0;
+            transformContext.HttpContext.Response.ContentType =
+                transformContext.ProxyResponse.Content.Headers.ContentType?.ToString() ?? "application/json";
+
+            await memoryStream.CopyToAsync(transformContext.HttpContext.Response.Body);
+        });
+    });
+
 
 builder.Services.AddSwaggerGen();
 builder.Services.AddEndpointsApiExplorer();
