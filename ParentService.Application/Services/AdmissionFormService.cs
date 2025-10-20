@@ -212,6 +212,11 @@ namespace ParentService.Application.Services
 
             var activeTemResponse = await _classServiceClient.GetActiveAdmissionTerm();
 
+            if(activeTemResponse == null)
+            {
+                return new ResponseObject("notFound", "Active admission term not found or over due", null);
+            }
+
             var activeTerm = ((JsonElement)activeTemResponse.Data).Deserialize<AdmissionTermDto>(
                 new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
             );
