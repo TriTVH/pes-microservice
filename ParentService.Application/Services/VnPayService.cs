@@ -235,8 +235,18 @@ namespace ParentService.Application.Services
                         await _studentRepo.UpdateStudentAsync(form.Student);
                     }
 
+                    foreach (var cls in successClasses)
+                    {
+                        var studentClass = new StudentClass
+                        {
+                            StudentId = form.Student.Id,
+                            ClassesId = cls.Id
+                        };
 
-                    await _transactionRepo.CreateTransactionAsync(new Transaction
+                        await _studentRepo.AddStudentClassAsync(studentClass);
+                    }
+
+                        await _transactionRepo.CreateTransactionAsync(new Transaction
                     {
                         FormId = formId,
                         Amount = successTotal,
