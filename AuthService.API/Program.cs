@@ -142,9 +142,10 @@ app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
+app.UseCors("AllowAll");
+
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseCors("AllowAll");
 app.MapGet("/secure", () => "Bạn đã login thành công!")
    .RequireAuthorization();
 app.MapControllers();
