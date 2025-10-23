@@ -27,6 +27,7 @@ namespace SyllabusService.API.Controllers
             if (result.StatusResponseCode.Equals("notFound"))
             {
                 return NotFound(result);
+
             } else if (result.StatusResponseCode.Equals("errorConnection"))
             {
                 return StatusCode(503, result);
