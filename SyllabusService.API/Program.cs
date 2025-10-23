@@ -166,6 +166,10 @@ builder.Services.AddHostedService<ClassStatusBackgroundService>();
 
 var app = builder.Build();
 
+app.UseCors("AllowAll");
+
+app.UseHttpsRedirection();
+
 app.UseSwagger();
 
 app.UseSwaggerUI();
@@ -175,3 +179,5 @@ app.UseCors("AllowAll");
 app.MapControllers();
 
 app.Run();
+
+public partial class Program { }
