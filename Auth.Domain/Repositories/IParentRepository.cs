@@ -14,6 +14,15 @@ namespace Auth.Domain.Repositories
         Task<Parent?> GetByIdAsync(int id);
         Task<IEnumerable<Parent>> GetAllAsync();
         Task UpdateAsync(Parent parent);
+        
+        // AI Support Methods
+        Task<IEnumerable<Parent>> GetParentsWithLimitAsync(int limit = 10);
+        Task<int> GetTotalParentsCountAsync();
+        
+        // AI Dynamic Query Methods
+        Task<IEnumerable<Parent>> GetParentsByJobAsync(string job, int limit = 10);
+        Task<IEnumerable<Parent>> GetParentsByRelationshipAsync(string relationship, int limit = 10);
+        Task<IEnumerable<Parent>> SearchParentsAsync(string searchTerm, int limit = 10);
     }
 }
 
