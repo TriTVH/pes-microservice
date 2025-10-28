@@ -16,6 +16,5 @@ namespace SyllabusService.Application.Services.IServices
         Task<ResponseObject> GetClassesByIds(List<int> ids);
         Task<ResponseObject> GetClassesAfterDateInYearAsync(DateOnly endDate);
         Task<ResponseObject> GetAllClassesAsync();
-        Task<ResponseObject> CheckClassesAvailability(CheckClassRequest request);
     }
 }

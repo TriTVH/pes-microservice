@@ -24,11 +24,11 @@ namespace SyllabusService.API.Controllers
             {
                 var item = await _syllabusService.CreateSyllabusAsync(request);
           
-                if (item.StatusResponseCode.ToLower().Equals("badRequest"))
+                if (item.StatusResponseCode.Equals("badRequest"))
                 {
                     return BadRequest(item);
                 }
-                else if (item.StatusResponseCode.ToLower().Equals("conflict"))
+                else if (item.StatusResponseCode.Equals("conflict"))
                 {
                     return Conflict(item);
                 }
@@ -45,6 +45,8 @@ namespace SyllabusService.API.Controllers
         {
             return Ok(await _syllabusService.GetAllSyllabusAsync());
         }
+
+
 
         [HttpGet("list/active")]
         public async Task<IActionResult> GetAllActiveSyllabusAsync()

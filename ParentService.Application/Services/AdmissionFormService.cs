@@ -25,6 +25,7 @@ namespace ParentService.Application.Services
         private IAdmissionFormRepo _admissionRepo;
         private IStudentRepo _studentRepo;
         private IClassServiceClient _classServiceClient;
+    
         public AdmissionFormService(IAdmissionFormRepo admissionFormRepo, IStudentRepo studentRepo, IClassServiceClient classServiceClient)
         {
             _admissionRepo = admissionFormRepo;
@@ -233,6 +234,7 @@ namespace ParentService.Application.Services
                 return new ResponseObject("conflict", $"This class is not part of the active admission term.", null);
             }
 
+
             if (!request.CheckedClassIds.Any())
             {
                 List<int> classIds = new List<int>();
@@ -247,7 +249,7 @@ namespace ParentService.Application.Services
 
                 if (!classList.Any())
                 {
-                    return new ResponseObject("notFound", "No class information found.", null);
+                    return new ResponseObject("notFound", $"Class with ID {request.CurrentClassId} not found.", null);
                 }
 
                 return new ResponseObject("ok", "No schedule conflicts detected.", classList);
@@ -259,16 +261,25 @@ namespace ParentService.Application.Services
                new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
               );
 
-            if(classDto.NumberStudent >= 30)
-            {
-                return new ResponseObject("conflict", $"{classDto.Name} is full of students", null);
-            }
-
             var checkedClassesResult = await _classServiceClient.GetClassesByIds(request.CheckedClassIds);
 
             var checkedClasses = ((JsonElement)checkedClassesResult.Data).Deserialize<List<ClassDto>>(
              new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
              );
+
+            if (classDto.NumberStudent >= 30)
+            {
+                return new ResponseObject("conflict", $"{classDto.Name} is full of students", checkedClasses);
+            }
+
+            if (request.CheckedClassIds.Contains(request.CurrentClassId))
+            {
+                return new ResponseObject(
+                    "conflict",
+                    $"Class with ID {request.CurrentClassId} is already selected.",
+                    checkedClasses
+                );
+            }
 
             var formStatus = await _admissionRepo.GetStudentAdmissionFormStatusAsync(request.StudentId, request.CurrentClassId);
 
@@ -302,29 +313,46 @@ namespace ParentService.Application.Services
                 }
             }
 
-            var result = await _classServiceClient.CheckClassesAvailabilityAsync(request);
+            var currentClassIdsOfStudent = await _studentRepo.GetClassIdsByStudentIdAsync(request.StudentId);
 
-            if (result.StatusResponseCode.Equals("badRequest"))
+            var classesOfStudentResult = await _classServiceClient.GetClassesByIds(currentClassIdsOfStudent);
+
+            var classesOfStudent = ((JsonElement)classesOfStudentResult.Data).Deserialize<List<ClassDto>>(
+           new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
+           );
+
+            var activeClassesOfStudent = classesOfStudent
+    .Where(c => string.Equals(c.Status, "active", StringComparison.OrdinalIgnoreCase))
+    .ToList();
+
+            var allExistingClasses = checkedClasses.Concat(activeClassesOfStudent).ToList();
+
+            foreach (var existingClass in allExistingClasses)
             {
-                return new ResponseObject(result.StatusResponseCode, result.Message, checkedClasses);
+                if (classDto.StartDate > existingClass.EndDate || existingClass.StartDate > classDto.EndDate)
+                    continue;
+
+                foreach (var actA in classDto.PatternActivitiesDTO)
+                {
+                    foreach (var actB in existingClass.PatternActivitiesDTO)
+                    {
+                        if (actA.DayOfWeek == actB.DayOfWeek &&
+                            actA.StartTime < actB.EndTime &&
+                            actB.StartTime < actA.EndTime)
+                        {
+                            var conflictMessage =
+                                $"Conflict detected: Class '{classDto.Name}' (ID {classDto.Id}) " +
+                                $"conflicts with already selected Class '{existingClass.Name}' (ID {existingClass.Id}) " +
+                                $"on {actA.DayOfWeek} " +
+                                $"({actA.StartTime:hh\\:mm} - {actA.EndTime:hh\\:mm}).";
+
+                            return new ResponseObject("conflict", conflictMessage, checkedClasses);
+                        }
+                    }
+                }
             }
-
-            if (result.StatusResponseCode.Equals("conflict"))
-            {
-                return new ResponseObject(result.StatusResponseCode, result.Message, checkedClasses);
-            }
-
-            var checkedClassIdsAfter = ((JsonElement)result.Data).Deserialize<List<int>>(
-                 new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
-             );
-
-            var checkedClassesAfterResult = await _classServiceClient.GetClassesByIds(checkedClassIdsAfter);
-
-            var checkedClassesAfter = ((JsonElement)checkedClassesAfterResult.Data).Deserialize<List<ClassDto>>(
-             new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
-         );
-
-            return new ResponseObject("ok", result.Message, checkedClassesAfter);
+            checkedClasses.Add(classDto);
+            return new ResponseObject("ok", "No schedule conflicts detected.", checkedClasses);
         }
 
         public async Task<ResponseObject> GetAdmissionFormsByParentAccountId(int parentAccountId)

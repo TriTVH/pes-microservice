@@ -20,7 +20,6 @@ public partial class PES_APP_FULL_DBContext : DbContext
 
     public virtual DbSet<Class> Classes { get; set; }
 
-    public virtual DbSet<StudentClass> StudentClasses { get; set; }
 
     public virtual DbSet<PatternActivity> PatternActivities { get; set; }
 
@@ -29,8 +28,6 @@ public partial class PES_APP_FULL_DBContext : DbContext
     public virtual DbSet<Syllabus> Syllabi { get; set; }
 
     public virtual DbSet<AdmissionForm> AdmissionForms { get; set; }
-
-    public virtual DbSet<AdmissionFormClass> AdmissionFormClasses { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -68,21 +65,7 @@ public partial class PES_APP_FULL_DBContext : DbContext
                 .HasConstraintName("FK_admission_form_AdmissionTerm");
         });
 
-        modelBuilder.Entity<AdmissionFormClass>(entity =>
-        {
-            entity.HasKey(e => new { e.AdmissionFormId, e.ClassId });
-
-            entity.ToTable("Admission_form_class");
-
-            entity.Property(e => e.AdmissionFormId).HasColumnName("admission_form_id");
-            entity.Property(e => e.ClassId).HasColumnName("class_id");
-
-            entity.HasOne(d => d.AdmissionForm).WithMany(p => p.AdmissionFormClasses)
-                .HasForeignKey(d => d.AdmissionFormId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Admission_form_class_admission_form");
-        });
-
+      
         modelBuilder.Entity<Class>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__classes__3213E83FBB957C05");
@@ -111,21 +94,6 @@ public partial class PES_APP_FULL_DBContext : DbContext
             entity.HasOne(d => d.Syllabus).WithMany(p => p.Classes)
                 .HasForeignKey(d => d.SyllabusId)
                 .HasConstraintName("FK_classes_syllabus");
-        });
-
-        modelBuilder.Entity<StudentClass>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__student___3213E83F85939150");
-
-            entity.ToTable("student_class");
-
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.ClassesId).HasColumnName("classes_id");
-            entity.Property(e => e.StudentId).HasColumnName("student_id");
-
-            entity.HasOne(d => d.Classes).WithMany(p => p.StudentClasses)
-                .HasForeignKey(d => d.ClassesId)
-                .HasConstraintName("FK_student_class_classes");
         });
 
         modelBuilder.Entity<AdmissionTerm>(entity =>
