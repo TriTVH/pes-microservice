@@ -37,9 +37,10 @@ namespace SyllabusService.Infrastructure.Repositories
 
 
 
-        public async Task<IEnumerable<Class>> GetClassesByTeacherIdAsync(int teacherId)
+        public async Task<IEnumerable<Class>> GetExistingClassesByTeacherIdAsync(int teacherId)
         {
             return await _context.Classes
+                .Where(c => c.Status == "active" || c.Status == "inactive")
                  .Include(x => x.Schedules)
                    .ThenInclude(s => s.Activities)
                          .Where(x => x.TeacherId == teacherId).ToListAsync();
@@ -94,14 +95,6 @@ namespace SyllabusService.Infrastructure.Repositories
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
 
-        public async Task<IEnumerable<Class>> GetActiveClassesByStudentId(int studentId)
-        {
-            return await _context.StudentClasses
-                        .Include(sc => sc.Classes)
-        .Where(sc => sc.StudentId == studentId && sc.Classes.Status.Equals("active"))
-        .Select(sc => sc.Classes)
-        .ToListAsync();
-        }
 
         public async Task UpdateClassStatusAuto()
         {

@@ -25,7 +25,5 @@ public partial class AdmissionForm
 
     public int? StudentId { get; set; }
 
-    public virtual ICollection<AdmissionFormClass> AdmissionFormClasses { get; set; } = new List<AdmissionFormClass>();
-
     public virtual AdmissionTerm AdmissionTerm { get; set; }
 }

@@ -20,6 +20,7 @@ namespace SyllabusService.Application.DTOs.Response
         public int? AcademicYear { get; set; }
         public int? NumberOfWeeks { get; set; }
         public DateOnly? StartDate { get; set; }
+        public DateOnly? EndDate { get; set; }
         public int? Cost { get; set; }
         public string Status { get; set; }
 

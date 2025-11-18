@@ -35,8 +35,6 @@ public partial class Class
 
     public virtual ICollection<Schedule> Schedules { get; set; } = new List<Schedule>();
 
-    public virtual ICollection<StudentClass> StudentClasses { get; set; } = new List<StudentClass>();
-
     public virtual Syllabus Syllabus { get; set; }
 
     public virtual ICollection<AdmissionTerm> AdmissionTerms { get; set; } = new List<AdmissionTerm>();
