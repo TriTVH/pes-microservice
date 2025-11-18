@@ -195,7 +195,7 @@ public partial class PES_APP_FULL_DBContext : DbContext
                 .HasPrecision(6)
                 .HasColumnName("end_time");
             entity.Property(e => e.Name)
-                .HasMaxLength(50)
+                .HasMaxLength(500)
                 .HasColumnName("name");
             entity.Property(e => e.ScheduleId).HasColumnName("schedule_id");
             entity.Property(e => e.StartTime)
