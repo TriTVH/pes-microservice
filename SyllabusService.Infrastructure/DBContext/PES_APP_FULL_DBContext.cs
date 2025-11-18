@@ -79,7 +79,7 @@ public partial class PES_APP_FULL_DBContext : DbContext
                 .HasColumnName("createdAt");
             entity.Property(e => e.EndDate).HasColumnName("end_date");
             entity.Property(e => e.Name)
-                .HasMaxLength(50)
+                .HasMaxLength(500)
                 .HasColumnName("name");
             entity.Property(e => e.NumberOfWeeks).HasColumnName("number_of_weeks");
             entity.Property(e => e.NumberStudent).HasColumnName("number_student");
