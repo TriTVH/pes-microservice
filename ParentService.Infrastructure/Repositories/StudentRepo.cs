@@ -60,6 +60,7 @@ namespace ParentService.Infrastructure.Repositories
             return await _context.SaveChangesAsync();
         }
 
+     
         public async Task<List<int>> GetClassIdsByStudentIdAsync(int studentId)
         {
             return await _context.StudentClasses

@@ -78,5 +78,33 @@ namespace AuthService.API.Controllers
                 });
             }
         }
+
+        [HttpGet("test-database")]
+        [AllowAnonymous]
+        public async Task<IActionResult> TestDatabase()
+        {
+            try
+            {
+                var result = await _aiWrapper.TestDatabaseConnectionAsync();
+                return Ok(new
+                {
+                    isSuccess = true,
+                    message = "Database test completed",
+                    data = result,
+                    timestamp = DateTime.UtcNow
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    isSuccess = false,
+                    message = $"Database test failed: {ex.Message}",
+                    data = (object?)null,
+                    errorCode = "DATABASE_TEST_ERROR",
+                    timestamp = DateTime.UtcNow
+                });
+            }
+        }
     }
 }

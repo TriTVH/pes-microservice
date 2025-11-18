@@ -10,7 +10,7 @@ namespace ParentService.Domain.IClient
 {
     public interface IClassServiceClient
     {
-        Task<ResponseObjectFromAnotherClient> CheckClassesAvailabilityAsync(CheckClassRequest request);
+
         Task<ResponseObjectFromAnotherClient> GetAdmissionTermById(int id);
         Task<ResponseObjectFromAnotherClient> GetByClassId(int id);
         Task<ResponseObjectFromAnotherClient> GetClassesByIds(List<int> ids);

@@ -30,19 +30,6 @@ namespace ParentService.Domain
             return result;
         }
 
-        public async Task<ResponseObjectFromAnotherClient> CheckClassesAvailabilityAsync(CheckClassRequest request)
-        {
-
-            var response = await _httpClient.PutAsJsonAsync($"api/classes/public/check/availability", request);
-            var content = await response.Content.ReadAsStringAsync();
-
-            var result = System.Text.Json.JsonSerializer.Deserialize<ResponseObjectFromAnotherClient>(content, new System.Text.Json.JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            });
-            return result;
-        }
-
         public async Task<ResponseObjectFromAnotherClient> GetByClassId(int id)
         {
             var response = await _httpClient.GetAsync($"api/classes/public/{id}");

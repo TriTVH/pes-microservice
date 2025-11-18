@@ -40,6 +40,44 @@ namespace Auth.Repositories.Repository
             _context.Parents.Update(parent);
             await _context.SaveChangesAsync();
         }
+
+        // AI Support Methods
+        public async Task<IEnumerable<Parent>> GetParentsWithLimitAsync(int limit = 10)
+        {
+            return await _context.Parents
+                .Take(limit)
+                .ToListAsync();
+        }
+
+        public async Task<int> GetTotalParentsCountAsync()
+        {
+            return await _context.Parents.CountAsync();
+        }
+
+        // AI Dynamic Query Methods
+        public async Task<IEnumerable<Parent>> GetParentsByJobAsync(string job, int limit = 10)
+        {
+            return await _context.Parents
+                .Where(p => p.Job.Contains(job))
+                .Take(limit)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Parent>> GetParentsByRelationshipAsync(string relationship, int limit = 10)
+        {
+            return await _context.Parents
+                .Where(p => p.RelationshipToChild == relationship)
+                .Take(limit)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Parent>> SearchParentsAsync(string searchTerm, int limit = 10)
+        {
+            return await _context.Parents
+                .Where(p => p.Job.Contains(searchTerm) || p.RelationshipToChild.Contains(searchTerm))
+                .Take(limit)
+                .ToListAsync();
+        }
     }
 }
 

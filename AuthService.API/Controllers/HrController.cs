@@ -29,7 +29,7 @@ namespace AuthService.API.Controllers
             _passwordHasher = passwordHasher;
             _cache = cache;
         }
-        [Authorize(Roles = "HR")]
+        //[Authorize(Roles = "HR")]
         [HttpGet("getAllAccount")]
         public async Task<IActionResult> GetAll()
         {

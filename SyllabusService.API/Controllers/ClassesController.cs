@@ -81,19 +81,6 @@ namespace SyllabusService.API.Controllers
             return Ok(result);
 
         }
-            [HttpPut("public/check/availability")]
-        public async Task<IActionResult> CheckAvailabilityClasses([FromBody] CheckClassRequest request)
-        {
-            var result = await _classesServices.CheckClassesAvailability(request);
-            if (result.StatusResponseCode.Equals("badRequest"))
-            {
-                return BadRequest(result);
-            }
-            if (result.StatusResponseCode.Equals("conflict"))
-            {
-                return Conflict(result);
-            }
-            return Ok(result);
-        }
+        
     }
 }

@@ -40,5 +40,18 @@ namespace Auth.Services.Services
                 return ServiceResponse<string>.Error($"Failed to get system prompt: {ex.Message}", null, "GET_SYSTEM_PROMPT_ERROR");
             }
         }
+
+        public async Task<ServiceResponse<string>> TestDatabaseConnectionAsync()
+        {
+            try
+            {
+                var result = await _aiService.TestDatabaseConnectionAsync();
+                return ServiceResponse<string>.Success("Database connection test completed", result);
+            }
+            catch (Exception ex)
+            {
+                return ServiceResponse<string>.Error($"Database connection test failed: {ex.Message}", null, "DATABASE_TEST_ERROR");
+            }
+        }
     }
 }

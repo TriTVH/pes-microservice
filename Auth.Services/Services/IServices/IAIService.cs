@@ -6,5 +6,6 @@ namespace Auth.Services.Services.IServices
     {
         Task<ChatResponseDto> ChatAsync(ChatRequestDto request);
         Task<string> GetSystemPromptAsync();
+        Task<string> TestDatabaseConnectionAsync();
     }
 }

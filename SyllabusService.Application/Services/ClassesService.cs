@@ -59,7 +59,7 @@ namespace SyllabusService.Application.Services
                 return new ResponseObject("notFound", "Teacher not found or be deleted", null);
             }
 
-            var existingClasses = await _classRepo.GetClassesByTeacherIdAsync(request.teacherId);
+            var existingClasses = await _classRepo.GetExistingClassesByTeacherIdAsync(request.teacherId);
 
             foreach (var existingClass in existingClasses)
             {
@@ -78,10 +78,7 @@ namespace SyllabusService.Application.Services
                             bool isSameDay = string.Equals(act.DayOfWeek, reqDayOfWeek.ToString(), StringComparison.OrdinalIgnoreCase);
                             bool isSameTime = act.StartTime == reqActivity.startTime;
 
-                            // So sánh ngày diễn ra có bị trùng không (ví dụ nếu lớp đang diễn ra cùng thời gian)
-                            bool isDateConflict = act.Date >= request.startDate;
-
-                            if (isSameDay && isSameTime && isDateConflict)
+                            if (isSameDay && isSameTime)
                             {
                                 return new ResponseObject("conflict",
                                     $"Teacher {teacherDto.Name} already has a class at {reqActivity.dayOfWeek} {reqActivity.startTime} on {act.Date}", null);
@@ -104,12 +101,12 @@ namespace SyllabusService.Application.Services
                 classes.Status = "inactive";
                 classes.TeacherId = request.teacherId;
                 classes.Version = 1;
-                classes.SyllabusId = request.syllabusId;
+                classes.Syllabus = syllabus;
                 classes.NumberStudent = 0;
             } else {
                 classes.CreatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone);
                 classes.Version = existingInSystem.Version + 1;
-                classes.SyllabusId = request.syllabusId;
+                classes.Syllabus = syllabus;
                 classes.AcademicYear = request.startDate.Year;
                 classes.Name = $"Class {syllabus.Name}_{request.startDate.Year}_v{existingInSystem.Version + 1}";
                 classes.StartDate = request.startDate;
@@ -123,8 +120,7 @@ namespace SyllabusService.Application.Services
 
             foreach (var item in request.activities)
             {
-              if (!Enum.TryParse<DayOfWeek>(item.dayOfWeek, true, out var parsedDay))
-                    throw new ArgumentException($"Invalid dayOfWeek: {item.dayOfWeek}");
+              Enum.TryParse<DayOfWeek>(item.dayOfWeek, true, out var parsedDay);
 
                 patternActivities.Add(new PatternActivity
                 {
@@ -214,10 +210,7 @@ namespace SyllabusService.Application.Services
             {
                 AccountDto? teacher = null;
 
-                if (c.TeacherId != 0)
-                {
-                    teacher = await _authClient.GetTeacherProfileDtoById(c.TeacherId);
-                }
+                teacher = await _authClient.GetTeacherProfileDtoById(c.TeacherId);
 
                 return new ClassDto()
                 {
@@ -229,8 +222,8 @@ namespace SyllabusService.Application.Services
                     StartDate = c.StartDate,
                     Cost = c.Syllabus?.Cost ?? 0,
                     Status = c.Status,
-                    teacherName = teacher.Name ?? "Unknown",
-                    teacherEmail = teacher.Email ?? "N/A"
+                    teacherName = teacher?.Name ?? "Unknown",
+                    teacherEmail = teacher?.Email ?? "N/A"
                 };
             });
 
@@ -256,6 +249,7 @@ namespace SyllabusService.Application.Services
                 NumberStudent = c.NumberStudent,
                 AcademicYear = c.AcademicYear,
                 StartDate = c.StartDate,
+                EndDate = c.EndDate,
                 Cost = c.Syllabus.Cost,
                 Status = c.Status,
                 PatternActivitiesDTO = c.PatternActivities.Select(pa => new PatternActivityDto()
@@ -286,74 +280,7 @@ namespace SyllabusService.Application.Services
             return new ResponseObject("ok", $"View list of inactive classes in {endDate.Year} successfully", result);
         }
 
-        public async Task<ResponseObject> CheckClassesAvailability(CheckClassRequest request)
-        {
-
-            if (request.CurrentClassId <= 0 || request.StudentId <= 0)
-            {
-                return new ResponseObject("badRequest", "Invalid request data.", null);
-            }
-
-
-            var checkedIds = request.CheckedClassIds?.ToList() ?? new List<int>();
-
-            if (checkedIds.Contains(request.CurrentClassId))
-            {
-                return new ResponseObject(
-                    "conflict",
-                    $"Class with ID {request.CurrentClassId} is already selected.",
-                    checkedIds
-                );
-            }
-
-            var newClass = await _classRepo.GetClassByIdAsync(request.CurrentClassId);
-
-            if (newClass == null)
-                return new ResponseObject("notFound", $"Class with ID {request.CurrentClassId} not found.", null);
-
-            var checkedClasses = await _classRepo.GetClassesByIdsAsync(checkedIds);
-
-            if (checkedClasses == null || !checkedClasses.Any())
-            {
-                checkedIds.Add(request.CurrentClassId);
-                return new ResponseObject("ok", "No existing classes found — no conflict detected.", checkedIds);
-            }
-
-            var currentClasses = await _classRepo.GetActiveClassesByStudentId(request.StudentId);
-
-
-            var allExistingClasses = checkedClasses.Concat(currentClasses).ToList();
-
-            foreach (var existingClass in allExistingClasses)
-            {
-                // ❗ Bỏ qua nếu thời gian học không giao nhau (theo StartDate – EndDate)
-                if (newClass.StartDate > existingClass.EndDate || existingClass.StartDate > newClass.EndDate)
-                    continue;
-
-                foreach (var actA in newClass.PatternActivities)
-                {
-                    foreach (var actB in existingClass.PatternActivities)
-                    {
-                        if (actA.DayOfWeek == actB.DayOfWeek &&
-                            actA.StartTime < actB.EndTime &&
-                            actB.StartTime < actA.EndTime)
-                        {
-                            var conflictMessage =
-                                $"Conflict detected: Class '{newClass.Name}' (ID {newClass.Id}) " +
-                                $"conflicts with already selected Class '{existingClass.Name}' (ID {existingClass.Id}) " +
-                                $"on {actA.DayOfWeek} " +
-                                $"({actA.StartTime:hh\\:mm} - {actA.EndTime:hh\\:mm}).";
-
-                            return new ResponseObject("conflict", conflictMessage, checkedIds);
-                        }
-                    }
-                }
-            }
-            checkedIds.Add(request.CurrentClassId);
-            return new ResponseObject("ok", "No schedule conflicts detected.", checkedIds);
-        }
-
-        public async Task<ResponseObject> GetClassByIdAsync(int id)
+public async Task<ResponseObject> GetClassByIdAsync(int id)
         {
             var classes = await _classRepo.GetClassByIdAsync(id);
 
@@ -365,6 +292,9 @@ namespace SyllabusService.Application.Services
                            null
                        );
             }
+            AccountDto? teacher = null;
+
+            teacher = await _authClient.GetTeacherProfileDtoById(classes.TeacherId);
 
             var result = new ClassDto()
             {
@@ -374,8 +304,17 @@ namespace SyllabusService.Application.Services
                 AcademicYear = classes.AcademicYear,
                 NumberOfWeeks = classes.NumberOfWeeks,
                 StartDate = classes.StartDate,
+                EndDate = classes.EndDate,
                 Cost = classes.Syllabus.Cost,
-                Status = classes.Status
+                Status = classes.Status,
+                teacherEmail = teacher.Email,
+                teacherName = teacher.Name,
+                PatternActivitiesDTO = classes.PatternActivities.Select(pa => new PatternActivityDto()
+                  {
+                      DayOfWeek = pa.DayOfWeek,
+                      StartTime = pa.StartTime,
+                      EndTime = pa.EndTime
+                  }).ToList()
             };
 
             return new ResponseObject(
@@ -412,10 +351,7 @@ namespace SyllabusService.Application.Services
             {
                 var activity = request.activities[i];
 
-                if (!Enum.TryParse(activity.dayOfWeek, true, out DayOfWeek parsedDay))
-                {
-                    return $"Invalid dayOfWeek value: '{activity.dayOfWeek}'. Must be one of Sunday, Monday, ..., Saturday.";
-                }
+                Enum.TryParse(activity.dayOfWeek, true, out DayOfWeek parsedDay);
 
                 if (parsedDays.Count == 0)
                 {
@@ -431,14 +367,13 @@ namespace SyllabusService.Application.Services
                     // Kiểm tra thứ tự tăng dần
                     if ((int)parsedDay < (int)prevDay)
                     {
+                        if (parsedDay == 0)
+                        {
+                            return "";
+                        }
+
                         return $"DayOfWeek of activity #{parsedDays.Count + 1} ('{parsedDay}') must be after previous one ('{prevDay}').";
                     }
-                }
-
-                // Kiểm tra không có ngày nào trước startDate
-                if ((int)parsedDay < (int)request.startDate.DayOfWeek)
-                {
-                    return $"Activity '{activity.dayOfWeek}' must be on or after the startDate's dayOfWeek: '{request.startDate.DayOfWeek}'.";
                 }
 
                 parsedDays.Add(parsedDay);
@@ -511,17 +446,6 @@ namespace SyllabusService.Application.Services
             DateTime endOfWeek = startOfWeek.AddDays(6);
 
             return (startOfWeek, endOfWeek);
-        }
-
-       
-
-        private async Task<bool> CheckClassFull(Class clas)
-        {
-            if (clas.NumberStudent >= 30)
-            {
-                return false;
-            }
-            return true;
         }
     }
 }

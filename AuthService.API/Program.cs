@@ -45,12 +45,16 @@ builder.Services.AddScoped<Auth.Services.Services.TeacherActionServiceWrapper>()
 // DI: AI Service
 builder.Services.AddScoped<Auth.Services.Services.IServices.IAIService, Auth.Services.Services.AIService>();
 builder.Services.AddScoped<Auth.Services.Services.AIServiceWrapper>();
+builder.Services.AddHttpClient<Auth.Services.Services.AIService>();
 // DI: Infrastructure
 builder.Services.AddScoped<IEmailSender, SmtpEmailSender>();
 builder.Services.AddMemoryCache();
 
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<IParentRepository, ParentRepository>();
+builder.Services.AddScoped<IClassRepository, ClassRepository>();
+builder.Services.AddScoped<IScheduleRepository, ScheduleRepository>();
+builder.Services.AddScoped<IActivityRepository, ActivityRepository>();
 builder.Services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
 builder.Services.AddScoped<IPasswordHasher<Account>, PasswordHasher<Account>>();
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
