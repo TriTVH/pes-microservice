@@ -57,7 +57,7 @@ namespace AuthService.API.Controllers
             return response.ToApiResponse();
         }
 
-     
+
 
         [Authorize(Roles = "HR, EDUCATION")]
         [HttpGet("getAllAccount/{id}")]
