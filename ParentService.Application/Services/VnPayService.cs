@@ -61,7 +61,10 @@ namespace ParentService.Application.Services
             {
                 return new ResponseObject("conflict", "This admission form has already been completed.", null);
             }
-
+            if (form.Status.Equals("waiting_for_approve"))
+            {
+                return new ResponseObject("conflict", "This admission form doesn't be approved by education manager", null);
+            }
             var admissionTermResult = await _classServiceClient.GetAdmissionTermById(form.AdmissionTermId);
 
             var admissionTerm = ((JsonElement)admissionTermResult.Data).Deserialize<AdmissionTermDto>(
