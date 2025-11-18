@@ -29,7 +29,7 @@ namespace AuthService.API.Controllers
             _passwordHasher = passwordHasher;
             _cache = cache;
         }
-        //[Authorize(Roles = "HR")]
+        [Authorize(Roles = "HR")]
         [HttpGet("getAllAccount")]
         public async Task<IActionResult> GetAll()
         {
@@ -83,7 +83,7 @@ namespace AuthService.API.Controllers
             return NoContent();
         }
 
-        [Authorize(Roles = "HR, EDUCATION")]
+        //[Authorize(Roles = "HR, EDUCATION")]
         [HttpGet("teacher")]
         public async Task<IActionResult> GetAllTeachers()
         {
