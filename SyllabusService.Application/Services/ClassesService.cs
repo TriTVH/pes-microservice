@@ -360,21 +360,7 @@ public async Task<ResponseObject> GetClassByIdAsync(int id)
                         return $"Start date must match the dayOfWeek of the first activity. Expected '{request.startDate.DayOfWeek}', got '{parsedDay}'.";
                     }
                 }
-                else
-                {
-                    var prevDay = parsedDays.Last();
-
-                    // Kiểm tra thứ tự tăng dần
-                    if ((int)parsedDay < (int)prevDay)
-                    {
-                        if (parsedDay == 0)
-                        {
-                            return "";
-                        }
-
-                        return $"DayOfWeek of activity #{parsedDays.Count + 1} ('{parsedDay}') must be after previous one ('{prevDay}').";
-                    }
-                }
+               
 
                 parsedDays.Add(parsedDay);
 
